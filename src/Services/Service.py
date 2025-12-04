@@ -12,13 +12,13 @@ class Service:
         self.configCatalog = {}
         self.serviceRunTimeStatus = False
         
-        self.loadLocalConfig()
+        self.updateLocalConfig()
         
         self.requestREST = RequestREST(self.configLocal.get("ServiceCatalogURL", ""))
         
         self.updateCatalogConfig()
         
-    def loadLocalConfig(self) -> None :
+    def updateLocalConfig(self) -> None :
         try : 
             with open(self.configFilePath, 'r') as file:
                 self.configLocal = yaml.safe_load(file)
@@ -60,4 +60,4 @@ class Service:
         pass
               
     def killServiceRunTime(self) -> None :
-        pass  
+        self.serviceRunTimeStatus = False
