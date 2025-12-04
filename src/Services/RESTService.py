@@ -71,4 +71,5 @@ class RESTService(Service):
         pass
     
     def killServiceRunTime(self) -> None:
-        self.serverREST.killServerRunTime()
+        if self.serverREST is not None:
+            self.serverREST.killServerRunTime()
