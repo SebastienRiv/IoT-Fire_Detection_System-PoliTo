@@ -50,6 +50,7 @@ class RESTService(Service):
             self.updateCatalogConfig()
             
             if oldCatalog != self.configCatalog :
+                print("Info: Service catalog updated. Restarting REST server with new configuration.")
                 self.restSetupServer()
                         
             sleep(self.configCatalog.get("CatalogUpdateIntervalCycles", self.configLocal.get("CatalogUpdateIntervalCycles", updateInterval)))
