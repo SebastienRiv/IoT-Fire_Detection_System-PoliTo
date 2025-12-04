@@ -42,10 +42,13 @@ class Service:
             sleep(self.configCatalog.get("CatalogUpdateIntervalCycles", self.configLocal.get("CatalogUpdateIntervalCycles", updateInterval)))
                 
     def getServiceID(self) -> str :
-        pass
+        serviceID = self.configLocal.get("ServiceID", "UnknownServiceID")
+        if serviceID is not None :
+            return serviceID
+        else :
+            print("Warning: ServiceID not found in local configuration.")
+            return "UnknownID"
     
-    def getServiceType(self) -> str :
-        pass
     
     def getConfigLocal(self) -> dict :
         return self.configLocal
