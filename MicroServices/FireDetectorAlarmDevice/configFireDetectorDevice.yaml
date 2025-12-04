@@ -1,0 +1,11 @@
+DeviceID: 1
+DeviceType: FireDetector
+ConfigFile: configFireDetectorDevice.yaml
+DeviceCatalogURL: http://localhost:8081/config
+AlarmSoundFilePath : ./MicroServices/FireDetectorAlarmDevice/alarm_dev_cut.mp3
+CatalogUpdateIntervalCycles : 20
+SensorUpdateInterval : 5
+SoundLoopDelay : 0.1
+#Threshold :
+#  SmokeLevel: 1.2
+#  Temperature: 100

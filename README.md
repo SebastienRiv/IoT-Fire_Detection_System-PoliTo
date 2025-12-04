@@ -1,2 +1,1 @@
-# IoT-Fire_Detection_System-PoliTo
-IoT project 2025-26
+# IoT_Project_Polito
