@@ -1,5 +1,5 @@
-from src.Services.RESTService import RESTService
-from src.Services.MQTTService import MQTTService
+from Services.REST.RESTService import RESTService
+from Services.MQTT.MQTTService import MQTTService
 from time import sleep
 
 class RESTandMQTTService(RESTService, MQTTService):

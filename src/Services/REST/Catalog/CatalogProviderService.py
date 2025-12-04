@@ -1,4 +1,4 @@
-from src.Services.RESTService import RESTService
+from Services.REST.RESTService import RESTService
 import json
 
 class CatalogProviderService(RESTService):
