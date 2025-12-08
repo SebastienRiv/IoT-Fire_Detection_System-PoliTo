@@ -1,4 +1,4 @@
-from src.DevicesConnectors.SensorsSimulation.ModelSensorSimulation import ModelSensorSimulation
+from src.DevicesConnectors.SensorsSimulation.ModelSensor.ModelSensorSimulation import ModelSensorSimulation
 
 import numpy as np
 import pandas as pd
