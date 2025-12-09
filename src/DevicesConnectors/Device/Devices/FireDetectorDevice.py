@@ -13,14 +13,14 @@ class FireDetectorDevice(Device) :
         self.alarmStatus = False
         self.alarmThread = None
         
-        if "AlarmSoundFilePath" in self.configLocal :
+        if "AlarmSoundFilePath" in self.configLocal.getConfig() :
             self.alarmSoundFilePath = self.configLocal.get("AlarmSoundFilePath", None)
         else :
             self.alarmSoundFilePath = None
             print("Warning: AlarmSoundFilePath not found in local configuration. Alarm sound will be disabled.")
         
-    def mqttCallback(self, topic, message) -> None:
-        if topic == self.configCatalog.get("TopicSub", "UnknownTopic"):
+    def mqttCallback(self, topic, message) -> None :
+        if topic in self.configCatalog.get.mqttTopicSub :
             if "alarmStatus" in message:
                 self.setAlarmStatus(message["alarmStatus"])
         
@@ -36,7 +36,7 @@ class FireDetectorDevice(Device) :
     def playAlarmLoop(self) -> None :
         while self.alarmStatus :
             playsound(self.alarmSoundFilePath)
-            sleep(self.configCatalog.get("SoundLoopDelay", self.configLocal.get("SoundLoopDelay", 0.1)))
+            sleep(self.configCatalog.get.extra.get("SoundLoopDelay", self.configLocal.get("SoundLoopDelay", 0.1)))
     
     def updateMQTTClients(self) -> None :
         print("Updating MQTT clients with new configuration...")
@@ -51,9 +51,9 @@ class FireDetectorDevice(Device) :
             super().updateSensorsValues()
             
             values = super().getSensorsValues()
-            super().mqttPublish(self.configCatalog.get("TopicPub", None), values)
+            super().mqttPublish(self.configCatalog.get.mqttTopicPub, values)
                     
-            sleep(self.configCatalog.get("SensorUpdateInterval", self.configLocal.get("SensorUpdateInterval", 5)))
+            sleep(self.configCatalog.get.lifeTimeInterval)
             
     def killDeviceRunTime(self) -> None:
         super().killDeviceRunTime()

@@ -1,33 +1,31 @@
+from abc import ABC, abstractmethod
 import yaml
 import requests
 import threading
 from time import sleep
 from src.libs.REST.RequestREST import RequestREST
+from src.libs.CatalogJSON.CatalogJSON import CatalogJSON
+from src.libs.ConfigYAML.ConfigYAML import ConfigYAML
 
-class Service:
+class Service(ABC):
     
     def __init__(self, configFilePath:str) -> None :
+
         self.configFilePath = configFilePath
-        self.configLocal = {}
-        self.configCatalog = {}
+        self.configLocal = ConfigYAML(self.configFilePath)
+        self.configCatalog = CatalogJSON(self.configLocal)
         self.serviceRunTimeStatus = False
         
-        self.updateLocalConfig()
-        
-        self.requestREST = RequestREST(self.configLocal.get("ServiceCatalogURL", ""))
+        self.requestREST = RequestREST(self.configLocal.getKey.CatalogURL)
         
         self.updateCatalogConfig()
-        
-    def updateLocalConfig(self) -> None :
-        try : 
-            with open(self.configFilePath, 'r') as file:
-                self.configLocal = yaml.safe_load(file)
-        except FileNotFoundError:
-            print(f"Configuration file {self.configFilePath} not found.")
             
-    def updateCatalogConfig(self) -> None :
-        if "ServiceCatalogURL" in self.configLocal:
-            self.configCatalog = self.requestREST.GET("", params={"service_id": self.configLocal.get("ServiceID", "")})
+    def updateCatalogConfig(self) -> bool :
+        if self.configLocal.getKey.CatalogURL != "" :
+            update = self.requestREST.GET("", params={"service_id": self.configLocal.getKey.ClientID})
+            modified = self.configCatalog.updateCatalog(update)
+            return modified
+        return False
                 
     def updateLoopStart(self, updateInterval:int=12) -> None :
         if not hasattr(self, 'updateThread') or not self.updateThread.is_alive():
@@ -36,13 +34,12 @@ class Service:
            
     def updateLoopRunTime(self, updateInterval:int=12) -> None :
         while self.serviceRunTimeStatus :
-            oldCatalog = self.configCatalog.copy()
-            self.updateCatalogConfig()
+            modified = self.updateCatalogConfig()
                         
-            sleep(self.configCatalog.get("CatalogUpdateIntervalCycles", self.configLocal.get("CatalogUpdateIntervalCycles", updateInterval)))
+            sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
                 
     def getServiceID(self) -> str :
-        serviceID = self.configLocal.get("ServiceID", "UnknownServiceID")
+        serviceID = self.configLocal.getKey.ClientID
         if serviceID is not None :
             return serviceID
         else :
@@ -51,13 +48,15 @@ class Service:
     
     
     def getConfigLocal(self) -> dict :
-        return self.configLocal
+        return self.configLocal.getConfig()
     
     def getConfigCatalog(self) -> dict :
-        return self.configCatalog
+        return self.configCatalog.getCatalog()
     
+    @abstractmethod
     def serviceRunTime(self) -> None :
         pass
-              
+         
+    @abstractmethod     
     def killServiceRunTime(self) -> None :
         self.serviceRunTimeStatus = False

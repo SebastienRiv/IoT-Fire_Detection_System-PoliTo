@@ -9,14 +9,13 @@ class RESTandMQTTService(RESTService, MQTTService):
         
     def updateLoopRunTime(self, updateInterval:int=12) -> None :
         while self.serviceRunTimeStatus :
-            oldCatalog = self.configCatalog.copy()
-            self.updateCatalogConfig()
+            modified = self.updateCatalogConfig()
             
-            if self.configCatalog != oldCatalog :
+            if modified :
                 MQTTService.mqttSetupClient(self)
                 RESTService.restSetupServer(self)
                         
-            sleep(self.configCatalog.get("CatalogUpdateIntervalCycles", self.configLocal.get("CatalogUpdateIntervalCycles", updateInterval)))
+            sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
         
     def serviceRunTime(self) -> None :
         pass

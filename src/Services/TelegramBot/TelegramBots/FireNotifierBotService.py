@@ -9,20 +9,19 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
         
         self.handler = {'chat': self.on_chat_message, 'callback_query': self.on_callback_query}
         
-        TelegramBotService.__init__(self, configFilePath, token, self.handler)
+        TelegramBotService.__init__(self, configFilePath, self.handler)
         MQTTService.__init__(self, configFilePath)
         
     def updateLoopRunTime(self, updateInterval:int=12) -> None :
         while self.serviceRunTimeStatus :
-            oldCatalog = self.configCatalog.copy()
-            self.updateCatalogConfig()
+            modified = self.updateCatalogConfig()
             
-            if oldCatalog != self.configCatalog :
+            if modified :
                 print("Info: Service catalog updated. Restarting Telegram Bot with new configuration.")
                 self.setupTelegramBot()
                 self.mqttSetupClient()
                         
-            sleep(self.configCatalog.get("CatalogUpdateIntervalCycles", self.configLocal.get("CatalogUpdateIntervalCycles", updateInterval)))
+            sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
         
     def on_chat_message(self, msg): # Must be defined
         pass
