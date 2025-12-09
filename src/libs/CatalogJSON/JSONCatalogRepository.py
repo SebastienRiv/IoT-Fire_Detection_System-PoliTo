@@ -52,7 +52,7 @@ class JSONCatalogRepository(ICatalogRepository):
             # if is a tuple, key = deviceID, value = dict
             key, value = new_data 
             for device in self.catalogData["devicesList"]:
-                if device["deviceID"] == key:
+                if device["clientID"] == key:  # Changed from deviceID to clientID
                     lastUpdate = time.time()
                     value["lastUpdate"] = lastUpdate
                     modified = self.catalogHelper.updateWithStatus(device, value)
@@ -63,7 +63,7 @@ class JSONCatalogRepository(ICatalogRepository):
                 key, value = item
                 # if it exists, update == overwrite
                 for device in self.catalogData["devicesList"]:
-                    if device["deviceID"] == key:
+                    if device["clientID"] == key:  # Changed from deviceID to clientID
                         lastUpdate = time.time()
                         value["lastUpdate"] = lastUpdate
                         modified = self.catalogHelper.updateWithStatus(device, value)
@@ -76,18 +76,18 @@ class JSONCatalogRepository(ICatalogRepository):
     # GET BY ID
     def getResourceById(self, resource_id: str | list[str]) -> dict | list[dict]:
     
-        data_tobe_returned = {} # initialized as empty dict because the return must be dict or list
+        data_tobe_returned = {}  # initialized as empty dict because the return must be dict or list
 
         if isinstance(resource_id, str):
             for device in self.catalogData["devicesList"]:
-                if device["deviceID"] == resource_id:
+                if device["clientID"] == resource_id:  # Changed from deviceID to clientID
                     data_tobe_returned = device
                     break
         elif isinstance(resource_id, list):
             results = []
             for dev_id in resource_id:
                 for device in self.catalogData["devicesList"]:
-                    if device["deviceID"] == dev_id:
+                    if device["clientID"] == dev_id:  # Changed from deviceID to clientID
                         results.append(device)
                         break
             
@@ -102,14 +102,14 @@ class JSONCatalogRepository(ICatalogRepository):
 
         if isinstance(resource_id, str):
             for index, device in enumerate(self.catalogData["devicesList"]):
-                if device["deviceID"] == resource_id:
+                if device["clientID"] == resource_id:  # Changed from deviceID to clientID
                     del self.catalogData["devicesList"][index]
                     modified = True
                     break
         elif isinstance(resource_id, list):
             for dev_id in resource_id:
                 for index, device in enumerate(self.catalogData["devicesList"]):
-                    if device["deviceID"] == dev_id:
+                    if device["clientID"] == dev_id:  # Changed from deviceID to clientID
                         del self.catalogData["devicesList"][index]
                         modified = True
                         break
