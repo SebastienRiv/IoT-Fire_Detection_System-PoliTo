@@ -4,14 +4,14 @@ from time import sleep
 
 class TelegramBotService(Service):
     
-    def __init__(self, configFilePath:str, token:str, handler:dict) -> None:
+    def __init__(self, configFilePath:str, handler:dict) -> None:
         super().__init__(configFilePath)
         
-        self.token = token
+        self.token = self.configLocal.get("TelegramBotToken", "")
         self.telegramBot = None
         self.handler = handler
         
-    def getToken(self) -> str:
+    def getToken(self):
         return self.token
     
     def getTelegramBot(self):
@@ -25,15 +25,14 @@ class TelegramBotService(Service):
     
     def updateLoopRunTime(self, updateInterval:int=12) -> None :
         while self.serviceRunTimeStatus :
-            oldCatalog = self.configCatalog.copy()
-            self.updateCatalogConfig()
+            modified = self.updateCatalogConfig()
             
-            if oldCatalog != self.configCatalog :
+            if modified :
                 print("Info: Service catalog updated. Restarting Telegram Bot with new configuration.")
                 self.setupTelegramBot()
                         
-            sleep(self.configCatalog.get("CatalogUpdateIntervalCycles", self.configLocal.get("CatalogUpdateIntervalCycles", updateInterval)))
-            
+            sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
+        
     def serviceRunTime(self) -> None :
         pass
               

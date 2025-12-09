@@ -1,0 +1,22 @@
+{
+    "clientID": "",
+    "deviceName": "",
+    "lifeTimeInterval": 20,
+    "catalogUpdateIntervalCycles": 20,
+    "measureType": [""],
+    "availableServices": [""],
+    "MQTT": {
+        "topicSub": [""],
+        "topicPub": "",
+        "broker": "",
+        "port": 1883
+    },
+    "REST": {
+        "serverHost": "",
+        "serverPort": 8080,
+        "serverConfig": {}
+
+    },
+    "extra" : {},
+    "lastUpdate": ""
+}

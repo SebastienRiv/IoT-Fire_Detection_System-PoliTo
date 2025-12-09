@@ -1,7 +1,8 @@
 from Services.REST.RESTService import RESTService
+from abc import ABC, abstractmethod
 import json
 
-class CatalogProviderService(RESTService):
+class CatalogProviderService(RESTService, ABC):
     
     def __init__(self, configFilePath:str) -> None :
         super().__init__(configFilePath)
@@ -27,15 +28,19 @@ class CatalogProviderService(RESTService):
         except FileNotFoundError:
             print(f"Error: Catalog file {self.catalogPath} not found.")
             
+    @abstractmethod
     def POST(self, *uri, **params):
         return NotImplementedError("POST method not implemented.")
     
+    @abstractmethod
     def GET(self, *uri, **params):
         return NotImplementedError("GET method not implemented.")
     
+    @abstractmethod
     def PUT(self, *uri, **params):
         return NotImplementedError("PUT method not implemented.")
     
+    @abstractmethod
     def DELETE(self, *uri, **params):
         return NotImplementedError("DELETE method not implemented.")
     
@@ -45,9 +50,11 @@ class CatalogProviderService(RESTService):
     def updateLoopRunTime(self, updateInterval:int=12) -> None : # we don't need to update, this service provides static catalog
         pass
     
+    @abstractmethod
     def serviceRunTime(self) -> None :
         pass
     
+    @abstractmethod
     def killServiceRunTime(self) -> None:
         return super().killServiceRunTime()
         

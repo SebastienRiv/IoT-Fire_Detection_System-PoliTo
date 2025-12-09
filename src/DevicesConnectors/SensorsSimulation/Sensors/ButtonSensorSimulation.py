@@ -8,7 +8,8 @@ class ButtonSensorSimulation(SensorSimulation) :
         self.currentValue = initialValue
         
     def getValue(self) -> dict:
-        return { "n" : "Button", "u": "boolean", "v" : self.currentValue, "t" : self.lastUpdateTime }
+        msg = self.sensML.genSensMLActuatorMsg("Button", self.currentValue, self.lastUpdateTime)
+        return msg
     
     def updateValue(self, context=None) -> None :
         now = datetime.now()

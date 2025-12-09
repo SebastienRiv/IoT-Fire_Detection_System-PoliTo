@@ -37,7 +37,7 @@ class ServerREST:
     def killServerRunTime(self):
         self.serverRunTimeStatue = False
         cherrypy.engine.exit()
-            
+        
     def GET(self, *uri, **params):
         return self.myGET(*uri, **params)
     

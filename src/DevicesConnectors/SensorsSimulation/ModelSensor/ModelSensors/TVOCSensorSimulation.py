@@ -15,7 +15,8 @@ class TVOCSensorSimulation(ModelSensorSimulation) :
         self.trainModel()
         
     def getValue(self) -> dict:
-        return { "n" : "TVOC", "u": "ppb", "v" : self.currentValue, "t" : self.lastUpdateTime }
+        msg = self.sensML.genSensMLSensorMsg("TVOC", "ppb", self.currentValue, self.lastUpdateTime)
+        return msg
     
     def trainModel(self) -> None :
         data = pd.read_csv(self.dataSetFilePath)

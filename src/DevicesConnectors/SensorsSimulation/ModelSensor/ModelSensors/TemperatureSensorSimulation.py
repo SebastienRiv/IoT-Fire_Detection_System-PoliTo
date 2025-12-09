@@ -14,8 +14,9 @@ class TemperatureSensorSimulation(ModelSensorSimulation):
         self.dataMinTime = None
         self.trainModel()
 
-    def getValue(self) -> dict:
-        return { "n" : "Temperature", "u": "°C", "v" : self.currentValue, "t" : self.lastUpdateTime }
+    def getValue(self) -> dict:        
+        msg = self.sensML.genSensMLSensorMsg("Temperature", "°C", self.currentValue, self.lastUpdateTime)
+        return msg
 
     def trainModel(self) -> None:
         data = pd.read_csv(self.dataSetFilePath)

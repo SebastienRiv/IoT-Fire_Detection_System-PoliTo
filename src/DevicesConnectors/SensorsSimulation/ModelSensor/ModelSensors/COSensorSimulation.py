@@ -15,7 +15,8 @@ class COSensorSimulation(ModelSensorSimulation) :
         self.trainModel()
         
     def getValue(self) -> dict:
-        return { "n" : "CO", "u": "ppm", "v" : self.currentValue, "t" : self.lastUpdateTime } 
+        msg = self.sensML.genSensMLSensorMsg("CO", "ppm", self.currentValue, self.lastUpdateTime)
+        return msg
     
     def trainModel(self) -> None :
         data = pd.read_csv(self.dataSetFilePath)

@@ -12,20 +12,20 @@ class MQTTService(Service):
         self.mqttSetupClient()
         
     def mqttSetupClient(self) -> None :
-        if "MQTT" in self.configCatalog :
+        if self.configCatalog.get.mqttBroker != "" :
             
             if self.clientMQTT is not None :
                 self.clientMQTT.stop()
                 self.clientMQTT.myOnConnect(self.clientMQTT._paho_mqtt, None, None, 0)
             
-            self.clientMQTT = MyMQTT(self.configCatalog["MQTT"].get("ClientID", None),
-                                            self.configCatalog["MQTT"].get("Broker", None),
-                                            self.configCatalog["MQTT"].get("Port", None),
+            self.clientMQTT = MyMQTT(self.configCatalog.get.clientID,
+                                            self.configCatalog.get.mqttBroker,
+                                            self.configCatalog.get.mqttPort,
                                             notifier=self.mqttCallback)
             
             self.mqttStartClient()
-            if "TopicSub" in self.configCatalog and self.configCatalog.get("TopicSub", None) is not None :
-                self.mqttSubscribe(self.configCatalog.get("TopicSub", None))
+            if self.configCatalog.get.mqttTopicSub[0] != "" and self.configCatalog.get.mqttTopicSub is not None :
+                self.mqttSubscribe(self.configCatalog.get.mqttTopicSub)
         else :
             print("Warning: MQTT configuration not found in device catalog. MQTT functionalities will be disabled.")
             self.clientMQTT = None
@@ -59,14 +59,13 @@ class MQTTService(Service):
             
     def updateLoopRunTime(self, updateInterval:int=12) -> None :
         while self.serviceRunTimeStatus :
-            oldCatalog = self.configCatalog.copy()
-            self.updateCatalogConfig()
+            modfied = self.updateCatalogConfig()
             
-            if oldCatalog.get("MQTT") != self.configCatalog.get("MQTT"):
+            if modfied :
                 print("MQTT configuration has changed. Updating MQTT client...")
                 self.mqttSetupClient()
                         
-            sleep(self.configCatalog.get("CatalogUpdateIntervalCycles", self.configLocal.get("CatalogUpdateIntervalCycles", updateInterval)))
+            sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
             
     def serviceRunTime(self) -> None :
         pass

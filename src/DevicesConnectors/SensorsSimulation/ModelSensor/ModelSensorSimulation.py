@@ -1,6 +1,7 @@
+from abc import ABC, abstractmethod
 from src.DevicesConnectors.SensorsSimulation.SensorsSimulation import SensorSimulation
 
-class ModelSensorSimulation(SensorSimulation) :
+class ModelSensorSimulation(SensorSimulation, ABC) :
     """Model sensor simulation class provide the interface for all sensors with ML model
     """
     
@@ -19,5 +20,6 @@ class ModelSensorSimulation(SensorSimulation) :
     def setDatasetFilePath(self, new_dataSetFilePath:str) -> None :
         self.dataSetFilePath = new_dataSetFilePath
     
+    @abstractmethod
     def trainModel(self) -> None :
         pass

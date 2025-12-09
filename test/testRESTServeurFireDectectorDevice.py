@@ -9,28 +9,27 @@ class FireConfigServer(object):
         self.config = {
             "devices": [
                 {
-                    "deviceID": "firedev001",
+                    "clientID": "firedev001",
                     "deviceName": "Fire Detector",
                     "SensorUpdateInterval": 5,
                     "MQTT": {
-                        "ClientID": "FireDev",
-                        "Broker": "broker.hivemq.com",
-                        "Port": 1883
-                    },
-                    "TopicPub": "IoT/firedev001/data",
-                    "TopicSub": "IoT/firedev001/cmd"
+                        "broker": "broker.hivemq.com",
+                        "port": 1883,
+                        "topicPub": "IoT/firedev001/data",
+                        "topicSub": ["IoT/firedev001/cmd"]
+                    }
                 },
                 {
-                    "deviceID": "firebutton001",
+                    "clientID": "firebutton001",
                     "deviceName": "Fire Button",
                     "SensorUpdateInterval": 5,
                     "MQTT": {
-                        "ClientID": "FireButton",
-                        "Broker": "broker.hivemq.com",
-                        "Port": 1883
-                    },
-                    "TopicPub": "IoT/firebutton001/data",
-                    "TopicSub": None
+                        "clientID": "FireButton",
+                        "broker": "broker.hivemq.com",
+                        "port": 1883,
+                        "topicPub": "IoT/firebutton001/data",
+                        "topicSub": None
+                    }
                 }
             ]
         }

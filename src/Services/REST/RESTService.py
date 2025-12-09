@@ -1,8 +1,9 @@
+from abc import ABC, abstractmethod
 from src.Services.Service import Service
 from src.libs.REST.ServerREST import ServerREST
 from time import sleep
 
-class RESTService(Service):
+class RESTService(Service, ABC):
     
     def __init__(self, configFilePath:str) -> None :
         super().__init__(configFilePath)
@@ -15,25 +16,25 @@ class RESTService(Service):
         
         self.restSetupServer()
         
-    def gethost(self) -> str :
+    def gethost(self) :
         return self.host
     
-    def getport(self) -> int :
+    def getport(self) :
         return self.port
     
-    def getRESTServiceConfig(self) -> dict :
+    def getRESTServiceConfig(self):
         return self.restServiceConfig
         
     def restSetupServer(self) -> None :
         
-        if "RESTServerHost" in self.configCatalog and "RESTServerPort" in self.configCatalog and "RESTServerConfig" in self.configCatalog :
+        if self.configCatalog.get.restServerHost != "" and self.configCatalog.get.restServerPort != "" and self.configCatalog.get.restServerConfig != "" :
             
             if self.serverREST is not None:
                 self.serverREST.killServerRunTime()
             
-            self.host = self.configCatalog.get("RESTServerHost", self.configLocal.get("RESTServerHost", None))
-            self.port = self.configCatalog.get("RESTServerPort", self.configLocal.get("RESTServerPort", None))
-            self.restServiceConfig = self.configCatalog.get("RESTServerConfig", self.configLocal.get("RESTServerConfig", None))
+            self.host = self.configCatalog.get.restServerHost
+            self.port = self.configCatalog.get.restServerPort
+            self.restServiceConfig = self.configCatalog.get.restServerConfig
             
             self.serverREST = ServerREST(self.host, self.port, self.restServiceConfig, self.GET, self.POST, self.PUT, self.DELETE)
             
@@ -46,30 +47,35 @@ class RESTService(Service):
         
     def updateLoopRunTime(self, updateInterval:int = 12) -> None:
         while self.serviceRunTimeStatus :
-            oldCatalog = self.configCatalog.copy()
-            self.updateCatalogConfig()
+            modified = self.updateCatalogConfig()
             
-            if oldCatalog != self.configCatalog :
+            if modified :
                 print("Info: Service catalog updated. Restarting REST server with new configuration.")
                 self.restSetupServer()
                         
-            sleep(self.configCatalog.get("CatalogUpdateIntervalCycles", self.configLocal.get("CatalogUpdateIntervalCycles", updateInterval)))
-        
+            sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
+       
+    @abstractmethod 
     def POST(self, *uri, **params):
         return NotImplementedError("POST method not implemented.")
     
+    @abstractmethod 
     def GET(self, *uri, **params):
         return NotImplementedError("GET method not implemented.")
     
+    @abstractmethod 
     def PUT(self, *uri, **params):
         return NotImplementedError("PUT method not implemented.")
     
+    @abstractmethod
     def DELETE(self, *uri, **params):
         return NotImplementedError("DELETE method not implemented.")
     
+    @abstractmethod
     def serviceRunTime(self) -> None :
         pass
     
+    @abstractmethod
     def killServiceRunTime(self) -> None:
         if self.serverREST is not None:
             self.serverREST.killServerRunTime()
