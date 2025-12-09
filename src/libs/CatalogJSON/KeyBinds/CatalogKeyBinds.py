@@ -4,37 +4,37 @@ class CatalogKeyBinds:
         self.catalog = catalog
         self.configLocal = configLocal
     
-    # Propriété pour clientID
+    # Property for clientID
     @property 
     def clientID(self):
         return self.catalog.get("clientID", self.configLocal.getKey.ClientID)
     
-    # Propriété pour deviceName
+    # Property for deviceName
     @property
     def deviceName(self):
         return self.catalog.get("deviceName", self.configLocal.getKey.DeviceName)
      
-    # Propriété pour lifeTimeInterval
+    # Property for lifeTimeInterval
     @property
     def lifeTimeInterval(self):
         return self.catalog.get("lifeTimeInterval", self.configLocal.getKey.LifeTimeInterval)
     
-    # Propriété pour CatalogUpdateIntervalCycles
+    # Property for CatalogUpdateIntervalCycles
     @property
     def catalogUpdateIntervalCycles(self):
         return self.catalog.get("catalogUpdateIntervalCycles", self.configLocal.getKey.CatalogUpdateIntervalCycles)
     
-    # Propriété pour measureType
+    # Property for measureType
     @property
     def measureType(self):
         return self.catalog.get("measureType", [""])
     
-    # Propriété pour availableServices
+    # Property for availableServices
     @property
     def availableServices(self):
         return self.catalog.get("availableServices", [""])
     
-    # Propriétés pour MQTT
+    # Properties for MQTT
     @property
     def MQTT(self):
         return self.catalog.get("MQTT", {})
@@ -55,7 +55,7 @@ class CatalogKeyBinds:
     def mqttPort(self):
         return self.MQTT.get("port", 1883)
     
-    # Propriétés pour REST
+    # Properties for REST
     @property
     def REST(self):
         return self.catalog.get("REST", {})
@@ -72,12 +72,12 @@ class CatalogKeyBinds:
     def restServerConfig(self):
         return self.REST.get("serverConfig", {})
     
-    # Propriété pour extra
+    # Property for extra
     @property
     def extra(self):
         return self.catalog.get("extra", {})
     
-    # Propriété pour lastUpdate
+    # Property for lastUpdate
     @property
     def lastUpdate(self):
         return self.catalog.get("lastUpdate", "")

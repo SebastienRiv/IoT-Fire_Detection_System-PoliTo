@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 from datetime import datetime
 from src.libs.SensML.SensML import SensML
 
+# NOTE: ABC = Abstract Base Class --> used to define the generic intertface that has to be inherited
 class SensorSimulation(ABC):
     """Sensors simulation class provide the interface for all sensors
     """
