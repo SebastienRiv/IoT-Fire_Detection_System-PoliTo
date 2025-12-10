@@ -57,19 +57,23 @@ class RESTService(Service, ABC):
        
     @abstractmethod 
     def POST(self, *uri, **params):
-        return NotImplementedError("POST method not implemented.")
+        # return NotImplementedError("POST method not implemented.")
+        pass
     
     @abstractmethod 
     def GET(self, *uri, **params):
-        return NotImplementedError("GET method not implemented.")
+        # return NotImplementedError("GET method not implemented.")
+        pass
     
     @abstractmethod 
     def PUT(self, *uri, **params):
-        return NotImplementedError("PUT method not implemented.")
+        # return NotImplementedError("PUT method not implemented.")
+        pass
     
     @abstractmethod
     def DELETE(self, *uri, **params):
-        return NotImplementedError("DELETE method not implemented.")
+        # return NotImplementedError("DELETE method not implemented.")
+        pass
     
     @abstractmethod
     def serviceRunTime(self) -> None :
