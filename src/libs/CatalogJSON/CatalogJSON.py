@@ -39,3 +39,13 @@ class CatalogJSON:
     
     def getCatalog(self) -> dict :
         return self.catalog.copy()
+    
+    def getDevicesList(self) -> list:
+        return self.catalog["devicesList"]
+    
+    def getDeviceFromCatalog(self, id) -> dict :
+        devList = self.getDevicesList()
+        for dev in devList:
+            if dev["clientID"] == id:
+                return dev
+        return None
