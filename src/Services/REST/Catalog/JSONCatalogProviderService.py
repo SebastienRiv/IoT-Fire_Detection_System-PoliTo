@@ -400,8 +400,25 @@ class JSONCatalogProviderService(CatalogProviderService):
 
 
     # NOTE: ARE THESE METHODS NEEDED IN THIS SERVICE?    
-    # def serviceRunTime(self) -> None:
-    #     pass
+    def serviceRunTime(self) -> None:
+        pass
 
-    # def killServiceRunTime(self) -> None:
-    #     return super().killServiceRunTime() 
+    def killServiceRunTime(self) -> None:
+        return super().killServiceRunTime() 
+
+if __name__ == "__main__":
+
+    # TODO
+    configFilePath = "" # HERE PUT THE YAML CONFIG FILE PATH
+
+    service = JSONCatalogProviderService(configFilePath)
+
+    print("Starting service")
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Stopping service")
+        service.killServiceRunTime()
+        print("Service stopped")
+
