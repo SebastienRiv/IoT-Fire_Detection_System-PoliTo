@@ -35,7 +35,12 @@ class AlarmTriggerManager:
             print("Warning: MQTT configuration not found in device catalog. MQTT functionalities will be disabled.")
             self.clientMQTT = None    
     def mqttCallback(self, topic, message) -> None :
-        pass
+        try:
+            data=message.decode()
+            self.queue.put(data)
+            print(f"Received from {topic}: {data}")
+        except:
+            print("error")
     
     def mqttPublish(self, topic, message) -> None :
         if self.clientMQTT is not None :
@@ -54,10 +59,6 @@ class AlarmTriggerManager:
             self.clientMQTT.mySubscribe(topic)
         else :
             print("Warning: ClientMQTT is not initialized. Cannot subscribe.")
-    
-    def onMessage(self,client,userdata,msg):
-        data=msg.payload.decode()
-        self.queue.put(data)
             
     def mqttStartClient(self) -> None :
         if self.clientMQTT is not None :
@@ -90,11 +91,12 @@ class AlarmTriggerManager:
             print(f"Risk of fire with fire risk {fire_risk}")
     
     def run(self):
-        self.MQTT_client.start()
+        self.clientMQTT.start()
         try:
             while True:
-                if not self.queue.not_empty():
-                    self.postData(self.queue.get())
+                if not self.queue.empty():
+                    data=self.queue.get()
+                    self.postData(data)
                 inference=self.getInference()
                 self.evaluateAndTrigger(inference)
                 sleep(self.configCatalog.get.lifeTimeInterval)
