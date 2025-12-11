@@ -1,0 +1,4 @@
+ClientID: 3
+ConfigFile: configAlarmTriggerManager.yaml
+CatalogURL: http://localhost:8081/config
+threshold: 0.8
