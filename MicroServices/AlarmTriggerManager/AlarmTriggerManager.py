@@ -11,6 +11,7 @@ class AlarmTriggerManager:
     def __init__(self,configFile:str):
         self.sensML = SensML()
         self.configFile = configFile
+        self.RunTimeStatus=False
         self.configLocal = ConfigYAML(self.configFile)
         self.configCatalog = CatalogJSON(self.configLocal)
         self.updateCatalogConfig()
@@ -18,12 +19,18 @@ class AlarmTriggerManager:
         self.clientMQTT = None
         self.queue=Queue()
         self.mqttSetupClient()
-
+    
+    def updateCatalogConfig(self) -> bool :
+        if self.configLocal.getKey.CatalogURL != "" :
+            update = self.requestREST.GET("", params={"device_id": self.configLocal.getKey.ClientID})
+            modified = self.configCatalog.updateCatalog(update)
+            return modified
+        return False
+    
     def mqttSetupClient(self) -> None :
         if self.configCatalog.get.mqttBroker != "" :
             if self.clientMQTT is not None :
                 self.clientMQTT.stop()
-                self.clientMQTT.myOnConnect(self.clientMQTT._paho_mqtt, None, None, 0)
             self.clientMQTT = MyMQTT(self.configCatalog.get.clientID,
                                      self.configCatalog.get.mqttBroker,
                                      self.configCatalog.get.mqttPort,
@@ -40,7 +47,7 @@ class AlarmTriggerManager:
             self.queue.put(data)
             print(f"Received from {topic}: {data}")
         except:
-            print("error")
+            print("Warning")
     
     def mqttPublish(self, topic, message) -> None :
         if self.clientMQTT is not None :
@@ -67,12 +74,11 @@ class AlarmTriggerManager:
             print("Warning: ClientMQTT is not initialized. Cannot start client.")
     
     def postData(self,data):
-        RequestREST.POST(self,data)
+        self.requestREST.POST(data)#data is sent to the inference service
     def getInference(self):
-        inferenceData=RequestREST.GET()
-        return inferenceData
+        return self.requestREST.GET()#data is retrieve from the inference service
     def evaluateAndTrigger(self,inference_data):
-        if not inference_data or 'fire_risk' not in inference_data:
+        if not inference_data or 'fire_risk' not in inference_data:#payload: {"deviceName":"...","fire_risk":"...",""}
             print("Inference data not present or not valid")
             return
         fire_risk=inference_data.get('fire_risk')
@@ -80,20 +86,21 @@ class AlarmTriggerManager:
             payload={
                 "condition":"CRITICAL",
                 "fire_risk":f"Fire_risk of {fire_risk} exceeds the threshold {self.configLocal.getKey.Threshold}",
-                "details":inference_data,
+                "deviceName":inference_data["deviceName"],
                 "time":time.time()
             }
             if self.clientMQTT.isConnect():
-                self.clientMQTT.myPublish(self.configCatalog.get.mqttBroker,payload)
+                json_payload=json.dumps(payload)
+                self.clientMQTT.myPublish(self.configCatalog.get.mqttTopicPub,json_payload)
             else:
                 print("MQTT doesn't work")
         else:
             print(f"Risk of fire with fire risk {fire_risk}")
-    
-    def run(self):
-        self.clientMQTT.start()
+    def setRunTimeStatus(self, status:bool) -> None :
+        self.RunTimeStatus = status
+    def RunTime(self)->None:
         try:
-            while True:
+            while self.RunTimeStatus:
                 if not self.queue.empty():
                     data=self.queue.get()
                     self.postData(data)
@@ -102,5 +109,8 @@ class AlarmTriggerManager:
                 sleep(self.configCatalog.get.lifeTimeInterval)
         except KeyboardInterrupt:
             print("Terminated code")
+            self.RunTimeStatus=False
         finally:
-            self.MQTT_client.stop()
+            self.clientMQTT.stop()
+    def killRunTime(self) -> None:
+        self.RunTimeStatus=False

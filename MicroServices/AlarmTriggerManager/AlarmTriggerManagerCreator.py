@@ -1,4 +1,5 @@
 import AlarmTriggerManager
 if __name__=="__main__":
     AlarmTriggerManager=AlarmTriggerManager("./MicroServices/AlarmTriggerManager/configAlarmTriggerManager.yaml")
-    AlarmTriggerManager.run()
+    AlarmTriggerManager.setRunTimeStatus(True)
+    AlarmTriggerManager.RunTime()
