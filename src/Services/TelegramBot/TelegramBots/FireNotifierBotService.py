@@ -1,9 +1,23 @@
+from dataclasses import dataclass
 from src.Services.TelegramBot.TelegramBotService import TelegramBotService
 from src.Services.MQTT.MQTTService import MQTTService
 from time import sleep
 import telepot
 from telepot.loop import MessageLoop
 import json
+
+@dataclass
+class FireAlarmData:
+    buildingID: str
+    buildingName: str
+    address: str
+    GPS_coordinates: dict
+    floorID: str
+    roomID: str
+    clientID: str
+    firefighterChatID: str
+    userChatIDs: list
+
 
 class FireNotifierBotService(TelegramBotService, MQTTService):
     
@@ -17,7 +31,8 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
         self.setupTelegramBot()
         self.mqttSetupClient()
 
-        self.chatIDs = []
+        self.userChatIDs = []
+        self.firefighterChatID = ""
 
         
     def updateLoopRunTime(self, updateInterval:int=12) -> None :
@@ -36,42 +51,71 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
         message = msg['text']
 
         if message == "/start":
-            if chat_ID not in self.chatIDs:
-                self.chatIDs.append(chat_ID)
+            if chat_ID not in self.userChatIDs:
+                self.userChatIDs.append(chat_ID)
                 self.telegramBot.sendMessage(chat_ID, "Welcome! You've registered to the fire detection system.")
             else:
                 self.telegramBot.sendMessage(chat_ID, "Already registered successfully.")
     
         elif message == "/checkDevice": # Must be defined
             pass
-
-
     
     def on_callback_query(self, msg): # Must be defined
         pass
+
+    def parse_alarm_info(self, payload) -> FireAlarmData:
+        try:
+            info = json.loads(payload)
+            building_info = info.get("building", {})
+
+            return FireAlarmData(
+                buildingID=building_info.get("buildingID", ""),
+                buildingName=building_info.get("buildingName", ""),
+                address=building_info.get("address", ""),
+                GPS_coordinates=building_info.get("GPS", {}),
+                floorID=building_info.get("floorID", ""),
+                roomID=building_info.get("roomID", ""),
+                clientID=info.get("clientID", ""),
+                firefighterChatID=info.get("fireFighterChatID", ""),
+                userChatIDs=info.get("userChatIDList", "")
+            )
+        
+        except Exception as e:
+            print(f"Error in the payload: {e}")
+            return None
+    
+    def create_telegram_msg(self, alarmData: FireAlarmData):
+
+        return (f"🚨⚠️ FIRE ALLERT 🚨⚠️\n\n"
+                f"🏢 Building name: {alarmData.buildingName}"
+                f"📍 Address: {alarmData.address} | Floor: {alarmData.floorID} | Room: {alarmData.roomID}"
+                f"🗺️ GPS coordinates: {alarmData.GPS_coordinates.get('lat', 'N/A')}, {alarmData.GPS_coordinates.get('long', 'N\A')}"
+                f"💻 Device: {alarmData.clientID}\n\n"
+                "❗INTERVENTION NEEDED IMMEDIATELY❗")
     
     def mqttCallback(self, topic, payload) -> None :
         try:
-            message = json.loads(payload)
-            device_id = message["deviceID"]
+            alarmData = self.parse_alarm_info(payload)
 
-            print(f"Alarm received from {device_id}!")
+            if not alarmData:
+                print("Invalid mqtt message received.")
+                return
 
-            dev_info = self.configCatalog.getDeviceFromCatalog(device_id)
-            if dev_info is None:
-                print("Device not found.")
-            else:
-                location = dev_info.get("location", {})
-                address = location.get("address", "Unknown")
-                floor = location.get("floor", "Unknown")
-                room = location.get("room", "Unknown")
-                alert_msg = (f"🚨⚠️ FIRE ALLERT 🚨⚠️\n\n"
-                            f"📍 Position: {address}, Floor: {floor}, Room: {room}"
-                            f"💻 Device: {device_id}\n\n"
-                            "Intervention needed immediately!")
+            print(f"Alarm received from {alarmData.clientID}!")
+
+            alert_msg = self.create_telegram_msg(alarmData)
                 
-                for chatID in self.chatIDs:
+            for chatID in alarmData.userChatIDs:
+                if chatID in self.userChatIDs:
                     self.telegramBot.sendMessage(chatID, alert_msg)
+                else:
+                    print(f"ChatID '{chatID}' is not registered in the system.")
+            
+            if alarmData.firefighterChatID != self.firefighterChatID:
+                self.firefighterChatID = alarmData.firefighterChatID
+            
+            self.telegramBot.sendMessage(self.firefighterChatID, alert_msg)
+
 
         except json.JSONDecodeError:
             print("Invalid json message.")

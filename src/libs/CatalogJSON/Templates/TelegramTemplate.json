@@ -1,0 +1,16 @@
+{
+    "building" : {
+        "buildingID": "",
+        "buildingName": "",
+        "address": "",
+        "GPS":{
+            "lat": "",
+            "long": ""
+        },
+        "floorID": "",
+        "roomID": ""
+    },
+    "clientID": "",
+    "fireFighterChatID": "",
+    "userChatIDList": [""]
+}
