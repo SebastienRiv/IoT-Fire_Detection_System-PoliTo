@@ -39,3 +39,12 @@ class CatalogJSON:
     
     def getCatalog(self) -> dict :
         return self.catalog.copy()
+    
+    def setFireStatus(self,clientID):
+        for device in self.Catalog.get.devicesList:
+                    if device.clientID==clientID:
+                        device["status"]["fireStatus"]=True
+
+    def subscribeTopics(self,topic,clientID):
+         self.
+         
