@@ -53,10 +53,12 @@ class JSONCatalogProviderService(CatalogProviderService):
 
     def _find_item(self, list_name, id_key, target_id):
         """
-        Helper to find an item in a specific list.
-        Returns the item and its index if found, otherwise None, None.
+        Find an item in a specific list.
+        If found:
+            return item, index
+        Else:
+            return None, None
         """
-        # Simple loop, easy to read
         current_list = self.catalogData.get(list_name, [])
         for index, item in enumerate(current_list):
             if item.get(id_key) == target_id:
