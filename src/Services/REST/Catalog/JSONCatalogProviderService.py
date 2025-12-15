@@ -37,6 +37,8 @@ class JSONCatalogProviderService(CatalogProviderService):
 
     def _save(self) -> None:
 
+        self.catalogData["lastUpdate"] = time.time()
+
         # stop more than 1 service to write at the same time
         with self.lock:
             # saves the new catalog (from not existing -> template)
@@ -76,6 +78,7 @@ class JSONCatalogProviderService(CatalogProviderService):
         GET /getUserByID?userID=<user_id>
         GET /getBuildingByID?buildingID=<building_id>
         GET /getBuildingDevices?buildingID=<building_id>
+        GET /getDeviceByMeasure?measure=<measure_name>
         GET /getServiceByID?clientID=<service_id>
         GET /getFireFighterByID?fireFighterID=<firefighter_id>
         """
@@ -138,13 +141,38 @@ class JSONCatalogProviderService(CatalogProviderService):
                         raise cherrypy.HTTPError(400, "Bad Request: 'buildingID' parameter is missing.")
                     
                     buildingID = params["buildingID"]
+                    building, _ = self._find_item("buildingList", "buildingID", buildingID)
+                    
+                    if not building:
+                        raise cherrypy.HTTPError(404, "Building not found.")
+
+                    target_client_ids = []
+                    for floor in building.get("floor", []):
+                        for room in floor.get("rooms", []):
+                            for dev_ref in room.get("devicesList", []):
+                                if "clientID" in dev_ref:
+                                    target_client_ids.append(dev_ref["clientID"])
 
                     devicesInBuilding = []
                     for device in self.catalogData["devicesList"]:
-                        if device["buildingID"] == buildingID:
+                        if device["clientID"] in target_client_ids:
                             devicesInBuilding.append(device)
                     
                     return json.dumps({"buildingID": buildingID, "devices": devicesInBuilding})
+
+                elif endpointName == "getDeviceByMeasure":
+
+                    if "measure" not in params:
+                        raise cherrypy.HTTPError(400, "Bad Request: 'measure' parameter is missing.")
+                    
+                    target_measure = params["measure"]
+                    found_devices = []
+
+                    for device in self.catalogData["devicesList"]:
+                        if target_measure in device.get("measureType", []):
+                            found_devices.append(device)
+                    
+                    return json.dumps(found_devices)
                 
                 elif endpointName == "getServiceByID":
 
@@ -183,7 +211,9 @@ class JSONCatalogProviderService(CatalogProviderService):
 
         # NOTE: don't know the actual names yet
         """
-            uri[0]         uri[1]
+        PUT /updateSystemConfig
+        
+                uri[0]         uri[1]
         PUT /updateDevice/<clientID>
         PUT /updateUser/<userID>
         PUT /updateBuilding/<buildingID>
@@ -193,7 +223,28 @@ class JSONCatalogProviderService(CatalogProviderService):
         """
 
         try:
-            if len(uri) == 2:
+            if len(uri) == 1 and uri[0] == "updateSystemConfig":
+                body = cherrypy.request.body.read()
+                try:
+                    body = json.loads(body)
+                except json.JSONDecodeError:
+                    raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON.")
+
+                if "projectOwner" in body:
+                    self.catalogData["projectOwner"] = body["projectOwner"]
+                if "projectName" in body:
+                    self.catalogData["projectName"] = body["projectName"]
+                if "broker" in body:
+                    if isinstance(body["broker"], dict):
+                        for k, v in body["broker"].items():
+                            self.catalogData["broker"][k] = v
+                    else:
+                        self.catalogData["broker"] = body["broker"]
+
+                self._save()
+                return json.dumps({"status": "updated", "catalog": self.catalogData})
+
+            elif len(uri) == 2:
                 endpointName = uri[0]
                 targetID = uri[1]
                 # check if the endpoint is correct
