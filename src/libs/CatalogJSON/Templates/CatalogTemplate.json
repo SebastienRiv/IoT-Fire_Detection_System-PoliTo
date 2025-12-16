@@ -22,7 +22,9 @@
                 "topicSub": [
                     ""
                 ],
-                "topicPub": "",
+                "topicPub": [
+                    ""
+                ],
                 "broker": "",
                 "port": 1883
             },
@@ -40,7 +42,7 @@
     ],
     "servicesList": [
         {
-            "clientID": "",
+            "serviceID": "",
             "serviceName": "",
             "lifeTimeInterval": 20,
             "catalogUpdateIntervalCycles": 20,
@@ -51,7 +53,9 @@
                 "topicSub": [
                     ""
                 ],
-                "topicPub": "",
+                "topicPub": [
+                    ""
+                ],
                 "broker": "",
                 "port": 1883
             },
@@ -69,7 +73,7 @@
             "fireFighterServiceName": "",
             "fireFighterID": "",
             "chatID": "",
-            "adress": "",
+            "address": "",
             "GPS": {
                 "lat": "",
                 "long": ""
@@ -88,7 +92,7 @@
             "userID": [""],
             "buildingID": "",
             "buildingName": "",
-            "adress": "",
+            "address": "",
             "GPS":{
                 "lat": "",
                 "long": ""

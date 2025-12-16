@@ -55,7 +55,6 @@ class JSONCatalogProviderService(CatalogProviderService):
 
     def _find_item(self, list_name, id_key, target_id):
         """
-        Find an item in a specific list.
         If found:
             return item, index
         Else:
@@ -66,6 +65,20 @@ class JSONCatalogProviderService(CatalogProviderService):
             if item.get(id_key) == target_id:
                 return item, index
         return None, None
+
+    # NOTE: I wanted to make the code a little bit more readable by implementing functions to remove repetitions
+    def _get_json_body(self):
+        try:
+            body = cherrypy.request.body.read()
+            if not body:
+                raise cherrypy.HTTPError(400, "Bad Request: Empty body.")
+            try:
+                return json.loads(body)
+            except (json.JSONDecodeError, TypeError):
+                raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON.")
+        except Exception:
+            raise cherrypy.HTTPError(500, "Internal Server Error: Failed to read request body.")
+
 
     # REST methods
 
@@ -79,8 +92,8 @@ class JSONCatalogProviderService(CatalogProviderService):
         GET /getBuildingByID?buildingID=<building_id>
         GET /getBuildingDevices?buildingID=<building_id>
         GET /getDeviceByMeasure?measure=<measure_name>
-        GET /getServiceByID?clientID=<service_id>
-        GET /getServiceThreshold?clientID=<service_id>
+        GET /getServiceByID?serviceID=<service_id>
+        GET /getServiceThreshold?serviceID=<service_id>
         GET /getFireFighterByID?fireFighterID=<firefighter_id>
         """
         #                        uri[0]
@@ -177,12 +190,12 @@ class JSONCatalogProviderService(CatalogProviderService):
                 
                 elif endpointName == "getServiceByID":
 
-                    if "clientID" not in params:
-                        raise cherrypy.HTTPError(400, "Bad Request: 'clientID' parameter is missing.")
+                    if "serviceID" not in params:
+                        raise cherrypy.HTTPError(400, "Bad Request: 'serviceID' parameter is missing.")
                     
-                    clientID = params["clientID"]
+                    serviceID = params["serviceID"]
 
-                    service, _ = self._find_item("servicesList", "clientID", clientID)
+                    service, _ = self._find_item("servicesList", "serviceID", serviceID)
                     if service:
                         return json.dumps({"status": "success", "data": service})
                     
@@ -190,18 +203,18 @@ class JSONCatalogProviderService(CatalogProviderService):
 
                 elif endpointName == "getServiceThreshold":
 
-                    if "clientID" not in params:
-                        raise cherrypy.HTTPError(400, "Bad Request: 'clientID' parameter is missing.")
+                    if "serviceID" not in params:
+                        raise cherrypy.HTTPError(400, "Bad Request: 'serviceID' parameter is missing.")
                     
-                    clientID = params["clientID"]
+                    serviceID = params["serviceID"]
 
-                    service, _ = self._find_item("servicesList", "clientID", clientID)
+                    service, _ = self._find_item("servicesList", "serviceID", serviceID)
                     if service:
                         extra_section = service.get("extra", {})
                         if not isinstance(extra_section, dict):
                             extra_section = {}
                         if "threshold" in extra_section:
-                            return json.dumps({"status": "success", "data": {"clientID": clientID, "threshold": extra_section["threshold"]}})
+                            return json.dumps({"status": "success", "data": {"serviceID": serviceID, "threshold": extra_section["threshold"]}})
                         raise cherrypy.HTTPError(404, "Threshold not found.")
                     
                     raise cherrypy.HTTPError(404, "Service not found.")
@@ -236,18 +249,14 @@ class JSONCatalogProviderService(CatalogProviderService):
         PUT /updateDevice/<clientID>
         PUT /updateUser/<userID>
         PUT /updateBuilding/<buildingID>
-        PUT /updateService/<clientID>
+        PUT /updateService/<serviceID>
         PUT /updateFireFighter/<fireFighterID>
         Body: JSON with new catalog data
         """
 
         try:
             if len(uri) == 1 and uri[0] == "updateSystemConfig":
-                body = cherrypy.request.body.read()
-                try:
-                    body = json.loads(body)
-                except json.JSONDecodeError:
-                    raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON.")
+                body = self._get_json_body()
 
                 if "projectOwner" in body:
                     self.catalogData["projectOwner"] = body["projectOwner"]
@@ -269,12 +278,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                 # check if the endpoint is correct
                 if endpointName == "updateDevice":
 
-                    bodyUpdatedDevice = cherrypy.request.body.read()
-
-                    try:
-                        bodyUpdatedDevice = json.loads(bodyUpdatedDevice)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    bodyUpdatedDevice = self._get_json_body()
 
                     if bodyUpdatedDevice["clientID"] != targetID:
                         raise cherrypy.HTTPError(400, "DeviceID in the URI does not match the one in the body")
@@ -296,12 +300,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                         raise cherrypy.HTTPError(404, "ClientID not found in the catalog.")
                 
                 elif endpointName == "updateUser":
-                    bodyUpdatedUser = cherrypy.request.body.read()
-
-                    try:
-                        bodyUpdatedUser = json.loads(bodyUpdatedUser)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    bodyUpdatedUser = self._get_json_body()
 
                     if bodyUpdatedUser["userID"] != targetID:
                         raise cherrypy.HTTPError(400, "UserID in the URI does not match the one in the body")
@@ -320,12 +319,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                         raise cherrypy.HTTPError(404, "UserID not found in the catalog.")
 
                 elif endpointName == "updateBuilding":
-                    bodyUpdatedBuilding = cherrypy.request.body.read()
-
-                    try:
-                        bodyUpdatedBuilding = json.loads(bodyUpdatedBuilding)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    bodyUpdatedBuilding = self._get_json_body()
 
                     if bodyUpdatedBuilding["buildingID"] != targetID:
                         raise cherrypy.HTTPError(400, "BuildingID in the URI does not match the one in the body")
@@ -344,17 +338,12 @@ class JSONCatalogProviderService(CatalogProviderService):
                         raise cherrypy.HTTPError(404, "BuildingID not found in the catalog.")
                 
                 elif endpointName == "updateService":
-                    bodyUpdatedService = cherrypy.request.body.read()
+                    bodyUpdatedService = self._get_json_body()
 
-                    try:
-                        bodyUpdatedService = json.loads(bodyUpdatedService)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    if bodyUpdatedService["serviceID"] != targetID:
+                        raise cherrypy.HTTPError(400, "ServiceID in the URI does not match the one in the body")
 
-                    if bodyUpdatedService["clientID"] != targetID:
-                        raise cherrypy.HTTPError(400, "ClientID in the URI does not match the one in the body")
-
-                    service, _ = self._find_item("servicesList", "clientID", targetID)
+                    service, _ = self._find_item("servicesList", "serviceID", targetID)
                     
                     if service:
                         # update the service info
@@ -372,15 +361,10 @@ class JSONCatalogProviderService(CatalogProviderService):
                         self._save()
                         return json.dumps({"status": "updated", "data": self.catalogData})
                     else:
-                        raise cherrypy.HTTPError(404, "ClientID not found in the catalog.")
+                        raise cherrypy.HTTPError(404, "ServiceID not found in the catalog.")
                 
                 elif endpointName == "updateFireFighter":
-                    bodyUpdatedFireFighter = cherrypy.request.body.read()
-
-                    try:
-                        bodyUpdatedFireFighter = json.loads(bodyUpdatedFireFighter)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    bodyUpdatedFireFighter = self._get_json_body()
 
                     if bodyUpdatedFireFighter["fireFighterID"] != targetID:
                         raise cherrypy.HTTPError(400, "FireFighterID in the URI does not match the one in the body")
@@ -422,16 +406,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                 endpointName = uri[0]
                 if endpointName == "addDevice":
                 
-                    bodyNewDevice = cherrypy.request.body.read()
-
-                    # check if the body is valid
-                    if not bodyNewDevice:
-                        raise cherrypy.HTTPError(400, "Bad Request: Empty body.")
-                    
-                    try:
-                        bodyNewDevice = json.loads(bodyNewDevice)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    bodyNewDevice = self._get_json_body()
                 
                     # check if the device already exists
                     newID = bodyNewDevice["clientID"]
@@ -447,16 +422,7 @@ class JSONCatalogProviderService(CatalogProviderService):
             
                 elif endpointName == "addUser":
 
-                    bodyNewUser = cherrypy.request.body.read()
-
-                    # check if the body is valid
-                    if not bodyNewUser:
-                        raise cherrypy.HTTPError(400, "Bad Request: Empty body.")
-                    
-                    try:
-                        bodyNewUser = json.loads(bodyNewUser)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    bodyNewUser = self._get_json_body()
                 
                     # check if the user already exists
                     newID = bodyNewUser["userID"]
@@ -471,16 +437,7 @@ class JSONCatalogProviderService(CatalogProviderService):
 
                 elif endpointName == "addBuilding":
 
-                    bodyNewBuilding = cherrypy.request.body.read()
-
-                    # check if the body is valid
-                    if not bodyNewBuilding:
-                        raise cherrypy.HTTPError(400, "Bad Request: Empty body.")
-                    
-                    try:
-                        bodyNewBuilding = json.loads(bodyNewBuilding)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    bodyNewBuilding = self._get_json_body()
                 
                     # check if the building already exists
                     newID = bodyNewBuilding["buildingID"]
@@ -495,22 +452,13 @@ class JSONCatalogProviderService(CatalogProviderService):
                 
                 elif endpointName == "addService":
 
-                    bodyNewService = cherrypy.request.body.read()
-
-                    # check if the body is valid
-                    if not bodyNewService:
-                        raise cherrypy.HTTPError(400, "Bad Request: Empty body.")
-                    
-                    try:
-                        bodyNewService = json.loads(bodyNewService)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    bodyNewService = self._get_json_body()
                 
                     # check if the service already exists
-                    newID = bodyNewService["clientID"]
-                    existing_service, _ = self._find_item("servicesList", "clientID", newID)
+                    newID = bodyNewService["serviceID"]
+                    existing_service, _ = self._find_item("servicesList", "serviceID", newID)
                     if existing_service:
-                        raise cherrypy.HTTPError(409, "ClientID given already exists.")
+                        raise cherrypy.HTTPError(409, "ServiceID given already exists.")
                         
                     # if here, service is new
                     if "extra" not in bodyNewService:
@@ -522,16 +470,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                 
                 elif endpointName == "addFireFighter":
 
-                    bodyNewFireFighter = cherrypy.request.body.read()
-
-                    # check if the body is valid
-                    if not bodyNewFireFighter:
-                        raise cherrypy.HTTPError(400, "Bad Request: Empty body.")
-                    
-                    try:
-                        bodyNewFireFighter = json.loads(bodyNewFireFighter)
-                    except json.JSONDecodeError:
-                        raise cherrypy.HTTPError(400, "Bad Request: Invalid JSON in the body.")
+                    bodyNewFireFighter = self._get_json_body()
                 
                     # check if the fire fighter already exists
                     newID = bodyNewFireFighter["fireFighterID"]
@@ -557,7 +496,7 @@ class JSONCatalogProviderService(CatalogProviderService):
         DELETE /deleteDevice/<clientID>
         DELETE /deleteUser/<userID>
         DELETE /deleteBuilding/<buildingID>
-        DELETE /deleteService/<clientID>
+        DELETE /deleteService/<serviceID>
         DELETE /deleteFireFighter/<fireFighterID>
         """
         try:
@@ -584,7 +523,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                         del self.catalogData["buildingList"][index]
                 
                 elif endpointName == "deleteService":
-                    item, index = self._find_item("servicesList", "clientID", targetID)
+                    item, index = self._find_item("servicesList", "serviceID", targetID)
                     if item:
                         del self.catalogData["servicesList"][index]
                 
@@ -598,7 +537,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                     # returns the updated catalog
                     return json.dumps({"status": "deleted", "data": self.catalogData})
                 else:
-                    raise cherrypy.HTTPError(404, "ClientID not found in the catalog.")
+                    raise cherrypy.HTTPError(404, "ID not found in the catalog.")
 
             else:
                 raise cherrypy.HTTPError(400, "Bad Request: Unknown endpoint.")
