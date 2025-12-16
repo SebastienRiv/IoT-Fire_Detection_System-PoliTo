@@ -80,17 +80,35 @@ class AlarmTriggerManager:
     def getInference(self):
         inference=self.requestREST.GET("getInference")
         return inference
+    def buildTelegramMessage(buildingID,buildingName,address,lat,longit,floorID,roomID,fireFighterChatID,userChatIDList)->dict:
+        msg={
+            "build" : {
+                "buildingID": buildingID,
+                "buildingName":buildingName,
+                "address": address,
+                "GPS":{
+                    "lat": lat,
+                    "long": longit
+                },
+                "floorID": floorID,
+                "roomID":roomID
+            },
+            "fireFighterChatID": fireFighterChatID,
+            "userChatIDList": userChatIDList
+        } 
+        return msg
+
     def evaluateAndTrigger(self,inferenceData,clientID):
         if not inferenceData:
             print("Inference data not present")
             return
         fireRisk=inferenceData["fireRisk"]
         if fireRisk>=self.configLocal.getKey.Threshold:
-            data=self.sensML.genSensMLActuatorMsg("AlarmTriggerManager",True,time.time())
             if self.clientMQTT.isConnect():
-                json_payload=json.dumps(data)
                 params={"clientID":clientID}
                 deviceInfo=self.requestREST.GET("getBuildingInformation",params)
+                msg=self.buildTelegramMessage(deviceInfo['buildingID'],deviceInfo['buildingName'],deviceInfo["address"],deviceInfo['lat'],deviceInfo['longit'],deviceInfo['floorID'],deviceInfo['roomID'],deviceInfo['fireFighterChatID'],deviceInfo['userChatIDList'])
+                json_payload=json.dumps(msg)
                 self.configCatalog.setFireStatus(clientID)
                 self.clientMQTT.myPublish(f"/IOT-project/{deviceInfo['buildingID']}/{deviceInfo['floorID']}/{deviceInfo['roomID']}/{clientID}",json_payload)
                 
