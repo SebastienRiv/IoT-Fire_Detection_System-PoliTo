@@ -80,6 +80,7 @@ class JSONCatalogProviderService(CatalogProviderService):
         GET /getBuildingDevices?buildingID=<building_id>
         GET /getDeviceByMeasure?measure=<measure_name>
         GET /getServiceByID?clientID=<service_id>
+        GET /getServiceThreshold?clientID=<service_id>
         GET /getFireFighterByID?fireFighterID=<firefighter_id>
         """
         #                        uri[0]
@@ -92,7 +93,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                 endpointName = uri[0]
 
                 if endpointName == "getCatalog":
-                    return json.dumps(self.catalogData)
+                    return json.dumps({"status": "success", "data": self.catalogData})
                 
                 elif endpointName == "getResourceByID":
 
@@ -105,7 +106,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                     # check if ID in devicesList
                     device, _ = self._find_item("devicesList", "clientID", clientID)
                     if device:
-                        return json.dumps(device)
+                        return json.dumps({"status": "success", "data": device})
                     # if it doesnt find any ID matching
                     raise cherrypy.HTTPError(404, "Resource not found.")
                 
@@ -118,7 +119,7 @@ class JSONCatalogProviderService(CatalogProviderService):
 
                     user, _ = self._find_item("usersList", "userID", userID)
                     if user:
-                        return json.dumps(user)
+                        return json.dumps({"status": "success", "data": user})
                     
                     raise cherrypy.HTTPError(404, "User not found.")
                 
@@ -131,7 +132,7 @@ class JSONCatalogProviderService(CatalogProviderService):
 
                     building, _ = self._find_item("buildingList", "buildingID", buildingID)
                     if building:
-                        return json.dumps(building)
+                        return json.dumps({"status": "success", "data": building})
                     
                     raise cherrypy.HTTPError(404, "Building not found.")
 
@@ -158,7 +159,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                         if device["clientID"] in target_client_ids:
                             devicesInBuilding.append(device)
                     
-                    return json.dumps({"buildingID": buildingID, "devices": devicesInBuilding})
+                    return json.dumps({"status": "success", "data": {"buildingID": buildingID, "devices": devicesInBuilding}})
 
                 elif endpointName == "getDeviceByMeasure":
 
@@ -172,7 +173,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                         if target_measure in device.get("measureType", []):
                             found_devices.append(device)
                     
-                    return json.dumps(found_devices)
+                    return json.dumps({"status": "success", "data": found_devices})
                 
                 elif endpointName == "getServiceByID":
 
@@ -183,7 +184,25 @@ class JSONCatalogProviderService(CatalogProviderService):
 
                     service, _ = self._find_item("servicesList", "clientID", clientID)
                     if service:
-                        return json.dumps(service)
+                        return json.dumps({"status": "success", "data": service})
+                    
+                    raise cherrypy.HTTPError(404, "Service not found.")
+
+                elif endpointName == "getServiceThreshold":
+
+                    if "clientID" not in params:
+                        raise cherrypy.HTTPError(400, "Bad Request: 'clientID' parameter is missing.")
+                    
+                    clientID = params["clientID"]
+
+                    service, _ = self._find_item("servicesList", "clientID", clientID)
+                    if service:
+                        extra_section = service.get("extra", {})
+                        if not isinstance(extra_section, dict):
+                            extra_section = {}
+                        if "threshold" in extra_section:
+                            return json.dumps({"status": "success", "data": {"clientID": clientID, "threshold": extra_section["threshold"]}})
+                        raise cherrypy.HTTPError(404, "Threshold not found.")
                     
                     raise cherrypy.HTTPError(404, "Service not found.")
                 
@@ -196,7 +215,7 @@ class JSONCatalogProviderService(CatalogProviderService):
 
                     fireFighter, _ = self._find_item("fireFightersList", "fireFighterID", fireFighterID)
                     if fireFighter:
-                        return json.dumps(fireFighter)
+                        return json.dumps({"status": "success", "data": fireFighter})
                     
                     raise cherrypy.HTTPError(404, "Fire fighter not found.")
 
@@ -242,7 +261,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                         self.catalogData["broker"] = body["broker"]
 
                 self._save()
-                return json.dumps({"status": "updated", "catalog": self.catalogData})
+                return json.dumps({"status": "updated", "data": self.catalogData})
 
             elif len(uri) == 2:
                 endpointName = uri[0]
@@ -272,7 +291,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                         
                         self._save()
                         # in this case I think it's better to return the catalog since it might need to update the page
-                        return json.dumps({"status": "updated", "catalog": self.catalogData})
+                        return json.dumps({"status": "updated", "data": self.catalogData})
                     else:
                         raise cherrypy.HTTPError(404, "ClientID not found in the catalog.")
                 
@@ -296,7 +315,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                                 user[key] = value
                         
                         self._save()
-                        return json.dumps({"status": "updated", "catalog": self.catalogData})
+                        return json.dumps({"status": "updated", "data": self.catalogData})
                     else:
                         raise cherrypy.HTTPError(404, "UserID not found in the catalog.")
 
@@ -320,7 +339,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                                 building[key] = value
                         
                         self._save()
-                        return json.dumps({"status": "updated", "catalog": self.catalogData})
+                        return json.dumps({"status": "updated", "data": self.catalogData})
                     else:
                         raise cherrypy.HTTPError(404, "BuildingID not found in the catalog.")
                 
@@ -340,13 +359,18 @@ class JSONCatalogProviderService(CatalogProviderService):
                     if service:
                         # update the service info
                         for key, value in bodyUpdatedService.items():
-                            if key in service:
+                            if key == "extra":
+                                if isinstance(service.get("extra"), dict) and isinstance(value, dict):
+                                    service["extra"].update(value)
+                                else:
+                                    service["extra"] = value
+                            elif key in service:
                                 service[key] = value
                         # update timestamp
                         service["lastUpdate"] = time.time()
                         
                         self._save()
-                        return json.dumps({"status": "updated", "catalog": self.catalogData})
+                        return json.dumps({"status": "updated", "data": self.catalogData})
                     else:
                         raise cherrypy.HTTPError(404, "ClientID not found in the catalog.")
                 
@@ -370,7 +394,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                                 fireFighter[key] = value
                         
                         self._save()
-                        return json.dumps({"status": "updated", "catalog": self.catalogData})
+                        return json.dumps({"status": "updated", "data": self.catalogData})
                     else:
                         raise cherrypy.HTTPError(404, "FireFighterID not found in the catalog.")
                 
@@ -419,7 +443,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                     bodyNewDevice["lastUpdate"] = time.time()
                     self.catalogData["devicesList"].append(bodyNewDevice)
                     self._save()
-                    return json.dumps({"status": "Created", "catalog": self.catalogData})
+                    return json.dumps({"status": "created", "data": self.catalogData})
             
                 elif endpointName == "addUser":
 
@@ -443,7 +467,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                     # if here, user is new
                     self.catalogData["usersList"].append(bodyNewUser)
                     self._save()
-                    return json.dumps({"status": "Created", "catalog": self.catalogData})
+                    return json.dumps({"status": "created", "data": self.catalogData})
 
                 elif endpointName == "addBuilding":
 
@@ -467,7 +491,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                     # if here, building is new
                     self.catalogData["buildingList"].append(bodyNewBuilding)
                     self._save()
-                    return json.dumps({"status": "Created", "catalog": self.catalogData})
+                    return json.dumps({"status": "created", "data": self.catalogData})
                 
                 elif endpointName == "addService":
 
@@ -489,10 +513,12 @@ class JSONCatalogProviderService(CatalogProviderService):
                         raise cherrypy.HTTPError(409, "ClientID given already exists.")
                         
                     # if here, service is new
+                    if "extra" not in bodyNewService:
+                        bodyNewService["extra"] = {}
                     bodyNewService["lastUpdate"] = time.time()
                     self.catalogData["servicesList"].append(bodyNewService)
                     self._save()
-                    return json.dumps({"status": "Created", "catalog": self.catalogData})
+                    return json.dumps({"status": "created", "data": self.catalogData})
                 
                 elif endpointName == "addFireFighter":
 
@@ -516,7 +542,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                     # if here, fire fighter is new
                     self.catalogData["fireFightersList"].append(bodyNewFireFighter)
                     self._save()
-                    return json.dumps({"status": "Created", "catalog": self.catalogData})
+                    return json.dumps({"status": "created", "data": self.catalogData})
 
             # in case endpoint != addDevice
             else:
@@ -570,7 +596,7 @@ class JSONCatalogProviderService(CatalogProviderService):
                 if item:
                     self._save()
                     # returns the updated catalog
-                    return json.dumps({"status": "Deleted", "catalog": self.catalogData})
+                    return json.dumps({"status": "deleted", "data": self.catalogData})
                 else:
                     raise cherrypy.HTTPError(404, "ClientID not found in the catalog.")
 
