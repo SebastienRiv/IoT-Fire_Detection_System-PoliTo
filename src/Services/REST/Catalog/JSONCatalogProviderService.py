@@ -14,7 +14,7 @@ class JSONCatalogProviderService(CatalogProviderService):
         super().__init__(configFilePath)
 
         # this thing is used to prevent 2 or more services to write the catalog at the same time
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
 
         self.catalogHelper = CatalogJSON(self.configLocal)
         self.catalog = dict()
