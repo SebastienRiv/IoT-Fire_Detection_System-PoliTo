@@ -20,11 +20,14 @@ class Service(ABC):
         
         self.requestREST = RequestREST(self.configLocal.getKey.CatalogURL)
         
-        self.registerServiceToCatalog()
+        self.registeredSatus = self.registerServiceToCatalog()
         self.updateCatalogConfig()
             
     def updateCatalogConfig(self) -> bool :
         if self.configLocal.getKey.CatalogURL != "" :
+            if not self.registeredSatus :
+                self.registeredSatus = self.registerServiceToCatalog()
+            
             update = self.requestREST.GET("servicesCatalog", params={"service_id": self.configLocal.getKey.ClientID})
             modified = self.configCatalog.updateCatalog(update)
             return modified
