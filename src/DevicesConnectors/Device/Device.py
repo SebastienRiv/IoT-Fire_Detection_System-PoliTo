@@ -24,12 +24,30 @@ class Device(ABC):
         
         self.requestREST = RequestREST(self.configLocal.getKey.CatalogURL)
         
+        self.registerDeviceToCatalog()
+        
         # Fetch device catalog from URL if provided
-        self.configCatalog = CatalogJSON(self.configLocal)
+        self.configCatalog = CatalogJSON(self.configLocal, 'devices')
         self.updateCatalogConfig()
         
         self.clientMQTT = None
         self.mqttSetupClient()
+        
+    def registerDeviceToCatalog(self) -> bool :
+        if self.configLocal.getKey.CatalogURL != "" :
+            data = {
+                "deviceID": self.getDeviceID(),
+                "deviceName": self.configLocal.getKey.ClientName,
+                "building" : {
+                    "id": self.configLocal.get("BuildingID"),
+                    "floor": self.configLocal.get("BuildingFloor"),
+                    "room": self.configLocal.get("BuildingRoom")
+                }
+            }
+            response = self.requestREST.PUT("devicesCatalog/register", data=data, params={"device_id": self.getDeviceID()})
+            if response != {} :
+                return True
+        return False
             
     def mqttSetupClient(self) -> None :
         if self.configCatalog.get.mqttBroker != "" :
@@ -118,7 +136,7 @@ class Device(ABC):
             
     def updateCatalogConfig(self) -> bool :
         if self.configLocal.getKey.CatalogURL != "" :
-            update = self.requestREST.GET("", params={"device_id": self.configLocal.getKey.ClientID})
+            update = self.requestREST.GET("devicesCatalog", params={"device_id": self.configLocal.getKey.ClientID})
             modified = self.configCatalog.updateCatalog(update)
             return modified
         return False
