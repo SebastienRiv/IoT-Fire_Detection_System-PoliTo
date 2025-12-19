@@ -7,6 +7,3 @@ LifeTimeInterval : 5
 # Extra
 SoundLoopDelay : 0.1
 AlarmSoundFilePath : ./MicroServices/FireDetectorAlarmDevice/alarm_dev_cut.mp3
-#Threshold :
-#  SmokeLevel: 1.2
-#  Temperature: 100

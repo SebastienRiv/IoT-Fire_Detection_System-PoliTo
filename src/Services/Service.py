@@ -46,7 +46,6 @@ class Service(ABC):
             print("Warning: ServiceID not found in local configuration.")
             return "UnknownID"
     
-    
     def getConfigLocal(self) -> dict :
         return self.configLocal.getConfig()
     
