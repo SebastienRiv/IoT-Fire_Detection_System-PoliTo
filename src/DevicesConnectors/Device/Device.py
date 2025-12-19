@@ -24,7 +24,7 @@ class Device(ABC):
         
         self.requestREST = RequestREST(self.configLocal.getKey.CatalogURL)
         
-        self.registerDeviceToCatalog()
+        self.registeredStatus = self.registerDeviceToCatalog()
         
         # Fetch device catalog from URL if provided
         self.configCatalog = CatalogJSON(self.configLocal, 'devices')
@@ -136,6 +136,9 @@ class Device(ABC):
             
     def updateCatalogConfig(self) -> bool :
         if self.configLocal.getKey.CatalogURL != "" :
+            if not self.registeredStatus :
+                self.registeredStatus = self.registerDeviceToCatalog()
+            
             update = self.requestREST.GET("devicesCatalog", params={"device_id": self.configLocal.getKey.ClientID})
             modified = self.configCatalog.updateCatalog(update)
             return modified
