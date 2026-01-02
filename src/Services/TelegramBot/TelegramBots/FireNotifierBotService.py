@@ -16,7 +16,7 @@ class FireAlarmData:
     roomID: str
     clientID: str
     firefighterChatID: str
-    userChatIDs: list
+    userChatIDList: list
 
 
 class FireNotifierBotService(TelegramBotService, MQTTService):
@@ -34,17 +34,10 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
         self.userChatIDs = []
         self.firefighterChatID = ""
 
-        
-    def updateLoopRunTime(self, updateInterval:int=12) -> None :
-        while self.serviceRunTimeStatus :
-            modified = self.updateCatalogConfig()
-            
-            if modified :
-                print("Info: Service catalog updated. Restarting Telegram Bot with new configuration.")
-                self.setupTelegramBot()
-                self.mqttSetupClient()
-                        
-            sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
+    def onConfigUpdate(self):
+        print("Info: Service catalog updated. Restarting Telegram Bot with new configuration.")
+        self.setupTelegramBot()
+        self.mqttSetupClient()
         
     def on_chat_message(self, msg) -> None:
         content_type, chat_type, chat_ID = telepot.glance(msg)
@@ -61,6 +54,8 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
             pass
     
     def on_callback_query(self, msg): # Must be defined
+        content_type, chat_type, chat_ID = telepot.glance(msg)
+        
         pass
 
     def parse_alarm_info(self, payload) -> FireAlarmData:
@@ -77,7 +72,7 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
                 roomID=building_info.get("roomID", ""),
                 clientID=info.get("clientID", ""),
                 firefighterChatID=info.get("fireFighterChatID", ""),
-                userChatIDs=info.get("userChatIDList", "")
+                userChatIDList=info.get("userChatIDList", [])
             )
         
         except Exception as e:
@@ -105,7 +100,7 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
 
             alert_msg = self.create_telegram_msg(alarmData)
                 
-            for chatID in alarmData.userChatIDs:
+            for chatID in alarmData.userChatIDList:
                 if chatID in self.userChatIDs:
                     self.telegramBot.sendMessage(chatID, alert_msg)
                 else:
@@ -122,5 +117,10 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
         except Exception as e:
             print(f"Error in the processing of the mqtt message: {e}")
     
-    def serviceRunTime(self) -> None : # Must be defined
-        pass
+    def serviceRunTime(self) -> None :
+        self.serviceRunTimeStatus = True
+
+        self.updateLoopStart()
+
+        while self.serviceRunTimeStatus:
+            sleep(1)

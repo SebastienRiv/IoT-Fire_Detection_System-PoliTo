@@ -35,6 +35,9 @@ class Service(ABC):
     def updateLoopRunTime(self, updateInterval:int=12) -> None :
         while self.serviceRunTimeStatus :
             modified = self.updateCatalogConfig()
+
+            if modified:
+                self.onConfigUpdate()
                         
             sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
                 
@@ -53,10 +56,31 @@ class Service(ABC):
     def getConfigCatalog(self) -> dict :
         return self.configCatalog.getCatalog()
     
-    @abstractmethod
-    def serviceRunTime(self) -> None :
-        pass
-         
-    @abstractmethod     
     def killServiceRunTime(self) -> None :
         self.serviceRunTimeStatus = False
+
+        self.onKill()
+    
+    @abstractmethod
+    def onConfigUpdate(self) -> None :
+        """
+        Method called automatically when the configuration changes.
+        """
+        pass
+    
+    @abstractmethod
+    def serviceRunTime(self) -> None :
+        """
+        Keeping the service alive by periodically checking
+        the execution status
+        """
+        pass
+
+    @abstractmethod
+    def onKill(self) -> None :
+        """
+        Services can do some specific cleaning tasks 
+        at the end of the run time
+        """
+        pass
+            
