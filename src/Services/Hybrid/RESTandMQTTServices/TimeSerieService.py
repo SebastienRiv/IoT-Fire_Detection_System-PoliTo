@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from src.Services.Hybrid.RESTandMQTTService import RESTandMQTTService
+from src.libs.REST.RequestREST import RequestREST
 import cherrypy
 
 class TimeSerieService(RESTandMQTTService, ABC):
@@ -9,8 +10,10 @@ class TimeSerieService(RESTandMQTTService, ABC):
         
         self.envFilePath = envFilePath
         self.userApiKey = None
-        self.userChannelApiKey = None
         self.envLoadConfig()
+        
+        self.baseURL = self.configCatalog.get.extra.get("baseURL", self.configLocal.get("BaseURL", "None"))
+        self.requestREST = RequestREST(self.baseURL)
         
     def envLoadConfig(self) -> None :
         with open(self.envFilePath, 'r') as envFile:
@@ -18,15 +21,13 @@ class TimeSerieService(RESTandMQTTService, ABC):
                 key, value = line.strip().split('=', 1)
                 if key == "USERAPIKEY":
                     self.userApiKey = value
-                elif key == "CHANNELAPIKEY":
-                    self.userChannelApiKey = value
               
     def POST(self, *uri, **params):
         return super().POST(*uri, **params)
     
     @abstractmethod 
     def GET(self, *uri, **params):
-        return cherrypy.HTTPError(404, "GET method not implemented")
+        return super().GET(*uri, **params)
     
     def PUT(self, *uri, **params):
         return super().PUT(*uri, **params)
@@ -36,7 +37,7 @@ class TimeSerieService(RESTandMQTTService, ABC):
     
     @abstractmethod
     def mqttCallback(self, topic, message) -> None :
-        pass
+        return super().mqttCallback(topic, message)
      
     @abstractmethod               
     def serviceRunTime(self) -> None :

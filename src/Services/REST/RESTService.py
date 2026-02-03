@@ -82,19 +82,19 @@ class RESTService(Service, ABC):
        
     @abstractmethod 
     def POST(self, *uri, **params):
-        return NotImplementedError("POST method not implemented.")
+        return cherrypy.HTTPError(404, "POST method not implemented.")
     
     @abstractmethod 
     def GET(self, *uri, **params):
-        return NotImplementedError("GET method not implemented.")
+        return cherrypy.HTTPError(404, "GET method not implemented.")
     
     @abstractmethod 
     def PUT(self, *uri, **params):
-        return NotImplementedError("PUT method not implemented.")
+        return cherrypy.HTTPError(404, "PUT method not implemented.")
     
     @abstractmethod
     def DELETE(self, *uri, **params):
-        return NotImplementedError("DELETE method not implemented.")
+        return cherrypy.HTTPError(404, "DELETE method not implemented.")
     
     @abstractmethod
     def serviceRunTime(self) -> None :
