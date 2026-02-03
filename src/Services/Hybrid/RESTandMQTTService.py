@@ -1,8 +1,9 @@
+from abc import ABC, abstractmethod
 from Services.REST.RESTService import RESTService
 from Services.MQTT.MQTTService import MQTTService
 from time import sleep
 
-class RESTandMQTTService(RESTService, MQTTService):
+class RESTandMQTTService(RESTService, MQTTService, ABC):
     
     def __init__(self, configFilePath:str) -> None :
         super().__init__(configFilePath)
@@ -17,9 +18,11 @@ class RESTandMQTTService(RESTService, MQTTService):
                         
             sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
         
+    @abstractmethod
     def serviceRunTime(self) -> None :
         pass
 
+    @abstractmethod
     def killServiceRunTime(self) -> None :
         self.serviceRunTimeStatus = False
         if self.serverREST is not None:
