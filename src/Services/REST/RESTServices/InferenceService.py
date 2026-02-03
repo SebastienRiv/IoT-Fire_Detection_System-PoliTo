@@ -4,21 +4,13 @@ from abc import abstractmethod, ABC
 
 class InferenceService(RESTService, ABC):
     
-    def __init__(self, configFilePath:str, dataPath:str, modelPath:str=None) -> None :
+    def __init__(self, configFilePath:str, modelPath:str="None") -> None :
         super().__init__(configFilePath)
         
-        self.dataPath = dataPath
         self.modelPath = modelPath
-        self.model = None
-        
-        if modelPath is not None :
-            self.loadModel(modelPath)
-        else : 
-            self.trainModel()
     
-    @abstractmethod
     def GET(self, *uri, **params):
-        return super().GET(*uri, **params)
+        return cherrypy.HTTPError(405, "GET not allowed.")
     
     @abstractmethod
     def POST(self, *uri, **params):
@@ -30,32 +22,16 @@ class InferenceService(RESTService, ABC):
     def DELETE(self, *uri, **params):
         raise cherrypy.HTTPError(405, "DELETE method not allowed.")
     
-        
-    @abstractmethod
-    def trainModel(self) :
-        pass
-    
     @abstractmethod
     def infer(self, inputData) :
         pass
     
-    def loadModel(self, modelPath:str) :
-        with open(modelPath, 'rb') as f:
-            model = f.read() 
-        self.model = model
-        
-        #### To implemente properly model loading depending on model type ####
-        pass
-    
-    def getModel(self) :
-        return self.model
-    
-    def getDataPath(self) :
-        return self.dataPath
-    
     @abstractmethod
     def serviceRunTime(self) -> None :
         pass
+    
+    def getModelPath(self) -> str:
+        return self.modelPath
     
     @abstractmethod
     def killServiceRunTime(self) -> None:

@@ -20,6 +20,9 @@ class Service(ABC):
         
         self.updateCatalogConfig()
             
+    def setServiceRunTimeStatus(self, status:bool) -> None :
+        self.serviceRunTimeStatus = status
+            
     def updateCatalogConfig(self) -> bool :
         if self.configLocal.getKey.CatalogURL != "" :
             update = self.requestREST.GET("", params={"service_id": self.configLocal.getKey.ClientID})

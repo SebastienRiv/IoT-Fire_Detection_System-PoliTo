@@ -1,5 +1,5 @@
 ClientID: 1
-DeviceName: FireDetector
+ClientName: FireDetector
 ConfigFile: configFireDetectorDevice.yaml
 CatalogURL: http://localhost:8081/config
 CatalogUpdateIntervalCycles : 20

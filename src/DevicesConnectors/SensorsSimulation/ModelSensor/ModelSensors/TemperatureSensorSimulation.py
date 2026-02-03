@@ -12,6 +12,15 @@ class TemperatureSensorSimulation(ModelSensorSimulation):
         
         self.currentValue = initialValue
         self.dataMinTime = None
+        
+        # Original data statistics for rescaling
+        self.origMin = None
+        self.origMax = None
+        
+        # Model output statistics for rescaling
+        self.modelMin = None
+        self.modelMax = None
+        
         self.trainModel()
 
     def getValue(self) -> dict:        
@@ -26,6 +35,10 @@ class TemperatureSensorSimulation(ModelSensorSimulation):
 
         temperatureValue = data['Temp'].values.astype(float)
         timeValue = data['Seconds'].values.astype(float).reshape(-1, 1)
+        
+        # Store original data statistics for rescaling
+        self.origMin = float(temperatureValue.min())
+        self.origMax = float(temperatureValue.max())
 
         periodeAnnual = 365 * 24 * 3600
         periodeDaily = 24 * 3600
@@ -45,11 +58,16 @@ class TemperatureSensorSimulation(ModelSensorSimulation):
 
         self.model = LinearRegression()
         self.model.fit(X, y)
+        
+        # Compute model output statistics for rescaling
+        predictions = self.model.predict(X)
+        self.modelMin = float(predictions.min())
+        self.modelMax = float(predictions.max())
 
     def updateValue(self, context=None) -> None:
         now = datetime.now()
         if self.dataMinTime is None:
-            raise ValueError("Le modèle n'est pas entraîné : dataMinTime non défini.")
+            raise ValueError("Model not trained: dataMinTime not defined.")
         secondsNow = (now - self.dataMinTime).total_seconds()
 
         periodeAnnual = 365 * 24 * 3600
@@ -66,6 +84,16 @@ class TemperatureSensorSimulation(ModelSensorSimulation):
         XNow = np.array([[XsinAnnual, XcosAnnual, XsinDaily, XcosDaily, noise]])
 
         if self.model is None:
-            raise ValueError("Le modèle n'est pas entraîné.")
-        self.currentValue = self.model.predict(XNow)[0]
+            raise ValueError("Model not trained.")
+        
+        # Get raw model prediction
+        rawValue = self.model.predict(XNow)[0]
+        
+        # Rescale to match original data amplitude
+        if self.modelMax != self.modelMin:
+            normalizedValue = (rawValue - self.modelMin) / (self.modelMax - self.modelMin)
+            self.currentValue = normalizedValue * (self.origMax - self.origMin) + self.origMin
+        else:
+            self.currentValue = rawValue
+            
         self.lastUpdateTime = int(now.timestamp())
