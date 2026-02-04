@@ -18,5 +18,5 @@ class TelegramBot:
     def getHandler(self):
         return self.handler
         
-    def sendMessage(self, chat_id, text):
-        self.bot.sendMessage(chat_id, text=text)
+    def sendMessage(self, chat_id, text, reply_markup=None):
+        self.bot.sendMessage(chat_id, text=text, reply_markup=reply_markup)

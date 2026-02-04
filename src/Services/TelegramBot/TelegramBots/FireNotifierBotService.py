@@ -4,7 +4,9 @@ from src.Services.MQTT.MQTTService import MQTTService
 from time import sleep
 import telepot
 from telepot.loop import MessageLoop
+from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 import json
+import threading
 
 @dataclass
 class FireAlarmData:
@@ -32,7 +34,10 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
         self.mqttSetupClient()
 
         self.userChatIDs = []
-        self.firefighterChatID = ""
+        self.firefighterChatIDs = []
+        self.passwordFF = "firestation_123"
+
+        self.timer = None
 
     def onConfigUpdate(self):
         print("Info: Service catalog updated. Restarting Telegram Bot with new configuration.")
@@ -46,15 +51,21 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
         if message == "/start":
             if chat_ID not in self.userChatIDs:
                 self.userChatIDs.append(chat_ID)
-                self.telegramBot.sendMessage(chat_ID, "Welcome! You've registered to the fire detection system.")
+                self.telegramBot.sendMessage(chat_ID, "Welcome! You have registered to the fire detection system as a user.")
             else:
                 self.telegramBot.sendMessage(chat_ID, "Already registered successfully.")
-    
+        elif message == f"/start {self.passwordFF}":
+            if chat_ID not in self.firefighterChatIDs:
+                self.firefighterChatIDs.append(chat_ID)
+                self.telegramBot.sendMessage(chat_ID, "Welcome! You have registered to the fire detecction system as a fire station.")
+            else:
+                self.telegramBot.sendMessage(chat_ID, "Already registered successfully.")
         elif message == "/checkDevice": # Must be defined
             pass
     
     def on_callback_query(self, msg): # Must be defined
         content_type, chat_type, chat_ID = telepot.glance(msg)
+
         
         pass
 
@@ -88,6 +99,26 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
                 f"💻 Device: {alarmData.clientID}\n\n"
                 "❗INTERVENTION NEEDED IMMEDIATELY❗")
     
+    def sendToUsers(self, message, usersList) -> None:
+        for chatID in usersList:
+            if chatID in self.userChatIDs:
+                self.telegramBot.sendMessage(chatID, message)
+            else:
+                print(f"ChatID '{chatID}' is not registered in the system.")
+
+    def broadcastToFirefighters(self, alert, priorStation) -> None:
+        print("TIME EXPIRED! Sending the intervention request to all stations...")
+
+        keyboard = InlineKeyboardMarkup(inline_keyboard = 
+                                                [InlineKeyboardButton(text="🚒 Accept Intervention (broadcast)", callback_data="accept_intervention")])
+
+        updated_alert = f"⚠️​⚠️​ Closest station is not responding ⚠️​⚠️​\n\n{alert}"
+
+        for chatID in self.firefighterChatIDs:
+            if str(chatID) != str(priorStation):
+                self.telegramBot.sendMessage(chatID, updated_alert, reply_markup=keyboard)
+
+    
     def mqttCallback(self, topic, payload) -> None :
         try:
             alarmData = self.parse_alarm_info(payload)
@@ -99,17 +130,24 @@ class FireNotifierBotService(TelegramBotService, MQTTService):
             print(f"Alarm received from {alarmData.clientID}!")
 
             alert_msg = self.create_telegram_msg(alarmData)
+
+            self.sendToUsers(alert_msg, alarmData.userChatIDList)
+
+            keyboard = InlineKeyboardMarkup(inline_keyboard = 
+                                                [InlineKeyboardButton(text="🚒 Accept Intervention", callback_data="accept_intervention")])
+
+            if alarmData.firefighterChatID in self.firefighterChatIDs:
+                print(f"Sending the alert to the closest fire station {alarmData.firefighterChatID}...")
+                self.telegramBot.sendMessage(alarmData.firefighterChatID, alert_msg, reply_markup=keyboard)
+
+                if self.timer is not None:
+                    self.timer.cancel()
                 
-            for chatID in alarmData.userChatIDList:
-                if chatID in self.userChatIDs:
-                    self.telegramBot.sendMessage(chatID, alert_msg)
-                else:
-                    print(f"ChatID '{chatID}' is not registered in the system.")
-            
-            if alarmData.firefighterChatID != self.firefighterChatID:
-                self.firefighterChatID = alarmData.firefighterChatID
-            
-            self.telegramBot.sendMessage(self.firefighterChatID, alert_msg)
+                self.timer = threading.Timer(15.0, self.broadcastToFirefighters, args=[alert_msg, alarmData.firefighterChatID])
+                self.timer.start()
+                print("Timer activated: 15 seconds until broadcast.")
+            else:
+                self.broadcastToFirefighters(self, alert_msg, alarmData.firefighterChatID)
 
 
         except json.JSONDecodeError:
