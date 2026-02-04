@@ -13,5 +13,5 @@ ChannelConfig :
   Smoke : 1
   TVOC : 2
   Temperature : 3
-  CO2 : 4
+  CO : 4
 ChannelId : 3249207
