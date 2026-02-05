@@ -1,25 +1,14 @@
 import json
-from queue import Queue
-import time
 import requests
-from src.libs.MQTT.MyMQTT import MyMQTT
-from src.libs.REST.RequestREST import RequestREST
+from queue import Queue
+from src.Services.Hybrid.RESTandMQTTService import RESTandMQTTService
 from src.libs.SensML.SensML import SensML
-from src.libs.CatalogJSON.CatalogJSON import CatalogJSON
-from src.libs.ConfigYAML.ConfigYAML import ConfigYAML
 from time import sleep
-class AlarmTriggerManager:
+class AlarmTriggerManager(RESTandMQTTService):
     def __init__(self,configFile:str):
+        super().__init__(configFile)
         self.sensML = SensML()
-        self.configFile = configFile
-        self.RunTimeStatus=False
-        self.configLocal = ConfigYAML(self.configFile)
-        self.requestREST = RequestREST(self.configLocal.getKey.CatalogURL)
-        self.configCatalog = CatalogJSON(self.configLocal)
-        self.updateCatalogConfig()
-        self.clientMQTT = None
         self.queue=Queue()
-        self.mqttSetupClient()
     
     def updateCatalogConfig(self) -> bool :
         if self.configLocal.getKey.CatalogURL != "" :
@@ -28,21 +17,6 @@ class AlarmTriggerManager:
             return modified
         return False
   
-    
-    def mqttSetupClient(self) -> None :
-        if self.configCatalog.get.mqttBroker != "" :
-            if self.clientMQTT is not None :
-                self.clientMQTT.stop()
-            self.clientMQTT = MyMQTT(self.configCatalog.get.clientID,
-                                     self.configCatalog.get.mqttBroker,
-                                     self.configCatalog.get.mqttPort,
-                                     notifier=self.mqttCallback)
-            self.mqttStartClient()
-            if self.configCatalog.get.mqttTopicSub and self.configCatalog.get.mqttTopicSub[0] != "" :
-                self.mqttSubscribe(self.configCatalog.get.mqttTopicSub)
-        else :
-            print("Warning: MQTT configuration not found in device catalog. MQTT functionalities will be disabled.")
-            self.clientMQTT = None    
     def mqttCallback(self, topic, message) -> None :
         try:
             data=json.loads(message.decode())
@@ -51,32 +25,32 @@ class AlarmTriggerManager:
         except:
             print("Warning")
     
-    def mqttPublish(self, topic, message) -> None :
-        if self.clientMQTT is not None :
-            if topic is None :
-                print("Info: No Topic to publish.")
-                return
-            self.clientMQTT.myPublish(topic, message)
-        else :
-            print("Warning: ClientMQTT is not initialized. Cannot publish message.")
-            
-    def mqttSubscribe(self, topic) -> None :
-        if self.clientMQTT is not None :
-            if topic is None :
-                print("Info: No Topic to subscribe.")
-                return
-            self.clientMQTT.mySubscribe(topic)
-        else :
-            print("Warning: ClientMQTT is not initialized. Cannot subscribe.")
-            
-    def mqttStartClient(self) -> None :
-        if self.clientMQTT is not None :
-            self.clientMQTT.start()
-        else :
-            print("Warning: ClientMQTT is not initialized. Cannot start client.")
-    
-    def postData(self,data):
-        self.requestREST.POST(data)#data is sent to the inference service
+    def GET(self,*uri,**params):
+        if len(uri)>0:
+            clientID=uri[0]
+            buildingID=self.configCatalog.get.buildingID(clientID)
+            buildingName=self.configCatalog.get.buildingName(buildingID)
+            address=self.configCatalog.get.address(buildingID)
+            lat=self.configCatalog.get.lat(buildingID)
+            longit=self.configCatalog.get.longit(buildingID)
+            floorID=self.configCatalog.get.floorID(clientID)
+            roomID=self.configCatalog.get.roomID(clientID)
+            fireFighterChatID=self.configCatalog.get.fireFighterChatID(buildingID)
+            userChatIDList=self.configCatalog.get.userChatIDList(buildingID)
+            device={
+                "buildingID":buildingID,
+                "buildingName":buildingName,
+                "address":address,
+                "lat":lat,
+                "longit":longit,
+                "floorID":floorID,
+                "roomID":roomID,
+                "fireFighterChatID":fireFighterChatID,
+                "userChatIDList":userChatIDList
+            }
+            return json.dumps(device)
+    def postData(self,data):#to implement
+        self.requestREST.POST(url,data)#data is sent to the inference service
     def getInference(self):
         inference=self.requestREST.GET("getInference")
         return inference
@@ -111,14 +85,13 @@ class AlarmTriggerManager:
                 json_payload=json.dumps(msg)
                 self.configCatalog.setFireStatus(clientID)
                 self.clientMQTT.myPublish(f"/IOT-project/{deviceInfo['buildingID']}/{deviceInfo['floorID']}/{deviceInfo['roomID']}/{clientID}",json_payload)
-                
             else:
                 print("MQTT doesn't work")
         else:
             print(f"Risk of fire with fire risk {fireRisk}")
     def setRunTimeStatus(self, status:bool) -> None :
         self.RunTimeStatus = status
-    def RunTime(self)->None:
+    def serviceRunTime(self)->None:
         try:
             while self.RunTimeStatus:
                 if not self.queue.empty():
@@ -131,6 +104,4 @@ class AlarmTriggerManager:
             print("Terminated code")
             self.RunTimeStatus=False
         finally:
-            self.clientMQTT.stop()
-    def killRunTime(self) -> None:
-        self.RunTimeStatus=False
+            self.killServiceRunTime()
