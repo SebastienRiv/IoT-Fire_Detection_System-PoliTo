@@ -13,6 +13,10 @@ class CatalogKeyBinds:
     @property
     def deviceName(self):
         return self.catalog.get("deviceName", self.configLocal.getKey.DeviceName)
+    
+    @property
+    def serviceName(self):
+        return self.catalog.get("serviceName", self.configLocal.getKey.ServiceName)
      
     # Propriété pour lifeTimeInterval
     @property

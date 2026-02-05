@@ -1,6 +1,6 @@
-DeviceID: 2
-DeviceType: FireButtonAlarm
+ClientID: 2
+ClientName: FireButtonAlarm
 ConfigFile: configFireButtonAlarmDevice.yaml
-DeviceCatalogURL: http://localhost:8081/config
+CatalogURL: http://localhost:8081/config
 CatalogUpdateIntervalCycles: 12
-SensorUpdateInterval: 5
+LifeTimeInterval: 5

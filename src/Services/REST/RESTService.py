@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from src.Services.Service import Service
 from src.libs.REST.ServerREST import ServerREST
 from time import sleep
+import cherrypy
 
 class RESTService(Service, ABC):
     
@@ -27,22 +28,46 @@ class RESTService(Service, ABC):
         
     def restSetupServer(self) -> None :
         
-        if self.configCatalog.get.restServerHost != "" and self.configCatalog.get.restServerPort != "" and self.configCatalog.get.restServerConfig != "" :
-            
+        # Try catalog config first, then fallback to local config
+        host = ""
+        port = ""
+        config = ""
+        
+        if self.configCatalog.get.restServerHost != "" :
+            host = self.configCatalog.get.restServerHost
+            port = self.configCatalog.get.restServerPort
+            config = self.configCatalog.get.restServerConfig
+        elif self.configLocal.get("RESTServerHost", "") != "" :
+            host = self.configLocal.get("RESTServerHost", "")
+            port = self.configLocal.get("RESTServerPort", "")
+            config = self.configLocal.get("RESTServerConfig", "/")
+        
+        if host != "" and port != "" :
             if self.serverREST is not None:
                 self.serverREST.killServerRunTime()
             
-            self.host = self.configCatalog.get.restServerHost
-            self.port = self.configCatalog.get.restServerPort
-            self.restServiceConfig = self.configCatalog.get.restServerConfig
+            self.host = host
+            self.port = int(port)
+            
+            # Config doit être un dict pour CherryPy
+            if isinstance(config, dict):
+                self.restServiceConfig = config
+            else:
+                self.restServiceConfig = {
+                    '/': {
+                        'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+                        'tools.sessions.on': True
+                    }
+                }
             
             self.serverREST = ServerREST(self.host, self.port, self.restServiceConfig, self.GET, self.POST, self.PUT, self.DELETE)
             
             self.serverREST.setupServer()
             self.serverREST.startServer()
+            print(f"Info: REST Server started on {self.host}:{self.port}")
             
         else :
-            print("Warning: REST Server configuration not found in service catalog. REST Server functionalities will be disabled.")
+            print("Warning: REST Server configuration not found. REST Server functionalities will be disabled.")
             self.serverREST = None
         
     def updateLoopRunTime(self, updateInterval:int = 12) -> None:
@@ -57,23 +82,19 @@ class RESTService(Service, ABC):
        
     @abstractmethod 
     def POST(self, *uri, **params):
-        # return NotImplementedError("POST method not implemented.")
-        pass
+        return cherrypy.HTTPError(404, "POST method not implemented.")
     
     @abstractmethod 
     def GET(self, *uri, **params):
-        # return NotImplementedError("GET method not implemented.")
-        pass
+        return cherrypy.HTTPError(404, "GET method not implemented.")
     
     @abstractmethod 
     def PUT(self, *uri, **params):
-        # return NotImplementedError("PUT method not implemented.")
-        pass
+        return cherrypy.HTTPError(404, "PUT method not implemented.")
     
     @abstractmethod
     def DELETE(self, *uri, **params):
-        # return NotImplementedError("DELETE method not implemented.")
-        pass
+        return cherrypy.HTTPError(404, "DELETE method not implemented.")
     
     @abstractmethod
     def serviceRunTime(self) -> None :

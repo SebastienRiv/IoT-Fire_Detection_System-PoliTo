@@ -1,0 +1,60 @@
+version: '3.5'
+services:
+  thingspeak_service:
+    build: 
+      context: "."
+      dockerfile: "./MicroServices/ThingSpeakService/Dockerfile"
+    container_name: thingspeak_service
+    ports:
+      - "8083:8083"
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  # fire_detection_inference_service:
+  #   build: 
+  #     context: "."
+  #     dockerfile: "./MicroServices/FireDetectionInferenceService/Dockerfile"
+  #   container_name: fire_detection_inference_service
+  #   ports:
+  #     - "8082:8082"
+  #   environment:
+  #     - PYTHONUNBUFFERED=1
+
+  # fire_button_alarm_device:
+  #   build: 
+  #     context: "."
+  #     dockerfile: "./MicroServices/FireButtonAlarmDevice/DockerFile"
+  #   container_name: fire_button_alarm_device
+  #   environment:
+  #     - PYTHONUNBUFFERED=1
+
+  # mosquitto:
+  #   build:
+  #     context: "./MicroServices/MosquittoService"
+  #     dockerfile: "Dockerfile"
+  #   container_name: mosquitto_broker
+  #   ports:
+  #     - "1883:1883"
+  #   volumes:
+  #     - mosquitto-data:/mosquitto/data
+  #     - mosquitto-log:/mosquitto/log
+
+  # fire_detector_alarm_device:
+  #   build: 
+  #     context: "."
+  #     dockerfile: "./MicroServices/FireDetectorAlarmDevice/DockerFile"
+  #   container_name: fire_detector_alarm_device
+  #   ports:
+  #     - "5000:5001"
+
+  # node_red:
+  #   build:
+  #     context: "./MicroServices/NodeRedService/"
+  #     dockerfile: "Dockerfile"
+  #   container_name: node_red_service
+  #   ports:
+  #     - "1880:1880"
+
+volumes:
+  mosquitto-data:
+  mosquitto-log:
