@@ -1,7 +1,7 @@
 {
     "projectOwner": "Polito IoT Team",
     "projectName": "Fire Detection System",
-    "lastUpdate": "",
+    "lastUpdate": 1770330189.633127,
     "broker": {
         "broker_name": "localhost",
         "port": 1883
@@ -89,11 +89,13 @@
     ],
     "buildingList": [
         {
-            "userID": [""],
+            "userID": [
+                ""
+            ],
             "buildingID": "",
             "buildingName": "",
             "address": "",
-            "GPS":{
+            "GPS": {
                 "lat": "",
                 "long": ""
             },
