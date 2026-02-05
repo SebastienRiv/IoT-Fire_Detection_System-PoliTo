@@ -13,7 +13,7 @@ class Service(ABC):
 
         self.configFilePath = configFilePath
         self.configLocal = ConfigYAML(self.configFilePath)
-        self.configCatalog = CatalogJSON(self.configLocal)
+        self.configCatalog = CatalogJSON(self.configLocal, "service")
         self.serviceRunTimeStatus = False
         
         self.requestREST = RequestREST(self.configLocal.getKey.CatalogURL)
@@ -52,6 +52,9 @@ class Service(ABC):
     
     def getConfigCatalog(self) -> dict :
         return self.configCatalog.getCatalog()
+    
+    def setServiceRunTimeStatus(self, status:bool) -> None :
+        self.serviceRunTimeStatus = status
     
     @abstractmethod
     def serviceRunTime(self) -> None :

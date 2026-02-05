@@ -81,7 +81,6 @@ class JSONCatalogProviderService(CatalogProviderService):
 
 
     # REST methods
-
     def GET(self, *uri, **params):
 
         # NOTE: don't know the actual names yet
@@ -549,6 +548,9 @@ class JSONCatalogProviderService(CatalogProviderService):
     def serviceRunTime(self) -> None:
         self.serviceRunTimeStatus = True
         self.updateLoopStart()
+        
+        while self.serviceRunTimeStatus:
+            time.sleep(1)
 
     def killServiceRunTime(self) -> None:
         self.serviceRunTimeStatus = False
