@@ -1,7 +1,21 @@
 version: '3.5'
 services:
   fire_detector_alarm_device:
-    build: "./MicroServices//FireDetectorAlarmDevice/"
+    build: 
+      context: "."
+      dockerfile: "./MicroServices/FireDetectorAlarmDevice/DockerFile"
     container_name: fire_detector_alarm_device
     ports:
       - "5000:5001"
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: python3 ./MicroServices/FireDetectorAlarmDevice/FireDetectorCreator.py
+
+  # node_red:
+  #   build:
+  #     context: "./MicroServices/NodeRedService/"
+  #     dockerfile: "Dockerfile"
+  #   container_name: node_red_service
+  #   ports:
+  #     - "1880:1880"
