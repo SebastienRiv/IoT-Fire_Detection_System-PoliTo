@@ -72,7 +72,8 @@ class MQTTService(Service, ABC):
     @abstractmethod
     def serviceRunTime(self) -> None :
         pass
-              
+         
+    @abstractmethod     
     def killServiceRunTime(self) -> None :
         self.serviceRunTimeStatus = False
         if self.clientMQTT is not None :

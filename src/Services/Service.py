@@ -23,6 +23,9 @@ class Service(ABC):
         self.registeredSatus = self.registerServiceToCatalog()
         self.updateCatalogConfig()
             
+    def setServiceRunTimeStatus(self, status:bool) -> None :
+        self.serviceRunTimeStatus = status
+            
     def updateCatalogConfig(self) -> bool :
         if self.configLocal.getKey.CatalogURL != "" :
             if not self.registeredSatus :
@@ -64,7 +67,6 @@ class Service(ABC):
         else :
             print("Warning: ServiceID not found in local configuration.")
             return "UnknownID"
-    
     
     def getConfigLocal(self) -> dict :
         return self.configLocal.getConfig()
