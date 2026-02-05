@@ -1,48 +1,45 @@
-from Services.REST.RESTService import RESTService
+from typing import Any
+from src.Services.REST.RESTService import RESTService
 from abc import ABC, abstractmethod
 import json
+import cherrypy
+import time
 
 class CatalogProviderService(RESTService, ABC):
     
     def __init__(self, configFilePath:str) -> None :
+
+        # init parent RESTService
         super().__init__(configFilePath)
+        self.configCatalog.updateCatalog(self.configLocal.get("ServiceConfig", {}))
+        super().restSetupServer()
         
         self.catalogPath = self.configLocal.get("CatalogPath", "catalog.json")
         self.catalog = {}
-        
-        self.updateCatalog()
-           
-    def getCatalogPath(self) -> str :
-        return self.catalogPath
-    
-    def getCatalog(self) -> dict :
-        return self.catalog
-    
-    def updateCatalog(self) -> None :
-        try : 
-            with open(self.catalogPath, 'r') as file:
-                try :
-                    self.catalog = json.load(file)
-                except json.JSONDecodeError:
-                    print(f"Error: Failed to decode JSON from catalog file {self.catalogPath}.")
-        except FileNotFoundError:
-            print(f"Error: Catalog file {self.catalogPath} not found.")
-            
+
+        # if we want to use a DB
+        # self.dbPath = self.configLocal.get("DatabasePath", "catalog.db")
+        # self.repository = SQLCatalogRepository(self.dbPath)
+
     @abstractmethod
-    def POST(self, *uri, **params):
-        return NotImplementedError("POST method not implemented.")
+    def GET(self, *uri, **params) -> Any :
+        # return NotImplementedError("GET method not implemented.")
+        pass
+
+    @abstractmethod
+    def POST(self, *uri, **params) -> Any :
+        # return NotImplementedError("POST method not implemented.")
+        pass
     
     @abstractmethod
-    def GET(self, *uri, **params):
-        return NotImplementedError("GET method not implemented.")
+    def PUT(self, *uri, **params) -> Any :
+        # return NotImplementedError("PUT method not implemented.")
+        pass
     
     @abstractmethod
-    def PUT(self, *uri, **params):
-        return NotImplementedError("PUT method not implemented.")
-    
-    @abstractmethod
-    def DELETE(self, *uri, **params):
-        return NotImplementedError("DELETE method not implemented.")
+    def DELETE(self, *uri, **params) -> Any :
+        # return NotImplementedError("DELETE method not implemented.")
+        pass
     
     def updateLoopStart(self, updateInterval:int=12) -> None : # we don't need to update, this service provides static catalog
         pass
