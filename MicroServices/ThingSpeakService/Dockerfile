@@ -14,19 +14,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /workspace
 
 # Copy project files
-COPY ./MicroServices /workspace/MicroServices
+COPY ./MicroServices/ThingSpeakService /workspace/MicroServices/ThingSpeakService
 COPY ./src /workspace/src
 COPY ./requirements.txt /workspace/requirements.txt
 
 # Add workspace to PYTHONPATH
 ENV PYTHONPATH="/workspace:${PYTHONPATH}"
 
-# IMPORTANT : Désactiver le buffering Python pour voir les logs
+# Désactiver le buffering Python
 ENV PYTHONUNBUFFERED=1
 
 # Install Python dependencies
 RUN pip install --upgrade pip && \
     pip install -r /workspace/requirements.txt
 
-# Command to run avec -u pour unbuffered
-CMD ["python3", "-u", "-m", "MicroServices.FireDetectorAlarmDevice.FireDetectorCreator"]
+# Command to run
+CMD ["python3", "-u", "MicroServices/ThingSpeakService/ThingSpeakCreator.py"]

@@ -1,12 +1,32 @@
-# DokerFile for FireDetectorAlarmDevice Microservice
-FROM python:3.8-alpine
+FROM python:3.10-slim
 
-COPY . /microservice
-COPY ../../src /src
-COPY ../../requirements.txt .
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gfortran \
+    liblapack-dev \
+    libopenblas-dev \
+    build-essential \
+    cython3 \
+    python3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install -r requirements.txt
+# Set working directory
+WORKDIR /workspace
 
-WORKDIR /microservice
+# Copy project files
+COPY ./MicroServices/FireButtonAlarmDevice /workspace/MicroServices/FireButtonAlarmDevice
+COPY ./src /workspace/src
+COPY ./requirements.txt /workspace/requirements.txt
 
-CMD ["python3", "./FireButtonCreator.py"]
+# Add workspace to PYTHONPATH
+ENV PYTHONPATH="/workspace:${PYTHONPATH}"
+
+# Désactiver le buffering Python
+ENV PYTHONUNBUFFERED=1
+
+# Install Python dependencies
+RUN pip install --upgrade pip && \
+    pip install -r /workspace/requirements.txt
+
+# Command to run
+CMD ["python3", "-u", "MicroServices/FireButtonAlarmDevice/FireButtonCreator.py"]
