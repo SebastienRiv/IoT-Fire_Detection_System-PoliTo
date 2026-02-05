@@ -1,14 +1,24 @@
 version: '3.5'
 services:
-  thingspeak_service:
+  json_catalog_provider_service:
     build: 
       context: "."
-      dockerfile: "./MicroServices/ThingSpeakService/Dockerfile"
-    container_name: thingspeak_service
+      dockerfile: "./MicroServices/JSONCatalogProviderService/Dockerfile"
+    container_name: json_catalog_provider_service
     ports:
-      - "8083:8083"
+      - "8080:8084" 
     environment:
       - PYTHONUNBUFFERED=1
+
+  # thingspeak_service:
+  #   build: 
+  #     context: "."
+  #     dockerfile: "./MicroServices/ThingSpeakService/Dockerfile"
+  #   container_name: thingspeak_service
+  #   ports:
+  #     - "8083:8083"
+  #   environment:
+  #     - PYTHONUNBUFFERED=1
 
   # fire_detection_inference_service:
   #   build: 
