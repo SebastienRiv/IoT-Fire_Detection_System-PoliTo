@@ -2,7 +2,7 @@ from src.DevicesConnectors.SensorsSimulation.ModelSensor.ModelSensorSimulation i
 
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression
+from scipy.interpolate import UnivariateSpline
 from datetime import datetime
 
 class TVOCSensorSimulation(ModelSensorSimulation) :
@@ -12,6 +12,11 @@ class TVOCSensorSimulation(ModelSensorSimulation) :
         
         self.currentValue = initialValue
         self.dataMinTime = None
+        
+        # Original data statistics for rescaling
+        self.origMin = None
+        self.origMax = None
+        
         self.trainModel()
         
     def getValue(self) -> dict:
@@ -20,48 +25,34 @@ class TVOCSensorSimulation(ModelSensorSimulation) :
     
     def trainModel(self) -> None :
         data = pd.read_csv(self.dataSetFilePath)
-
         data['created_at'] = pd.to_datetime(data['created_at'])
         data['Seconds'] = (data['created_at'] - data['created_at'].min()).dt.total_seconds()
         
         self.dataMinTime = pd.to_datetime(data['created_at']).min().tz_localize(None)
         
+        # Normalize seconds to one day (modulo 24h)
+        secondsInDay = data['Seconds'] % (24 * 3600)
         tvocValue = data['field6'].values.astype(float)
-        timeValue = data['Seconds'].values.astype(float).reshape(-1, 1)
-
-        periodeDay = 24 * 3600
-        omegaDay = 2 * np.pi / periodeDay
-
-        XsinDay = np.sin(omegaDay * timeValue)
-        XcosDay = np.cos(omegaDay * timeValue)
         
-
-        np.random.seed(42)
-        noise = np.random.normal(0, 1, size=timeValue.shape)
-
-        X = np.hstack((XsinDay, XcosDay, noise))
+        # Store original data statistics for rescaling
+        self.origMin = float(tvocValue.min())
+        self.origMax = float(tvocValue.max())
         
-        self.model = LinearRegression()
-        self.model.fit(X, tvocValue + noise.flatten())
+        # Sort by time of day
+        sorted_indices = np.argsort(secondsInDay)
+        secondsInDay = secondsInDay.values[sorted_indices]
+        tvocValue = tvocValue[sorted_indices]
+        
+        # Create spline (k=3 for cubic, s for smoothing)
+        self.model = UnivariateSpline(secondsInDay, tvocValue, k=3, s=10)
         
     def updateValue(self, context=None) -> None :
         now = datetime.now()
-        if self.dataMinTime is None:
-            raise ValueError("Le modèle n'est pas entraîné : dataMinTime non défini.")
-        secondsNow = (now - self.dataMinTime).total_seconds()
-
-        periode_jour = 24 * 3600
-        omega_jour = 2 * np.pi / periode_jour
-
-        Xsin_jour = np.sin(omega_jour * secondsNow)
-        Xcos_jour = np.cos(omega_jour * secondsNow)
-
-        # Bruit pour la prédiction instantanée
-        bruit = np.random.normal(0, 1)
-        XNow = np.array([[Xsin_jour, Xcos_jour, bruit]])
-
-        # Prédire TVOC
-        if self.model is None:
-            raise ValueError("Le modèle n'est pas entraîné.")
-        self.currentValue = self.model.predict(XNow)[0]
+        secondsInDay = (now.hour * 3600 + now.minute * 60 + now.second)
+        
+        rawValue = float(self.model(secondsInDay))
+        rawValue += np.random.normal(0, 5)
+        
+        # Clip to original data range
+        self.currentValue = np.clip(rawValue, self.origMin, self.origMax)
         self.lastUpdateTime = int(now.timestamp())
