@@ -1,12 +1,24 @@
 # DokerFile for FireDetectorAlarmDevice Microservice
-FROM python:3.8-alpine
+FROM python:3.10-slim
 
-COPY . /microservice
-COPY ../../src /src
-COPY ../../requirements.txt .
+# Install system dependencies for numpy and pandas with retries
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gfortran \
+    liblapack-dev \
+    libopenblas-dev \
+    build-essential \
+    cython3 \
+    python3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install -r requirements.txt
+COPY ./MicroServices/FireDetectorAlarmDevice /MicroServices
+COPY ./MicroServices/FireDetectorAlarmDevice/data_set /MicroServices/FireDetectorAlarmDevice/data_set
+COPY ./src /src
+COPY ./requirements.txt .
 
-WORKDIR /microservice
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+WORKDIR /MicroServices
 
 CMD ["python3", "./FireDetectorCreator.py"]
