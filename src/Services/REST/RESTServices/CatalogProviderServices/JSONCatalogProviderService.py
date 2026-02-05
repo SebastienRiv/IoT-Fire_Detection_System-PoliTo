@@ -16,7 +16,8 @@ class JSONCatalogProviderService(CatalogProviderService):
         # this thing is used to prevent 2 or more services to write the catalog at the same time
         self.lock = threading.RLock()
 
-        self.catalogHelper = CatalogJSON(self.configLocal)
+        self.catalogType = "all"
+        self.catalogHelper = CatalogJSON(self.configLocal, self.catalogType)
         self.catalog = dict()
         self._load()
 
@@ -29,10 +30,10 @@ class JSONCatalogProviderService(CatalogProviderService):
                 with open(self.catalogPath, 'r') as catalog:
                     self.catalogData = json.load(catalog)
             except FileNotFoundError:
-                self.catalogData = self.catalogHelper.getTemplate()
+                self.catalogData = self.catalogHelper.getTemplate(self.catalogType)
                 self._save()
             except json.JSONDecodeError:
-                self.catalogData = self.catalogHelper.getTemplate()
+                self.catalogData = self.catalogHelper.getTemplate(self.catalogType)
                 self._save()
 
     def _save(self) -> None:
