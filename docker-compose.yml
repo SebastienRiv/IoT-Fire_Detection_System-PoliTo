@@ -1,0 +1,7 @@
+version: '3.5'
+services:
+  fire_detector_alarm_device:
+    build: "./MicroServices//FireDetectorAlarmDevice/"
+    container_name: fire_detector_alarm_device
+    ports:
+      - "5000:5001"

@@ -30,7 +30,7 @@ class MQTTService(Service, ABC):
         else :
             print("Warning: MQTT configuration not found in device catalog. MQTT functionalities will be disabled.")
             self.clientMQTT = None
-      
+        
     @abstractmethod
     def mqttCallback(self, topic, message) -> None :
         pass
@@ -68,7 +68,7 @@ class MQTTService(Service, ABC):
                 self.mqttSetupClient()
                         
             sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
-            
+    
     @abstractmethod
     def serviceRunTime(self) -> None :
         pass

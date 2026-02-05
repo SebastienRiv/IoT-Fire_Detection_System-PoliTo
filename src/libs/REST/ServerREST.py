@@ -5,7 +5,7 @@ class ServerREST:
     exposed = True
     
     def __init__(self, host, port, config, myGET, myPOST, myPUT, myDELETE) :
-        self.host = host
+        self.host = host # 0.0.0.0
         self.port = port
         self.config = config
         
