@@ -10,7 +10,7 @@ class RequestREST:
             url = f"{self.serverURL}/{resource}"
             response = requests.get(url, params=params)
             if response.status_code != 200:
-                print(f"GET request failed with status code {response.status_code}")
+                print(f"GET request failed with status code {response.status_code}, on resource {self.serverURL}/{resource} with params {params}")
                 return {}
             response.raise_for_status()
             return response.json()

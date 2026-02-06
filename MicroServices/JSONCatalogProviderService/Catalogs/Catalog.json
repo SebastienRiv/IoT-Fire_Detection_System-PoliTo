@@ -44,29 +44,37 @@
     ],
     "servicesList": [
         {
-            "serviceID": "",
-            "serviceName": "",
-            "lifeTimeInterval": 20,
+            "serviceID": "2001",
+            "serviceName": "ThingSpeakService",
+            "lifeTimeInterval": 5,
             "catalogUpdateIntervalCycles": 20,
             "availableServices": [
-                ""
+                "MQTT", "REST"
             ],
             "MQTT": {
                 "topicSub": [
-                    ""
+                    "/firedetector/+/measurements"
                 ],
                 "topicPub": [
                     ""
                 ],
-                "broker": "",
+                "broker": "mosquitto_broker",
                 "port": 1883
             },
             "REST": {
-                "serverHost": "",
+                "serverHost": "0.0.0.0",
                 "serverPort": 8080,
-                "serverConfig": {}
+                "serverConfig": "/"
             },
-            "extra": {},
+            "extra": {
+                "ChannelConfig": {
+                    "Smoke": 1,
+                    "TVOC": 2,
+                    "Temperature": 3,
+                    "CO": 4
+                },
+                "ChannelId": 3249207
+            },
             "lastUpdate": ""
         }
     ],

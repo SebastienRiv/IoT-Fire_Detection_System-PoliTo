@@ -18,7 +18,7 @@ services:
       dockerfile: "./MicroServices/ThingSpeakService/Dockerfile"
     container_name: thingspeak_service
     ports:
-      - "8083:8083"
+      - "8090:8083"
     environment:
       - PYTHONUNBUFFERED=1
 

@@ -1,11 +1,11 @@
-ClientID: 1
+ClientID: 2001
 ClientName: ThingSpeakService
 ConfigFile: configThingSpeakService.yaml
-CatalogURL: http://localhost:8081/config
+CatalogURL: http://json_catalog_provider_service:8084
 CatalogUpdateIntervalCycles : 20
 LifeTimeInterval : 5
 # extra 
-RESTServerHost: localhost
+RESTServerHost: 0.0.0.0
 RESTServerPort: 8083
 RESTServerConfig: /
 BaseURL: https://api.thingspeak.com

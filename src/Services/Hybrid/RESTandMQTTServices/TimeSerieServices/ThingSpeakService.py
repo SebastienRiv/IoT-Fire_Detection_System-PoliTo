@@ -35,14 +35,14 @@ class ThingspeakService(TimeSerieService):
             "api_key": self.channelWriteAPIkey,
             f"field{fieldNumber}": fieldValue
         }
-        r = self.requestREST.GET(ressource, params)
+        r = self.requestRESTTimeSeries.GET(ressource, params)
     
     def uploadThingspeakMultiple(self, fieldsData):
         ressource = "update"
         params = {"api_key": self.channelWriteAPIkey}
         for fieldNumber, fieldValue in fieldsData.items():
             params[f"field{fieldNumber}"] = fieldValue
-        r = self.requestREST.GET(ressource, params)
+        r = self.requestRESTTimeSeries.GET(ressource, params)
         return r
         
     def readThingspeak(self, results=100):
@@ -52,7 +52,7 @@ class ThingspeakService(TimeSerieService):
             "api_key": self.channelReadAPIkey,
             "results": results
         }
-        r = self.requestREST.GET(ressource, params)
+        r = self.requestRESTTimeSeries.GET(ressource, params)
         return r
     
     def formatThingspeakData(self, rawData, results=100):
@@ -86,7 +86,7 @@ class ThingspeakService(TimeSerieService):
             return cherrypy.HTTPError(404, "Unknown GET request")
     
     def mqttCallback(self, topic, message) -> None :
-        messageRead = self.sensML.getIn(json.loads(message))
+        messageRead = self.sensML.getIn(message)
         
         deviceID = messageRead.device_bn
         channelConfig = self.configCatalog.get.extra.get("channelConfig", self.configLocal.get("ChannelConfig", {}))
@@ -105,9 +105,11 @@ class ThingspeakService(TimeSerieService):
             self.uploadThingspeakMultiple(fieldsData)        
         
     def serviceRunTime(self) -> None :
+        self.serviceRunTimeStatus = True
+        self.updateLoopStart()
         
         while self.serviceRunTimeStatus :
-            pass
+            time.sleep(1)
     
     def killServiceRunTime(self) -> None :
         return super().killServiceRunTime()

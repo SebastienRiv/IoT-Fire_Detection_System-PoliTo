@@ -31,7 +31,9 @@ class Service(ABC):
             if not self.registeredSatus :
                 self.registeredSatus = self.registerServiceToCatalog()
             
-            update = self.requestREST.GET("servicesCatalog", params={"service_id": self.configLocal.getKey.ClientID})
+            update = self.requestREST.GET("getServiceByID", params={"serviceID": self.configLocal.getKey.ClientID})
+            if "data" in update and update["data"] is not None :
+                update = update["data"] 
             modified = self.configCatalog.updateCatalog(update)
             return modified
         return False
@@ -44,9 +46,9 @@ class Service(ABC):
                 "serviceAddress": self.localIP,
                 "servicePort": self.configLocal.get('Port', 5000)
             }
-            response = self.requestREST.PUT("servicesCatalog/register", data=data, params={"service_id": self.getServiceID()})
-            if response != {} :
-                return True
+            #response = self.requestREST.PUT("servicesCatalog/register", data=data, params={"service_id": self.getServiceID()})
+            #if response != {} :
+            #    return True
         return False
                 
     def updateLoopStart(self, updateInterval:int=12) -> None :
