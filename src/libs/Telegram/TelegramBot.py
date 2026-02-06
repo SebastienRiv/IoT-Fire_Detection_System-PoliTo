@@ -19,4 +19,10 @@ class TelegramBot:
         return self.handler
         
     def sendMessage(self, chat_id, text, reply_markup=None):
-        self.bot.sendMessage(chat_id, text=text, reply_markup=reply_markup)
+        return self.bot.sendMessage(chat_id, text=text, reply_markup=reply_markup)
+    
+    def answerCallbackQuery(self, query_id, text):
+        self.bot.answerCallbackQuery(query_id, text)
+    
+    def editMessageText(self, msg_identifier, text, reply_markup=None):
+        self.bot.editMessageText(msg_identifier, text, reply_markup)
