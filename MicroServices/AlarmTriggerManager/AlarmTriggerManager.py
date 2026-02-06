@@ -4,6 +4,17 @@ from queue import Queue
 from src.Services.Hybrid.RESTandMQTTService import RESTandMQTTService
 from src.libs.SensML.SensML import SensML
 from time import sleep
+from math import radians, sin, cos, sqrt, atan2
+
+def haversine(latBuilding, longitBuilding, latFireFighter, longitFireFighter):
+    R=6371
+    latBuilding, longitBuilding, latFireFighter, longitFireFighter = map(radians, [latBuilding, longitBuilding, latFireFighter, longitFireFighter])
+    dlat = latFireFighter - latBuilding
+    dlongit = longitFireFighter - longitBuilding
+    a = sin(dlat / 2)**2 + cos(latBuilding) * cos(latFireFighter) * sin(dlongit / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return R*c
+
 class AlarmTriggerManager(RESTandMQTTService):
     def __init__(self, configFile:str):
         super().__init__(configFile)
@@ -57,10 +68,10 @@ class AlarmTriggerManager(RESTandMQTTService):
                             "buildingName": self.configCatalog.get.buildingName(buildingID),
                             "address": self.configCatalog.get.address(buildingID),
                             "lat": self.configCatalog.get.lat(buildingID),
-                            "longit": self.configCatalog.get.longit(buildingID),
+                            "long": self.configCatalog.get.long(buildingID),
                             "floorID": self.configCatalog.get.floorID(clientID),
                             "roomID": self.configCatalog.get.roomID(clientID),
-                            "fireFighterChatID": self.configCatalog.get.fireFighterChatID(buildingID),
+                            "fireFightersList": self.configCatalog.get.fireFightersList(),
                             "userChatIDList": self.configCatalog.get.userChatIDList(buildingID)
                         }
                         return json.dumps(device)
@@ -69,12 +80,16 @@ class AlarmTriggerManager(RESTandMQTTService):
                 return json.dumps({"Error":"Invalid endpoint"})
         except Exception as e:
             return json.dumps({"Error":f"Internal Server Error {e}"})
+        
     def POST(self, *uri, **params) -> None:
         return None
+    
     def PUT(self, *uri, **params) -> None:
         return None
+    
     def DELETE(self, *uri, **params) -> None:
         return None
+    
     def postData(self, data):
         if not self.inferenceURL:
             print("Error: Inference URL not configured")
@@ -119,9 +134,21 @@ class AlarmTriggerManager(RESTandMQTTService):
             print(f"ALARM! Fire Risk: {fireRisk} exceeds threshold {threshold}")
             if self.clientMQTT is not None and self.clientMQTT.isConnect():
                 deviceInfoJson = self.GET("getBuildingInformation",clientID=clientID)
+                latBuilding = deviceInfoJson['lat']
+                longitBuilding = deviceInfoJson['long']
+                distance = float("inf")
+                fireFighterChatID = ""
+                fireFightersList = deviceInfoJson['fireFightersList']
+                for fireFighter in fireFightersList:
+                    latFireFighter = fireFighter['GPS']['lat']
+                    longitFireFighter = fireFighter['GPS']['long']
+                    distance_km = haversine(latBuilding, longitBuilding, latFireFighter, longitFireFighter)
+                    if distance_km < distance:
+                        distance = distance_km
+                        fireFighterChatID = fireFighter['chatID']
                 deviceInfo = json.loads(deviceInfoJson)
                 if "Error" not in deviceInfo:
-                    msg = self.buildTelegramMessage(deviceInfo['buildingID'], deviceInfo['buildingName'], deviceInfo["address"], deviceInfo['lat'], deviceInfo['longit'], deviceInfo['floorID'], deviceInfo['roomID'], deviceInfo['fireFighterChatID'], deviceInfo['userChatIDList'])
+                    msg = self.buildTelegramMessage(deviceInfo['buildingID'], deviceInfo['buildingName'], deviceInfo["address"], deviceInfo['lat'], deviceInfo['longit'], deviceInfo['floorID'], deviceInfo['roomID'], fireFighterChatID, deviceInfo['userChatIDList'])
                     json_payload = json.dumps(msg)
                     topic = f"/IOT-project/{deviceInfo['buildingID']}/{deviceInfo['floorID']}/{deviceInfo['roomID']}/{clientID}"
                     self.configCatalog.setFireStatus(clientID)
@@ -133,8 +160,10 @@ class AlarmTriggerManager(RESTandMQTTService):
                 print("MQTT Client not connected")
         else:
             print(f"Status Normal. Fire risk: {fireRisk}")
+
     def setRunTimeStatus(self, status:bool) -> None :
         self.serviceRunTimeStatus = status
+
     def serviceRunTime(self) -> None:
         try:
             while self.serviceRunTimeStatus:
