@@ -133,22 +133,26 @@ class AlarmTriggerManager(RESTandMQTTService):
         if fireRisk >= threshold:
             print(f"ALARM! Fire Risk: {fireRisk} exceeds threshold {threshold}")
             if self.clientMQTT is not None and self.clientMQTT.isConnect():
-                deviceInfoJson = self.GET("getBuildingInformation",clientID=clientID)
-                latBuilding = deviceInfoJson['lat']
-                longitBuilding = deviceInfoJson['long']
-                distance = float("inf")
-                fireFighterChatID = ""
-                fireFightersList = deviceInfoJson['fireFightersList']
-                for fireFighter in fireFightersList:
-                    latFireFighter = fireFighter['GPS']['lat']
-                    longitFireFighter = fireFighter['GPS']['long']
-                    distance_km = haversine(latBuilding, longitBuilding, latFireFighter, longitFireFighter)
-                    if distance_km < distance:
-                        distance = distance_km
-                        fireFighterChatID = fireFighter['chatID']
-                deviceInfo = json.loads(deviceInfoJson)
+                deviceInfoStr = self.GET("getBuildingInformation",clientID=clientID)
+                try:
+                    deviceInfo = json.loads(deviceInfoStr)
+                except json.JSONDecodeError:
+                    print("Error: Invalid JSON from GET")
+                    return
                 if "Error" not in deviceInfo:
-                    msg = self.buildTelegramMessage(deviceInfo['buildingID'], deviceInfo['buildingName'], deviceInfo["address"], deviceInfo['lat'], deviceInfo['longit'], deviceInfo['floorID'], deviceInfo['roomID'], fireFighterChatID, deviceInfo['userChatIDList'])
+                    latBuilding = deviceInfo['lat']
+                    longitBuilding = deviceInfo['long']
+                    distance = float("inf")
+                    fireFighterChatID = ""
+                    fireFightersList = deviceInfo['fireFightersList']
+                    for fireFighter in fireFightersList:
+                        latFireFighter = fireFighter['GPS']['lat']
+                        longitFireFighter = fireFighter['GPS']['long']
+                        distance_km = haversine(latBuilding, longitBuilding, latFireFighter, longitFireFighter)
+                        if distance_km < distance:
+                            distance = distance_km
+                            fireFighterChatID = fireFighter['chatID']
+                    msg = self.buildTelegramMessage(deviceInfo['buildingID'], deviceInfo['buildingName'], deviceInfo["address"], deviceInfo['lat'], deviceInfo['long'], deviceInfo['floorID'], deviceInfo['roomID'], fireFighterChatID, deviceInfo['userChatIDList'])
                     json_payload = json.dumps(msg)
                     topic = f"/IOT-project/{deviceInfo['buildingID']}/{deviceInfo['floorID']}/{deviceInfo['roomID']}/{clientID}"
                     self.configCatalog.setFireStatus(clientID)
@@ -168,12 +172,13 @@ class AlarmTriggerManager(RESTandMQTTService):
         try:
             while self.serviceRunTimeStatus:
                 if not self.queue.empty():
-                    data = self.queue.get()
-                    if "e" in data and "bn" in data:
-                        inference = self.postData(data["e"])
-                        self.evaluateAndTrigger(inference,data["bn"])
-                    else:
-                        print("Invalid data format in the queue")
+                    while not self.queue.empty():
+                        data = self.queue.get()
+                        if "e" in data and "bn" in data:
+                            inference = self.postData(data["e"])
+                            self.evaluateAndTrigger(inference,data["bn"])
+                        else:
+                            print("Invalid data format in the queue")
                 sleep(self.configCatalog.get.lifeTimeInterval())
         except KeyboardInterrupt:
             print("Terminated code")
