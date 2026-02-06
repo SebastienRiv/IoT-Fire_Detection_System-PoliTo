@@ -63,7 +63,7 @@
             },
             "REST": {
                 "serverHost": "0.0.0.0",
-                "serverPort": 8080,
+                "serverPort": 8083,
                 "serverConfig": "/"
             },
             "extra": {
@@ -74,6 +74,36 @@
                     "CO": 4
                 },
                 "ChannelId": 3249207
+            },
+            "lastUpdate": ""
+        },
+        {
+            "serviceID": "2002",
+            "serviceName": "FireDetectionInference",
+            "lifeTimeInterval": 5,
+            "catalogUpdateIntervalCycles": 20,
+            "availableServices": [
+                "REST"
+            ],
+            "MQTT": {
+                "topicSub": [
+                    ""
+                ],
+                "topicPub": [
+                    ""
+                ],
+                "broker": "",
+                "port": 1883
+            },
+            "REST": {
+                "serverHost": "0.0.0.0",
+                "serverPort": 8084,
+                "serverConfig": "/"
+            },
+            "extra": {
+                "TimeSeriesURL" : "http://thingspeak_service:8083",
+                "NormSize": 100,
+                "NormTimeUpdate": 120
             },
             "lastUpdate": ""
         }

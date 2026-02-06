@@ -22,15 +22,15 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
 
-  # fire_detection_inference_service:
-  #   build: 
-  #     context: "."
-  #     dockerfile: "./MicroServices/FireDetectionInferenceService/Dockerfile"
-  #   container_name: fire_detection_inference_service
-  #   ports:
-  #     - "8082:8082"
-  #   environment:
-  #     - PYTHONUNBUFFERED=1
+  fire_detection_inference_service:
+    build: 
+      context: "."
+      dockerfile: "./MicroServices/FireDetectionInferenceService/Dockerfile"
+    container_name: fire_detection_inference_service
+    ports:
+      - "8070:8084"
+    environment:
+      - PYTHONUNBUFFERED=1
 
   # fire_button_alarm_device:
   #   build: 

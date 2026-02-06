@@ -12,13 +12,11 @@ import json
 class FireDetectionInferenceService(InferenceService):
     
     def __init__(self, configFilePath: str, modelPath: str) -> None:
-        super().__init__(configFilePath, modelPath)
-        
-        self.timeSeriesURL = None
-        if "TimeSeriesURL" in self.configLocal.getConfig():
-            self.timeSeriesURL = self.configLocal.get("TimeSeriesURL", "None") 
-        
-        self.requestREST = RequestREST(self.timeSeriesURL)
+        super().__init__(configFilePath, modelPath) 
+
+        self.timeSeriesURL = self.configCatalog.get.extra.get("TimeSeriesURL", self.configLocal.get("TimeSeriesURL", "None"))
+
+        self.requestRESTTimeSeries = RequestREST(self.timeSeriesURL)
         
         # Load model files
         self.model = joblib.load(f"{self.modelPath}/modele_incendie.pkl")
@@ -49,34 +47,37 @@ class FireDetectionInferenceService(InferenceService):
             raise cherrypy.HTTPError(404, "Unknown POST request")
     
     def getNormData(self) -> dict:
-        resource = "/getDatasize"
+        resource = "readData"
         normSize = self.configLocal.get("NormSize", 100)
         params = {"size": normSize}
         
-        rep = self.requestREST.GET(resource, params)
+        rep = self.requestRESTTimeSeries.GET(resource, params)
         return rep
     
     def updateNormData(self) -> None:
         response = self.getNormData()
-        
-        if response and 'data' in response and len(response['data']) > 0:
-            with self.normLock:
-                for key in self.normData:
-                    self.normData[key] = []
-                
-                for reading in response['data']:
-                    if 'smoke' in reading:
-                        self.normData['smoke'].append(reading['smoke'])
-                    if 'co' in reading:
-                        self.normData['co'].append(reading['co'])
-                    if 'tvoc' in reading:
-                        self.normData['tvoc'].append(reading['tvoc'])
-                    if 'temperature' in reading:
-                        self.normData['temperature'].append(reading['temperature'])
-            
-            print(f"[FireDetectionInference] Norm data updated: {len(self.normData['smoke'])} samples")
+
+        # Check if response contains the expected 'sensors' dictionary
+        if not response or 'sensors' not in response:
+            print("[FireDetectionInference] No valid sensor data received.")
+            return
+
+        sensors_data = response['sensors']
+
+        with self.normLock:
+            # directly replace internal buffers with the fetched lists
+            # using .get() to handle potential capitalization differences (e.g. 'Smoke' vs 'smoke')
+            self.normData['smoke'] = sensors_data.get('smoke', sensors_data.get('Smoke', []))
+            self.normData['co'] = sensors_data.get('co', sensors_data.get('CO', []))
+            self.normData['tvoc'] = sensors_data.get('tvoc', sensors_data.get('TVOC', []))
+            self.normData['temperature'] = sensors_data.get('temperature', sensors_data.get('Temperature', []))
+
+        # Log update status
+        sample_count = len(self.normData['smoke'])
+        if sample_count > 0:
+            print(f"[FireDetectionInference] Normalization buffer updated with {sample_count} samples.")
         else:
-            print("[FireDetectionInference] No norm data, using raw values")
+            print("[FireDetectionInference] Warning: Received empty sensor buffers.")
     
     def getSmoothedValues(self, smoke, co, tvoc, temp) -> tuple:
         with self.normLock:
@@ -159,6 +160,9 @@ class FireDetectionInferenceService(InferenceService):
     
     def serviceRunTime(self) -> None:
         self.updateNormData()
+
+        self.serviceRunTimeStatus = True
+        self.updateLoopStart()
         
         updateInterval = self.configLocal.get("NormTimeUpdate", 5)
         while True:

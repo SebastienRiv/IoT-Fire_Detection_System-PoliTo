@@ -1,13 +1,13 @@
-ClientID: 201
+ClientID: 2002
 ClientName: FireDetectionInference
 ConfigFile: configFireDetectionInferenceService.yaml
-CatalogURL: http://json_catalog_provider_service:8080/
+CatalogURL: http://json_catalog_provider_service:8084
 CatalogUpdateIntervalCycles: 12
 # REST Server config (local fallback)
-RESTServerHost: localhost
-RESTServerPort: 8082
+RESTServerHost: 0.0.0.0
+RESTServerPort: 8084
 RESTServerConfig: /
 # Extra information 
-TimeSeriesURL: http://localhost:8081/config
+TimeSeriesURL: http://thingspeak_service:8083
 NormSize: 100
-NormTimeUpdate: 5
+NormTimeUpdate: 120
