@@ -10,16 +10,20 @@ class AlarmTriggerManager(RESTandMQTTService):
         self.sensML = SensML()
         self.queue=Queue()
         self.inferenceURL=self.configLocal.get("InferenceServiceURL")
+        if not self.inferenceURL:
+            print("Warning: InferenceServiceURL not found in config")
     
     def updateCatalogConfig(self) -> bool :
-        if self.configLocal.getKey.CatalogURL != "" :
+        catalogURL=self.onfigLocal.get("CatalogURL")
+        clientID=self.configLocal.get("ClientID")
+        if catalogURL:
             try:
-                response=requests.get(self.configLocal.getKey.CatalogURL,params={"clientID":self.configLocal.getKey.ClientID})
+                response=requests.get(catalogURL,params={"clientID":clientID})
                 if response.status_code==200:
                     modified=self.configCatalog.updateCatalog(response.json())
                     return modified
-            except Exception:
-                print("Error updating catalog")
+            except Exception as e:
+                print("Error updating catalog: {e}")
         return False
   
     def mqttCallback(self, topic, message) -> None :
@@ -27,8 +31,10 @@ class AlarmTriggerManager(RESTandMQTTService):
             data=json.loads(message.decode())
             self.queue.put(data)
             print(f"Received from {topic}: {data}")
-        except:
-            print("Warning: Failed to decode MQTT message")
+        except json.JSONDecodeError:
+            print("Warning: Failed to decode MQTT message due to invalid JSON")
+        except Exception as e:
+            print(f"Warning: Error in mqttCallback: {e}")
     
     def GET(self,*uri,**params):
         try:
@@ -38,12 +44,12 @@ class AlarmTriggerManager(RESTandMQTTService):
                     return json.dumps({
                         "service":"AlarmTriggerManager",
                         "status":"running",
-                        "queue_size":self.queue.qsize
+                        "queue_size":self.queue.qsize()
                     })
                 elif endpoint=="getBuildingInformation":
-                    clientID=params["clientID"]
+                    clientID=params.get("clientID")
                     if clientID is None:
-                        return json.dumps({"Error":"Missin clientID"})
+                        return json.dumps({"Error":"Missing clientID"})
                     try:
                         buildingID=self.configCatalog.get.buildingID(clientID)
                         device={
@@ -61,8 +67,8 @@ class AlarmTriggerManager(RESTandMQTTService):
                     except Exception:
                         return json.dumps({"Error":"Device not found or Catalog Error"})
                 return json.dumps({"Error":"Invalid endpoint"})
-        except Exception:
-            return json.dumps({"Error":"Internal Server Error"})
+        except Exception as e:
+            return json.dumps({f"Error":"Internal Server Error {e}"})
     def POST(self,*uri,**params):
         return None
     def PUT(self,*uri,**params):
@@ -70,6 +76,9 @@ class AlarmTriggerManager(RESTandMQTTService):
     def DELETE(self,*uri,**params):
         return None
     def postData(self,data):
+        if not self.inferenceURL:
+            print("Error: Inference URL not configured")
+            return None
         try:
             response=requests.post(self.inferenceURL,json=data)
             if response.status_code==200:
@@ -82,7 +91,7 @@ class AlarmTriggerManager(RESTandMQTTService):
             print("Connection error to Inference Service")
             return None
     
-    def buildTelegramMessage(buildingID,buildingName,address,lat,longit,floorID,roomID,fireFighterChatID,userChatIDList)->dict:
+    def buildTelegramMessage(self,buildingID,buildingName,address,lat,longit,floorID,roomID,fireFighterChatID,userChatIDList)->dict:
         msg={
             "build" : {
                 "buildingID": buildingID,
@@ -104,11 +113,11 @@ class AlarmTriggerManager(RESTandMQTTService):
         if not inferenceData:
             print("Inference data not present")
             return
-        fireRisk=inferenceData["fireRisk"]
+        fireRisk=inferenceData.get("fireRisk")
         threshold=self.configLocal.get("threshold")
         if fireRisk>=threshold:
             print(f"ALARM! Fire Risk: {fireRisk} exceeds threshold {threshold}")
-            if self.clientMQTT.isConnect():
+            if self.clientMQTT is not None and self.clientMQTT.isConnect():
                 deviceInfoJson=self.GET("getBuildingInformation",clientID=clientID)
                 deviceInfo=json.loads(deviceInfoJson)
                 if "Error" not in deviceInfo:
