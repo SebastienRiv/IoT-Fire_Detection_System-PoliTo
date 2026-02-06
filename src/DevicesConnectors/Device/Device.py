@@ -44,9 +44,9 @@ class Device(ABC):
                     "room": self.configLocal.get("BuildingRoom")
                 }
             }
-            response = self.requestREST.PUT("devicesCatalog/register", data=data, params={"device_id": self.getDeviceID()})
-            if response != {} :
-                return True
+            # response = self.requestREST.PUT("devicesCatalog/register", data=data, params={"device_id": self.getDeviceID()})
+            # if response != {} :
+            #     return True
         return False
             
     def mqttSetupClient(self) -> None :
@@ -54,7 +54,7 @@ class Device(ABC):
             
             if self.clientMQTT is not None :
                 self.clientMQTT.stop()
-                self.clientMQTT.myOnConnect(self.clientMQTT._paho_mqtt, None, None, 0)
+                sleep(3)
             
             self.clientMQTT = MyMQTT(self.configCatalog.get.clientID,
                                      self.configCatalog.get.mqttBroker,
@@ -139,7 +139,9 @@ class Device(ABC):
             if not self.registeredStatus :
                 self.registeredStatus = self.registerDeviceToCatalog()
             
-            update = self.requestREST.GET("devicesCatalog", params={"device_id": self.configLocal.getKey.ClientID})
+            update = self.requestREST.GET("getResourceByID", params={"clientID": self.configLocal.getKey.ClientID})
+            if "data" in update and update["data"] is not None :
+                update = update["data"]
             modified = self.configCatalog.updateCatalog(update)
             return modified
         return False
@@ -158,7 +160,6 @@ class Device(ABC):
             modified = self.updateCatalogConfig()
 
             if modified :
-                print(modified)
                 print("MQTT configuration has changed. Updating MQTT client...")
                 self.mqttSetupClient()
             

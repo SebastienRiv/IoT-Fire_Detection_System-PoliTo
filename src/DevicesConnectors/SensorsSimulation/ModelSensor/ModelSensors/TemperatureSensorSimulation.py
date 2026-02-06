@@ -24,7 +24,7 @@ class TemperatureSensorSimulation(ModelSensorSimulation):
         self.trainModel()
 
     def getValue(self) -> dict:        
-        msg = self.sensML.genSensMLSensorMsg("Temperature", "°C", self.currentValue, self.lastUpdateTime)
+        msg = self.sensML.genSensMLSensorMsg("Temperature", "°C", round(float(self.currentValue), 2), self.lastUpdateTime)
         return msg
 
     def trainModel(self) -> None:

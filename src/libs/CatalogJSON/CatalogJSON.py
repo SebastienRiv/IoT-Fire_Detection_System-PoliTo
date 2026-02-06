@@ -27,9 +27,14 @@ class CatalogJSON:
         modified = False
         
         for key, value in updates.items():
-            if key in target and target[key] != value:
-                target[key] = value
-                modified = True
+            if key in target:
+                if isinstance(target[key], dict) and isinstance(value, dict):
+                    if self.updateWithStatus(target[key], value):
+                        modified = True
+                elif target[key] != value:
+                    target[key] = value
+                    modified = True
+
         return modified
             
     def updateCatalog(self, newCatalog) -> bool:

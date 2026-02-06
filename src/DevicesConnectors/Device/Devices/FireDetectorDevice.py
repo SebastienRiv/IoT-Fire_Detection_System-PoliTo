@@ -51,7 +51,7 @@ class FireDetectorDevice(Device) :
             super().updateSensorsValues()
             
             values = super().getSensorsValues()
-            super().mqttPublish(self.configCatalog.get.mqttTopicPub, values)
+            super().mqttPublish(self.configCatalog.get.mqttTopicPub[0], values)
                     
             sleep(self.configCatalog.get.lifeTimeInterval)
             

@@ -20,7 +20,7 @@ class TVOCSensorSimulation(ModelSensorSimulation) :
         self.trainModel()
         
     def getValue(self) -> dict:
-        msg = self.sensML.genSensMLSensorMsg("TVOC", "ppb", self.currentValue, self.lastUpdateTime)
+        msg = self.sensML.genSensMLSensorMsg("TVOC", "ppb", round(float(self.currentValue), 2), self.lastUpdateTime)
         return msg
     
     def trainModel(self) -> None :

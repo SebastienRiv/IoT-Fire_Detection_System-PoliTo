@@ -10,7 +10,7 @@ class SmokeSensorSimulation(SensorSimulation) :
         self.eventValue = eventValue
     
     def getValue(self) -> dict:        
-        msg = self.sensML.genSensMLSensorMsg("Smoke", "%/ft", self.currentValue, self.lastUpdateTime)
+        msg = self.sensML.genSensMLSensorMsg("Smoke", "%/ft", round(float(self.currentValue), 2), self.lastUpdateTime)
         return msg
     
     def updateValue(self, context=None) -> None:

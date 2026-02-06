@@ -20,7 +20,7 @@ class COSensorSimulation(ModelSensorSimulation) :
         self.trainModel()
         
     def getValue(self) -> dict:
-        msg = self.sensML.genSensMLSensorMsg("CO", "ppm", self.currentValue, self.lastUpdateTime)
+        msg = self.sensML.genSensMLSensorMsg("CO", "ppm", round(float(self.currentValue), 2), self.lastUpdateTime)
         return msg
     
     def trainModel(self) -> None :

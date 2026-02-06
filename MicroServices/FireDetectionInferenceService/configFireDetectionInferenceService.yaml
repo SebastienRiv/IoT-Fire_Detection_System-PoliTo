@@ -1,8 +1,8 @@
-ClientID: 2
+ClientID: 201
 ClientName: FireDetectionInference
 ConfigFile: configFireDetectionInferenceService.yaml
-CatalogURL: http://localhost:8081/config
-CatalogUpdateIntervalCycles: 12s
+CatalogURL: http://json_catalog_provider_service:8080/
+CatalogUpdateIntervalCycles: 12
 # REST Server config (local fallback)
 RESTServerHost: localhost
 RESTServerPort: 8082

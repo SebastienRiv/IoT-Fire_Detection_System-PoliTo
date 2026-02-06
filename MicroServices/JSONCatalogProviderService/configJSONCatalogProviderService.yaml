@@ -12,6 +12,6 @@ ServiceConfig :
   AivailableServices :
     - HTTP REST API
   REST :
-    serverHost : localhost
+    serverHost : 0.0.0.0
     serverPort : 8084
     serverConfig : /

@@ -8,24 +8,24 @@
     },
     "devicesList": [
         {
-            "clientID": "",
-            "deviceName": "",
-            "lifeTimeInterval": 20,
+            "clientID": "1001",
+            "deviceName": "FireDetector001",
+            "lifeTimeInterval": 5,
             "catalogUpdateIntervalCycles": 20,
             "measureType": [
-                ""
+                "Smoke, Temperature, TVOC, CO"
             ],
             "availableServices": [
-                ""
+                "MQTT"
             ],
             "MQTT": {
                 "topicSub": [
-                    ""
+                    "/firealarm/commands"
                 ],
                 "topicPub": [
-                    ""
+                    "/firedetector/001/measurements"
                 ],
-                "broker": "",
+                "broker": "mosquitto_broker",
                 "port": 1883
             },
             "REST": {
@@ -36,7 +36,9 @@
             "status": {
                 "fireStatus": false
             },
-            "extra": {},
+            "extra": {
+                "SoundLoopDelay": 0.1
+            },
             "lastUpdate": ""
         }
     ],

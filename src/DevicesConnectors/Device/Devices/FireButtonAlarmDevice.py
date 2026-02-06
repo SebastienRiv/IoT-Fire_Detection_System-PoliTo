@@ -17,7 +17,7 @@ class FireButtonAlarmDevice(Device) :
             super().updateSensorsValues()
             
             values = super().getSensorsValues()
-            super().mqttPublish(self.configCatalog.get.mqttTopicPub, json.dumps(values))
+            super().mqttPublish(self.configCatalog.get.mqttTopicPub[0], json.dumps(values))
             
             sleep(self.configCatalog.get.lifeTimeInterval)
             
