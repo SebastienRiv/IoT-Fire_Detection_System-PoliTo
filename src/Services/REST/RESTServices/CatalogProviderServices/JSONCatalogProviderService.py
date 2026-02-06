@@ -63,7 +63,7 @@ class JSONCatalogProviderService(CatalogProviderService):
         """
         current_list = self.catalogData.get(list_name, [])
         for index, item in enumerate(current_list):
-            if item.get(id_key) == target_id:
+            if item.get(str(id_key)) == str(target_id):
                 return item, index
         return None, None
 
@@ -231,6 +231,31 @@ class JSONCatalogProviderService(CatalogProviderService):
                         return json.dumps({"status": "success", "data": fireFighter})
                     
                     raise cherrypy.HTTPError(404, "Fire fighter not found.")
+
+                elif endpointName == "getDevicesList":
+
+                    devicesList = self.catalogData.get("devicesList", [])
+                    return json.dumps({"status": "success", "data": devicesList})
+                
+                elif endpointName == "getUsersList":
+                    
+                    usersList = self.catalogData.get("usersList", [])
+                    return json.dumps({"status": "success", "data": usersList})
+                
+                elif endpointName == "getBuildingList":
+                    
+                    buildingList = self.catalogData.get("buildingList", [])
+                    return json.dumps({"status": "success", "data": buildingList})
+                
+                elif endpointName == "getServicesList":
+                    
+                    servicesList = self.catalogData.get("servicesList", [])
+                    return json.dumps({"status": "success", "data": servicesList})
+                
+                elif endpointName == "getFireFightersList":
+                    
+                    fireFightersList = self.catalogData.get("fireFightersList", [])
+                    return json.dumps({"status": "success", "data": fireFightersList})
 
                 else:
                     raise cherrypy.HTTPError(400, "Bad Request: Unknown endpoint.")

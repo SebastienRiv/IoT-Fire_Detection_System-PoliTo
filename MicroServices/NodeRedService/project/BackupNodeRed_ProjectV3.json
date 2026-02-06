@@ -1,0 +1,2875 @@
+[
+    {
+        "id": "7107e4ce632f78ed",
+        "type": "tab",
+        "label": "Flux 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "bbd95f775cd9fc83",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e0b05774ca50f50c",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "8d08d80fb7dace21",
+        "type": "ui_group",
+        "name": "Device List",
+        "tab": "bbd95f775cd9fc83",
+        "order": 2,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f7813fd6c4d3379b",
+        "type": "ui_tab",
+        "name": "User",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "42b9996267da6a46",
+        "type": "ui_group",
+        "name": "User Management",
+        "tab": "f7813fd6c4d3379b",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "431457613cd17a25",
+        "type": "ui_tab",
+        "name": "Device",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "9e8e3c29fbee82ba",
+        "type": "ui_group",
+        "name": "Device Management",
+        "tab": "431457613cd17a25",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "527c05dea6399193",
+        "type": "ui_group",
+        "name": "User List",
+        "tab": "f7813fd6c4d3379b",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "dce2fef914090fb0",
+        "type": "ui_group",
+        "name": "Device List",
+        "tab": "431457613cd17a25",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "cc5e9f99edf54822",
+        "type": "ui_group",
+        "name": "Device Data",
+        "tab": "bbd95f775cd9fc83",
+        "order": 3,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0d86d78de3386db7",
+        "type": "ui_tab",
+        "name": "Building",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "51c72af8f3b3ab02",
+        "type": "ui_group",
+        "name": "Building Management",
+        "tab": "0d86d78de3386db7",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f301650746e90742",
+        "type": "ui_group",
+        "name": "Building List",
+        "tab": "0d86d78de3386db7",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "97cb9490c1953fc2",
+        "type": "ui_tab",
+        "name": "FireFighter",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "d3bf7e3d5afc6e7e",
+        "type": "ui_group",
+        "name": "FireFighter Management",
+        "tab": "97cb9490c1953fc2",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "112bd0d768dd0ec9",
+        "type": "ui_group",
+        "name": "FireFighter List",
+        "tab": "97cb9490c1953fc2",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2eec2bf06eab76ab",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    },
+    {
+        "id": "d865776f74d0f47c",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Device List",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://json_catalog_provider_service:8084/getDevicesList",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 490,
+        "y": 260,
+        "wires": [
+            [
+                "0ba89dfe82f1dc4c"
+            ]
+        ]
+    },
+    {
+        "id": "0ba89dfe82f1dc4c",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 690,
+        "y": 260,
+        "wires": [
+            [
+                "c9e3f8054ab74f2b"
+            ]
+        ]
+    },
+    {
+        "id": "c9e3f8054ab74f2b",
+        "type": "ui_template",
+        "z": "7107e4ce632f78ed",
+        "group": "8d08d80fb7dace21",
+        "name": "Home Device List",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-repeat=\"device in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n        <h3 style=\"color: #2c3e50; margin: 0;\">{{device.deviceName || 'No name'}}</h3>\n        <span ng-if=\"device.status.fireStatus === true\" style=\"background-color: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">Fire</span>\n        <span ng-if=\"device.status.fireStatus !== true\" style=\"background-color: #27ae60; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">✓ OK</span>\n    </div>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 8px 0;\">ID: {{device.clientID || 'N/A'}}</p>\n\n    <p style=\"color: #95a5a6; font-size: 0.8em; margin: 0; text-align: right;\">{{device.lastUpdate}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; margin: 0;\">No devices registered</p>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 910,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c0905552b6444762",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "add User",
+        "group": "42b9996267da6a46",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User Name",
+                "value": "UserName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "User ID",
+                "value": "UserID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Telegram Chat ID",
+                "value": "TChatID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "UserName": "",
+            "UserID": "",
+            "TChatID": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 300,
+        "y": 400,
+        "wires": [
+            [
+                "69124593e5117281"
+            ]
+        ]
+    },
+    {
+        "id": "64ce3703500f18bd",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Add Device",
+        "group": "9e8e3c29fbee82ba",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Device Name",
+                "value": "DeviceName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Device ID",
+                "value": "ClientID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Refresh Time",
+                "value": "LifeTimeInterval",
+                "type": "number",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Pull Update Rate",
+                "value": "CatalogUpdateIntervalCycles",
+                "type": "number",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Measure Type",
+                "value": "MeasureType",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Available Services",
+                "value": "AvailableServices",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "MQTT Topic Subscription",
+                "value": "topicSub",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "MQTT Topic Publisher",
+                "value": "topicPub",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "MQTT Borker Url",
+                "value": "broker",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "MQTT Port",
+                "value": "port",
+                "type": "number",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "REST Server Host",
+                "value": "serverHost",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "REST Sever Port",
+                "value": "serverPort",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "REST Server Config",
+                "value": "serverConfig",
+                "type": "multiline",
+                "required": false,
+                "rows": 2
+            },
+            {
+                "label": "Extra",
+                "value": "extra",
+                "type": "multiline",
+                "required": false,
+                "rows": 2
+            }
+        ],
+        "formValue": {
+            "DeviceName": "",
+            "ClientID": "",
+            "LifeTimeInterval": "",
+            "CatalogUpdateIntervalCycles": "",
+            "MeasureType": "",
+            "AvailableServices": "",
+            "topicSub": "",
+            "topicPub": "",
+            "broker": "",
+            "port": "",
+            "serverHost": "",
+            "serverPort": "",
+            "serverConfig": "",
+            "extra": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 290,
+        "y": 620,
+        "wires": [
+            [
+                "34e653be46e16385"
+            ]
+        ]
+    },
+    {
+        "id": "edb0aa6c00688c50",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Delete User",
+        "group": "42b9996267da6a46",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User ID",
+                "value": "UserID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "UserID": ""
+        },
+        "payload": "",
+        "submit": "Delete",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 290,
+        "y": 440,
+        "wires": [
+            [
+                "718c42cb2d5bf939"
+            ]
+        ]
+    },
+    {
+        "id": "9c6b1e0cdb7c2370",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Delete Device",
+        "group": "9e8e3c29fbee82ba",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Device ID",
+                "value": "DeviceID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "DeviceID": ""
+        },
+        "payload": "",
+        "submit": "Delete",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 280,
+        "y": 660,
+        "wires": [
+            [
+                "f2b62b7c6780544e"
+            ]
+        ]
+    },
+    {
+        "id": "48d15f866f194f72",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "New device add",
+        "name": "",
+        "x": 1430,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "1a2352668cd90d7d",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 620,
+        "wires": [
+            [
+                "48d15f866f194f72"
+            ]
+        ]
+    },
+    {
+        "id": "c3660a8ca10f2a83",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "Device delete",
+        "name": "",
+        "x": 1430,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "bdf7ec7c24d9d29b",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 660,
+        "wires": [
+            [
+                "c3660a8ca10f2a83"
+            ]
+        ]
+    },
+    {
+        "id": "426613df5f7fdf5f",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "New user add",
+        "name": "",
+        "x": 1410,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "ec114f05ec1a8901",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1170,
+        "y": 400,
+        "wires": [
+            [
+                "426613df5f7fdf5f"
+            ]
+        ]
+    },
+    {
+        "id": "79fbf1edd0f3be36",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "User Delete",
+        "name": "",
+        "x": 1410,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "1d77e5f28a41f597",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1170,
+        "y": 440,
+        "wires": [
+            [
+                "79fbf1edd0f3be36"
+            ]
+        ]
+    },
+    {
+        "id": "92d0235c172ceef4",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Delete User",
+        "method": "DELETE",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 810,
+        "y": 440,
+        "wires": [
+            [
+                "7356b6edb47912e6"
+            ]
+        ]
+    },
+    {
+        "id": "577e5486d9da3d4f",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Add User",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://json_catalog_provider_service:8084/addUser",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 800,
+        "y": 400,
+        "wires": [
+            [
+                "0642c94cdcf8a543"
+            ]
+        ]
+    },
+    {
+        "id": "dcfeddc39838f690",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Delete Device",
+        "method": "DELETE",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 820,
+        "y": 660,
+        "wires": [
+            [
+                "850a422c96bf3e9c"
+            ]
+        ]
+    },
+    {
+        "id": "a958eeb4bfaae7dd",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Add Device",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 810,
+        "y": 620,
+        "wires": [
+            [
+                "4ae4348b88094518"
+            ]
+        ]
+    },
+    {
+        "id": "17b57fb1fc3c389e",
+        "type": "ui_template",
+        "z": "7107e4ce632f78ed",
+        "group": "527c05dea6399193",
+        "name": "User List",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-repeat=\"user in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n    <h3 style=\"color: #2c3e50; margin: 0 0 5px 0;\">{{user.userName || 'Unknown User'}}</h3>\n    <p style=\"color: #7f8c8d; font-size: 0.85em; margin: 0 0 12px 0;\">ID: {{user.userID || 'N/A'}}</p>\n    <p style=\"color: #34495e; margin: 0;\">Chat ID: {{user.chatID || 'N/A'}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; font-size: 1.1em; margin: 0;\">No users registered</p>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 980,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cafeb71524c3e013",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "User List",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://json_catalog_provider_service:8084/getUsersList",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 500,
+        "y": 520,
+        "wires": [
+            [
+                "8c3941333c63ab78"
+            ]
+        ]
+    },
+    {
+        "id": "8c3941333c63ab78",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 790,
+        "y": 520,
+        "wires": [
+            [
+                "17b57fb1fc3c389e"
+            ]
+        ]
+    },
+    {
+        "id": "1e524d2d56323a04",
+        "type": "ui_template",
+        "z": "7107e4ce632f78ed",
+        "group": "cc5e9f99edf54822",
+        "name": "Smoke",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/3249207/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 360,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "99290a163897a22c",
+        "type": "ui_template",
+        "z": "7107e4ce632f78ed",
+        "group": "cc5e9f99edf54822",
+        "name": "TVOC",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/3249207/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 510,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d4789b90fc191fef",
+        "type": "ui_template",
+        "z": "7107e4ce632f78ed",
+        "group": "cc5e9f99edf54822",
+        "name": "Temperature",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/3249207/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 670,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c254d63d52364d47",
+        "type": "ui_template",
+        "z": "7107e4ce632f78ed",
+        "group": "cc5e9f99edf54822",
+        "name": "CO",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/3249207/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 830,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "01308755596dde53",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Add Building",
+        "group": "51c72af8f3b3ab02",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Building Name",
+                "value": "BuildingName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Building ID",
+                "value": "BuildingID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Building Owner",
+                "value": "UserID",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Address",
+                "value": "address",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Lat, Long",
+                "value": "GPS",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Floor and Room",
+                "value": "FloorRoom",
+                "type": "multiline",
+                "required": true,
+                "rows": 2
+            }
+        ],
+        "formValue": {
+            "BuildingName": "",
+            "BuildingID": "",
+            "UserID": "",
+            "address": "",
+            "GPS": "",
+            "FloorRoom": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 290,
+        "y": 840,
+        "wires": [
+            [
+                "48bf2de84408fdb8"
+            ]
+        ]
+    },
+    {
+        "id": "7e1da2ae1709456c",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Delete Building",
+        "group": "51c72af8f3b3ab02",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Building ID",
+                "value": "BuildingID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "BuildingID": ""
+        },
+        "payload": "",
+        "submit": "Delete",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 280,
+        "y": 880,
+        "wires": [
+            [
+                "f178b588ab3bea89"
+            ]
+        ]
+    },
+    {
+        "id": "252eb31aa2c355ce",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "New building add",
+        "name": "",
+        "x": 1430,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "d056eed84c65d09b",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 840,
+        "wires": [
+            [
+                "252eb31aa2c355ce"
+            ]
+        ]
+    },
+    {
+        "id": "e72817d371165466",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "Building delete",
+        "name": "",
+        "x": 1430,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "faf77264d2feea5a",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 880,
+        "wires": [
+            [
+                "e72817d371165466"
+            ]
+        ]
+    },
+    {
+        "id": "3558750fbfd0499a",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Delete Building",
+        "method": "DELETE",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 820,
+        "y": 880,
+        "wires": [
+            [
+                "bf332c763e1ed7fe"
+            ]
+        ]
+    },
+    {
+        "id": "af78cdddcb6ffc9f",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Add Building",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 810,
+        "y": 840,
+        "wires": [
+            [
+                "d056eed84c65d09b"
+            ]
+        ]
+    },
+    {
+        "id": "d8c1878e0abd955a",
+        "type": "ui_template",
+        "z": "7107e4ce632f78ed",
+        "group": "f301650746e90742",
+        "name": "Building List",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-repeat=\"building in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n        <h3 style=\"color: #2c3e50; margin: 0;\">{{building.buildingName || 'No name'}}</h3>\n        <span style=\"background-color: #3498db; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.8em;\">{{building.floor.length || 0}} floors</span>\n    </div>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 5px 0;\">ID: {{building.buildingID || 'N/A'}}</p>\n    \n    <p style=\"color: #34495e; font-size: 0.9em; margin: 0 0 5px 0;\">{{building.address || 'No address'}}</p>\n    \n    <p style=\"color: #8e44ad; font-size: 0.85em; margin: 0;\">Owners: {{building.userID.join(', ') || 'None'}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; margin: 0;\">No buildings registered</p>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1010,
+        "y": 960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "28d6f6e815eb184d",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Add FireFighter",
+        "group": "d3bf7e3d5afc6e7e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "FireFighter Service Name",
+                "value": "FireFighterName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "FireFighter ID",
+                "value": "FireFighterID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Telegram Chat ID",
+                "value": "ChatID",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Address",
+                "value": "Address",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Lat, Long",
+                "value": "GPS",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "FireFighterName": "",
+            "FireFighterID": "",
+            "ChatID": "",
+            "Address": "",
+            "GPS": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 280,
+        "y": 1060,
+        "wires": [
+            [
+                "fdca4f73d6f65620"
+            ]
+        ]
+    },
+    {
+        "id": "24328779cc2359ed",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Delete FireFighter",
+        "group": "d3bf7e3d5afc6e7e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "FireFighter ID",
+                "value": "FireFighterID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "FireFighterID": ""
+        },
+        "payload": "",
+        "submit": "Delete",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 270,
+        "y": 1100,
+        "wires": [
+            [
+                "cd22a423da5e0a60"
+            ]
+        ]
+    },
+    {
+        "id": "b83958c9fa139ce9",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "New FireFighter add",
+        "name": "",
+        "x": 1430,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "46b929bfe35a54ed",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 1060,
+        "wires": [
+            [
+                "b83958c9fa139ce9"
+            ]
+        ]
+    },
+    {
+        "id": "0da1d99a5eb6229c",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "FireFighter delete",
+        "name": "",
+        "x": 1430,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "c26027cc270e7bfe",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 1100,
+        "wires": [
+            [
+                "0da1d99a5eb6229c"
+            ]
+        ]
+    },
+    {
+        "id": "862596a631b00b13",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Delete FireFighter",
+        "method": "DELETE",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 830,
+        "y": 1100,
+        "wires": [
+            [
+                "c4c5d11db559be65"
+            ]
+        ]
+    },
+    {
+        "id": "a622f56a599f3c81",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Add FireFighter",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 820,
+        "y": 1060,
+        "wires": [
+            [
+                "b88fe58c1556c5ae"
+            ]
+        ]
+    },
+    {
+        "id": "09b6412e4c5049cb",
+        "type": "ui_template",
+        "z": "7107e4ce632f78ed",
+        "group": "112bd0d768dd0ec9",
+        "name": "FireFighter List",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-repeat=\"ff in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <h3 style=\"color: #2c3e50; margin: 0 0 8px 0;\">{{ff.fireFighterServiceName || 'No name'}}</h3>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 5px 0;\">ID: {{ff.fireFighterID || 'N/A'}}</p>\n\n    <p style=\"color: #34495e; font-size: 0.9em; margin: 0;\">{{ff.address || 'No address'}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; font-size: 1.1em; margin: 0;\">No firefighters registered</p>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1020,
+        "y": 1180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c3d030e5819ab6e0",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "FireFighter List",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://json_catalog_provider_service:8084/getFireFightersList",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 520,
+        "y": 1180,
+        "wires": [
+            [
+                "c3b89b8e8aea36d1"
+            ]
+        ]
+    },
+    {
+        "id": "c3b89b8e8aea36d1",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 790,
+        "y": 1180,
+        "wires": [
+            [
+                "09b6412e4c5049cb"
+            ]
+        ]
+    },
+    {
+        "id": "c1a486c5bae9feec",
+        "type": "inject",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 260,
+        "wires": [
+            [
+                "d865776f74d0f47c"
+            ]
+        ]
+    },
+    {
+        "id": "fd714ab832602e73",
+        "type": "inject",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 520,
+        "wires": [
+            [
+                "cafeb71524c3e013"
+            ]
+        ]
+    },
+    {
+        "id": "69124593e5117281",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "msg.payload = {\n    \"userID\": msg.payload.UserID,\n    \"userName\": msg.payload.UserName,\n    \"chatID\": msg.payload.TChatID\n};\nmsg.headers = {\n    \"Content-Type\": \"application/json\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 400,
+        "wires": [
+            [
+                "577e5486d9da3d4f"
+            ]
+        ]
+    },
+    {
+        "id": "0642c94cdcf8a543",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 970,
+        "y": 400,
+        "wires": [
+            [
+                "ec114f05ec1a8901"
+            ]
+        ]
+    },
+    {
+        "id": "718c42cb2d5bf939",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var baseUrl = \"http://json_catalog_provider_service:8084\"; \nmsg.url = baseUrl + \"/deleteUser/\" + msg.payload.UserID;\nmsg.payload = {};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 440,
+        "wires": [
+            [
+                "92d0235c172ceef4"
+            ]
+        ]
+    },
+    {
+        "id": "7356b6edb47912e6",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 970,
+        "y": 440,
+        "wires": [
+            [
+                "1d77e5f28a41f597"
+            ]
+        ]
+    },
+    {
+        "id": "34e653be46e16385",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\n\nvar measureTypes = [];\nif (formData.MeasureType && String(formData.MeasureType).trim() !== '') {\n    measureTypes = String(formData.MeasureType).split(',').map(function(s) { return s.trim(); });\n}\n\nvar availableServices = [];\nif (formData.AvailableServices && String(formData.AvailableServices).trim() !== '') {\n    availableServices = String(formData.AvailableServices).split(',').map(function(s) { return s.trim(); });\n}\n\nvar topicSubs = [];\nif (formData.topicSub && String(formData.topicSub).trim() !== '') {\n    topicSubs = String(formData.topicSub).split(',').map(function(s) { return s.trim(); });\n}\nvar topicPubs = [];\nif (formData.topicPub && String(formData.topicPub).trim() !== '') {\n    topicPubs = [String(formData.topicPub).trim()];\n}\nvar serverConfig = {};\nvar extra = {};\ntry {\n    if (formData.serverConfig && String(formData.serverConfig).trim() !== '') {\n        serverConfig = JSON.parse(formData.serverConfig);\n    }\n} catch (e) { }\n\ntry {\n    if (formData.extra && String(formData.extra).trim() !== '') {\n        extra = JSON.parse(formData.extra);\n    }\n} catch (e) { }\nmsg.payload = {\n    \"clientID\": String(formData.ClientID || \"\").trim(),\n    \"deviceName\": String(formData.DeviceName || \"\"),\n    \"lifeTimeInterval\": parseInt(formData.LifeTimeInterval) || 20,\n    \"catalogUpdateIntervalCycles\": parseInt(formData.CatalogUpdateIntervalCycles) || 20,\n    \"measureType\": measureTypes,\n    \"availableServices\": availableServices,\n    \"MQTT\": {\n        \"topicSub\": topicSubs,\n        \"topicPub\": topicPubs,\n        \"broker\": String(formData.broker || \"\"),\n        \"port\": parseInt(formData.port) || 1883\n    },\n    \"REST\": {\n        \"serverHost\": String(formData.serverHost || \"\"),\n        \"serverPort\": parseInt(formData.serverPort) || 8080,\n        \"serverConfig\": serverConfig\n    },\n    \"extra\": extra,\n    \"status\": {\n        \"fireStatus\": false\n    },\n    \"lastUpdate\": Date.now() / 1000 \n};\nmsg.url = baseUrl + \"/addDevice\";\nmsg.method = \"POST\";\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 620,
+        "wires": [
+            [
+                "a958eeb4bfaae7dd"
+            ]
+        ]
+    },
+    {
+        "id": "4ae4348b88094518",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 990,
+        "y": 620,
+        "wires": [
+            [
+                "1a2352668cd90d7d"
+            ]
+        ]
+    },
+    {
+        "id": "134ccb4b5e13433c",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Device List",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://json_catalog_provider_service:8084/getDevicesList",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 510,
+        "y": 740,
+        "wires": [
+            [
+                "dec6ac9d83aca3cc"
+            ]
+        ]
+    },
+    {
+        "id": "dec6ac9d83aca3cc",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 790,
+        "y": 740,
+        "wires": [
+            [
+                "a0effe011e23ad95"
+            ]
+        ]
+    },
+    {
+        "id": "a0effe011e23ad95",
+        "type": "ui_template",
+        "z": "7107e4ce632f78ed",
+        "group": "dce2fef914090fb0",
+        "name": "Home Device List",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-repeat=\"device in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n        <h3 style=\"color: #2c3e50; margin: 0;\">{{device.deviceName || 'No name'}}</h3>\n        <span ng-if=\"device.status.fireStatus === true\" style=\"background-color: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">Fire</span>\n        <span ng-if=\"device.status.fireStatus !== true\" style=\"background-color: #27ae60; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">✓ OK</span>\n    </div>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 8px 0;\">ID: {{device.clientID || 'N/A'}}</p>\n\n    <p style=\"color: #95a5a6; font-size: 0.8em; margin: 0; text-align: right;\">{{device.lastUpdate}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; margin: 0;\">No devices registered</p>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1030,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "878a89b419ae9c93",
+        "type": "inject",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 740,
+        "wires": [
+            [
+                "134ccb4b5e13433c"
+            ]
+        ]
+    },
+    {
+        "id": "f2b62b7c6780544e",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var baseUrl = \"http://json_catalog_provider_service:8084\";\nmsg.url = baseUrl + \"/deleteDevice/\" + String(msg.payload.DeviceID).trim();\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 660,
+        "wires": [
+            [
+                "dcfeddc39838f690"
+            ]
+        ]
+    },
+    {
+        "id": "850a422c96bf3e9c",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 990,
+        "y": 660,
+        "wires": [
+            [
+                "bdf7ec7c24d9d29b"
+            ]
+        ]
+    },
+    {
+        "id": "f92f61d51c268e2e",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Building List",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://json_catalog_provider_service:8084/getBuildingList",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 510,
+        "y": 960,
+        "wires": [
+            [
+                "54267b412737f711"
+            ]
+        ]
+    },
+    {
+        "id": "54267b412737f711",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 790,
+        "y": 960,
+        "wires": [
+            [
+                "d8c1878e0abd955a"
+            ]
+        ]
+    },
+    {
+        "id": "d99f89c9534455db",
+        "type": "inject",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 960,
+        "wires": [
+            [
+                "f92f61d51c268e2e"
+            ]
+        ]
+    },
+    {
+        "id": "48bf2de84408fdb8",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nvar floors = [];\ntry {\n    if (formData.FloorRoom && String(formData.FloorRoom).trim() !== '') {\n        floors = JSON.parse(formData.FloorRoom);\n    }\n} catch (e) {\n    node.warn(\"FloorRoom parsing error: \" + e.message);\n}\n\nmsg.payload = {\n    \"buildingID\": String(formData.BuildingID || \"\").trim(),\n    \"buildingName\": String(formData.BuildingName || \"\"),\n    \"userID\": [String(formData.UserID || \"\").trim()], \n    \"address\": String(formData.address || \"\"),\n    \"GPS\": gps,\n    \"floor\": floors,\n    \"lastUpdate\": Date.now() / 1000\n};\n\nmsg.url = baseUrl + \"/addBuilding\";\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 840,
+        "wires": [
+            [
+                "af78cdddcb6ffc9f"
+            ]
+        ]
+    },
+    {
+        "id": "7436d4a40a1a5ae4",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 990,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bf332c763e1ed7fe",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 990,
+        "y": 880,
+        "wires": [
+            [
+                "faf77264d2feea5a"
+            ]
+        ]
+    },
+    {
+        "id": "f178b588ab3bea89",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var baseUrl = \"http://json_catalog_provider_service:8084\";\nmsg.url = baseUrl + \"/deleteBuilding/\" + String(msg.payload.BuildingID).trim();\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 880,
+        "wires": [
+            [
+                "3558750fbfd0499a"
+            ]
+        ]
+    },
+    {
+        "id": "fdca4f73d6f65620",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nmsg.payload = {\n    \"fireFighterID\": String(formData.FireFighterID || \"\").trim(),\n    \"fireFighterServiceName\": String(formData.FireFighterName || \"\"),\n    \"chatID\": String(formData.ChatID || \"\"),\n    \"address\": String(formData.Address || \"\"),\n    \"GPS\": gps,\n    \"lastUpdate\": Date.now() / 1000\n};\n\nmsg.url = baseUrl + \"/addFireFighter\";\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 1060,
+        "wires": [
+            [
+                "a622f56a599f3c81"
+            ]
+        ]
+    },
+    {
+        "id": "f4cc710c1a8c13b4",
+        "type": "inject",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 1180,
+        "wires": [
+            [
+                "c3d030e5819ab6e0"
+            ]
+        ]
+    },
+    {
+        "id": "b88fe58c1556c5ae",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 990,
+        "y": 1060,
+        "wires": [
+            [
+                "46b929bfe35a54ed"
+            ]
+        ]
+    },
+    {
+        "id": "c4c5d11db559be65",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 990,
+        "y": 1100,
+        "wires": [
+            [
+                "c26027cc270e7bfe"
+            ]
+        ]
+    },
+    {
+        "id": "cd22a423da5e0a60",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var baseUrl = \"http://json_catalog_provider_service:8084\";\nmsg.url = baseUrl + \"/deleteFireFighter/\" + String(msg.payload.FireFighterID).trim();\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 1100,
+        "wires": [
+            [
+                "862596a631b00b13"
+            ]
+        ]
+    },
+    {
+        "id": "f1c7db22dc403bf0",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "User Edit",
+        "name": "",
+        "x": 1410,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "2a3db767ba7ef657",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1170,
+        "y": 480,
+        "wires": [
+            [
+                "f1c7db22dc403bf0"
+            ]
+        ]
+    },
+    {
+        "id": "b79b287a3826ba0e",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Edit User",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 800,
+        "y": 480,
+        "wires": [
+            [
+                "de9bb05308625997"
+            ]
+        ]
+    },
+    {
+        "id": "0edf6fcf84eb6453",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "msg.url = \"http://json_catalog_provider_service:8084/updateUser/\" + msg.payload.UserID;\nmsg.payload = {\n    \"userID\": msg.payload.UserID,\n    \"userName\": msg.payload.UserName,\n    \"chatID\": msg.payload.TChatID\n};\nmsg.headers = {\n    \"Content-Type\": \"application/json\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 480,
+        "wires": [
+            [
+                "b79b287a3826ba0e"
+            ]
+        ]
+    },
+    {
+        "id": "de9bb05308625997",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 970,
+        "y": 480,
+        "wires": [
+            [
+                "2a3db767ba7ef657"
+            ]
+        ]
+    },
+    {
+        "id": "3560099ed29be343",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Edit User",
+        "group": "42b9996267da6a46",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "User Name",
+                "value": "UserName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "User ID",
+                "value": "UserID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Telegram Chat ID",
+                "value": "TChatID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "UserName": "",
+            "UserID": "",
+            "TChatID": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 300,
+        "y": 480,
+        "wires": [
+            [
+                "0edf6fcf84eb6453"
+            ]
+        ]
+    },
+    {
+        "id": "4416ec063c723794",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Edit Device",
+        "group": "9e8e3c29fbee82ba",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Device Name",
+                "value": "DeviceName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Device ID",
+                "value": "ClientID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Refresh Time",
+                "value": "LifeTimeInterval",
+                "type": "number",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Pull Update Rate",
+                "value": "CatalogUpdateIntervalCycles",
+                "type": "number",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Measure Type",
+                "value": "MeasureType",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Available Services",
+                "value": "AvailableServices",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "MQTT Topic Subscription",
+                "value": "topicSub",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "MQTT Topic Publisher",
+                "value": "topicPub",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "MQTT Borker Url",
+                "value": "broker",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "MQTT Port",
+                "value": "port",
+                "type": "number",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "REST Server Host",
+                "value": "serverHost",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "REST Sever Port",
+                "value": "serverPort",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "REST Server Config",
+                "value": "serverConfig",
+                "type": "multiline",
+                "required": false,
+                "rows": 2
+            },
+            {
+                "label": "Extra",
+                "value": "extra",
+                "type": "multiline",
+                "required": false,
+                "rows": 2
+            }
+        ],
+        "formValue": {
+            "DeviceName": "",
+            "ClientID": "",
+            "LifeTimeInterval": "",
+            "CatalogUpdateIntervalCycles": "",
+            "MeasureType": "",
+            "AvailableServices": "",
+            "topicSub": "",
+            "topicPub": "",
+            "broker": "",
+            "port": "",
+            "serverHost": "",
+            "serverPort": "",
+            "serverConfig": "",
+            "extra": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 290,
+        "y": 700,
+        "wires": [
+            [
+                "f5550824e28c7c64"
+            ]
+        ]
+    },
+    {
+        "id": "156ff230ac747859",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "Device edit",
+        "name": "",
+        "x": 1430,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "efe00c818a9a507c",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 700,
+        "wires": [
+            [
+                "156ff230ac747859"
+            ]
+        ]
+    },
+    {
+        "id": "b71d9942dca11b60",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Edit Device",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 810,
+        "y": 700,
+        "wires": [
+            [
+                "a0f30961e88ed3a9"
+            ]
+        ]
+    },
+    {
+        "id": "f5550824e28c7c64",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\nvar targetID = formData.ClientID;\n\nvar measureTypes = [];\nif (formData.MeasureType && String(formData.MeasureType).trim() !== '') {\n    measureTypes = String(formData.MeasureType).split(',').map(function (s) { return s.trim(); });\n}\n\nvar availableServices = [];\nif (formData.AvailableServices && String(formData.AvailableServices).trim() !== '') {\n    availableServices = String(formData.AvailableServices).split(',').map(function (s) { return s.trim(); });\n}\n\nvar topicSubs = [];\nif (formData.topicSub && String(formData.topicSub).trim() !== '') {\n    topicSubs = String(formData.topicSub).split(',').map(function (s) { return s.trim(); });\n}\n\nvar topicPubs = [];\nif (formData.topicPub && String(formData.topicPub).trim() !== '') {\n    topicPubs = [String(formData.topicPub).trim()];\n}\n\nvar serverConfig = {};\nvar extra = {};\ntry {\n    if (formData.serverConfig && String(formData.serverConfig).trim() !== '') {\n        serverConfig = JSON.parse(formData.serverConfig);\n    }\n} catch (e) { }\n\ntry {\n    if (formData.extra && String(formData.extra).trim() !== '') {\n        extra = JSON.parse(formData.extra);\n    }\n} catch (e) { }\n\nmsg.payload = {\n    \"clientID\": targetID, \n    \"deviceName\": String(formData.DeviceName || \"\"),\n    \"lifeTimeInterval\": parseInt(formData.LifeTimeInterval) || 20,\n    \"catalogUpdateIntervalCycles\": parseInt(formData.CatalogUpdateIntervalCycles) || 20,\n    \"measureType\": measureTypes,\n    \"availableServices\": availableServices,\n    \"MQTT\": {\n        \"topicSub\": topicSubs,\n        \"topicPub\": topicPubs,\n        \"broker\": String(formData.broker || \"\"),\n        \"port\": parseInt(formData.port) || 1883\n    },\n    \"REST\": {\n        \"serverHost\": String(formData.serverHost || \"\"),\n        \"serverPort\": parseInt(formData.serverPort) || 8080,\n        \"serverConfig\": serverConfig\n    },\n    \"extra\": extra,\n    \"status\": {\n        \"fireStatus\": false\n    }\n};\n\nmsg.url = baseUrl + \"/updateDevice/\" + targetID;\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 700,
+        "wires": [
+            [
+                "b71d9942dca11b60"
+            ]
+        ]
+    },
+    {
+        "id": "a0f30961e88ed3a9",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 990,
+        "y": 700,
+        "wires": [
+            [
+                "efe00c818a9a507c"
+            ]
+        ]
+    },
+    {
+        "id": "b5410b1e3ecd2bb8",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Edit Building",
+        "group": "51c72af8f3b3ab02",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Building Name",
+                "value": "BuildingName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Building ID",
+                "value": "BuildingID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Building Owner",
+                "value": "UserID",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Address",
+                "value": "address",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Lat, Long",
+                "value": "GPS",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Floor and Room",
+                "value": "FloorRoom",
+                "type": "multiline",
+                "required": true,
+                "rows": 2
+            }
+        ],
+        "formValue": {
+            "BuildingName": "",
+            "BuildingID": "",
+            "UserID": "",
+            "address": "",
+            "GPS": "",
+            "FloorRoom": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 290,
+        "y": 920,
+        "wires": [
+            [
+                "348f43060ac5fac5"
+            ]
+        ]
+    },
+    {
+        "id": "5ad71c1cd7020e70",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "Building edit",
+        "name": "",
+        "x": 1430,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "46e75d7b6e97d694",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 920,
+        "wires": [
+            [
+                "5ad71c1cd7020e70"
+            ]
+        ]
+    },
+    {
+        "id": "44080d8b1e1adcd6",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Edit Building",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 810,
+        "y": 920,
+        "wires": [
+            [
+                "46e75d7b6e97d694"
+            ]
+        ]
+    },
+    {
+        "id": "348f43060ac5fac5",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\nvar targetID = formData.BuildingID;\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nvar floors = [];\ntry {\n    if (formData.FloorRoom && String(formData.FloorRoom).trim() !== '') {\n        floors = JSON.parse(formData.FloorRoom);\n    }\n} catch (e) {\n    node.warn(\"FloorRoom parsing error: \" + e.message);\n}\n\nmsg.payload = {\n    \"buildingID\": targetID,\n    \"buildingName\": String(formData.BuildingName || \"\"),\n    \"userID\": [String(formData.UserID || \"\").trim()],\n    \"address\": String(formData.address || \"\"),\n    \"GPS\": gps,\n    \"floor\": floors\n};\n\nmsg.url = baseUrl + \"/updateBuilding/\" + targetID;\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 920,
+        "wires": [
+            [
+                "44080d8b1e1adcd6"
+            ]
+        ]
+    },
+    {
+        "id": "38a9ddba6d237322",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 990,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b3ca6ef0965ed0f6",
+        "type": "ui_form",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "label": "Edit FireFighter",
+        "group": "d3bf7e3d5afc6e7e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "FireFighter Service Name",
+                "value": "FireFighterName",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "FireFighter ID",
+                "value": "FireFighterID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Telegram Chat ID",
+                "value": "ChatID",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Address",
+                "value": "Address",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Lat, Long",
+                "value": "GPS",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "FireFighterName": "",
+            "FireFighterID": "",
+            "ChatID": "",
+            "Address": "",
+            "GPS": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 280,
+        "y": 1140,
+        "wires": [
+            [
+                "5f1238a9637a24a8"
+            ]
+        ]
+    },
+    {
+        "id": "fff31af493571192",
+        "type": "ui_toast",
+        "z": "7107e4ce632f78ed",
+        "position": "bottom right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "Edit FireFighter",
+        "name": "",
+        "x": 1430,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "6de43ea7097cce15",
+        "type": "change",
+        "z": "7107e4ce632f78ed",
+        "name": "Notification Toast",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"status\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 1140,
+        "wires": [
+            [
+                "fff31af493571192"
+            ]
+        ]
+    },
+    {
+        "id": "5a7d81588f05d2b9",
+        "type": "http request",
+        "z": "7107e4ce632f78ed",
+        "name": "Edit FireFighter",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 820,
+        "y": 1140,
+        "wires": [
+            [
+                "19528181f625c8c3"
+            ]
+        ]
+    },
+    {
+        "id": "5f1238a9637a24a8",
+        "type": "function",
+        "z": "7107e4ce632f78ed",
+        "name": "Format for HTTP request",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\n\nif (!formData.FireFighterID || String(formData.FireFighterID).trim() === '') {\n    node.error(\"FireFighterID is required\");\n    return null;\n}\n\nvar targetID = formData.FireFighterID;\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nmsg.payload = {\n    \"fireFighterID\": targetID,\n    \"fireFighterServiceName\": String(formData.FireFighterName || \"\"),\n    \"chatID\": String(formData.ChatID || \"\"),\n    \"address\": String(formData.Address || \"\"),\n    \"GPS\": gps\n};\n\nmsg.url = baseUrl + \"/updateFireFighter/\" + targetID;\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 1140,
+        "wires": [
+            [
+                "5a7d81588f05d2b9"
+            ]
+        ]
+    },
+    {
+        "id": "19528181f625c8c3",
+        "type": "json",
+        "z": "7107e4ce632f78ed",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 990,
+        "y": 1140,
+        "wires": [
+            [
+                "6de43ea7097cce15"
+            ]
+        ]
+    }
+]

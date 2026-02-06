@@ -1,7 +1,7 @@
 {
     "projectOwner": "Polito IoT Team",
     "projectName": "Fire Detection System",
-    "lastUpdate": 1770330189.633127,
+    "lastUpdate": 1770411260.0277627,
     "broker": {
         "broker_name": "localhost",
         "port": 1883
@@ -49,7 +49,8 @@
             "lifeTimeInterval": 5,
             "catalogUpdateIntervalCycles": 20,
             "availableServices": [
-                "MQTT", "REST"
+                "MQTT",
+                "REST"
             ],
             "MQTT": {
                 "topicSub": [
@@ -101,7 +102,7 @@
                 "serverConfig": "/"
             },
             "extra": {
-                "TimeSeriesURL" : "http://thingspeak_service:8083",
+                "TimeSeriesURL": "http://thingspeak_service:8083",
                 "NormSize": 100,
                 "NormTimeUpdate": 120
             },

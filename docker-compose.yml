@@ -57,13 +57,13 @@ services:
       dockerfile: "./MicroServices/FireDetectorAlarmDevice/DockerFile"
     container_name: fire_detector_alarm_device
 
-  # node_red:
-  #   build:
-  #     context: "./MicroServices/NodeRedService/"
-  #     dockerfile: "Dockerfile"
-  #   container_name: node_red_service
-  #   ports:
-  #     - "1880:1880"
+  node_red:
+    build:
+      context: "./MicroServices/NodeRedService/"
+      dockerfile: "Dockerfile"
+    container_name: node_red_service
+    ports:
+      - "1880:1880"
 
 volumes:
   mosquitto-data:
