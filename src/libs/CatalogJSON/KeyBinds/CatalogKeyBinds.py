@@ -28,11 +28,16 @@ class CatalogKeyBinds:
     def catalogUpdateIntervalCycles(self):
         return self.catalog.get("catalogUpdateIntervalCycles", self.configLocal.getKey.CatalogUpdateIntervalCycles)
     
+    @property
+    def threshold(self):
+        return self.catalog.get("extra",self.configLocal.getKey.Threshold)
     # Propriété pour measureType
     @property
     def measureType(self):
         return self.catalog.get("measureType", [""])
-    
+    @property
+    def devicesList(self):
+        return self.catalog.get("devicesList",[])
     # Propriété pour availableServices
     @property
     def availableServices(self):
@@ -85,3 +90,5 @@ class CatalogKeyBinds:
     @property
     def lastUpdate(self):
         return self.catalog.get("lastUpdate", "")
+    
+   

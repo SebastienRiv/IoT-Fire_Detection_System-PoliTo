@@ -26,3 +26,7 @@ class ConfigKeyBinds:
     def CatalogUpdateIntervalCycles(self) -> int:
         return self.config.get("CatalogUpdateIntervalCycles", 20)
     
+    @property
+    def Threshold(self)->float:
+        return self.config.get("Threshold",0.8)
+    

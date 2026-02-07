@@ -9,7 +9,6 @@ class MQTTService(Service, ABC):
         super().__init__(configFilePath)
         
         self.clientMQTT = None
-        
         self.mqttSetupClient()
         
     def mqttSetupClient(self) -> None :
@@ -26,7 +25,8 @@ class MQTTService(Service, ABC):
             
             self.mqttStartClient()
             if self.configCatalog.get.mqttTopicSub[0] != "" and self.configCatalog.get.mqttTopicSub is not None :
-                self.mqttSubscribe(self.configCatalog.get.mqttTopicSub)
+                for topic in self.configCatalog.get.mqttTopicSub:
+                    self.clientMQTT.mySubscribe(topic)
         else :
             print("Warning: MQTT configuration not found in device catalog. MQTT functionalities will be disabled.")
             self.clientMQTT = None

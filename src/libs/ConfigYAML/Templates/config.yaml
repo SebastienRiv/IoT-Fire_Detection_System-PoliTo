@@ -5,3 +5,4 @@ CatalogURL: ""
 LifeTimeInterval : 5
 CatalogUpdateIntervalCycles : 20
 #Extra parameters can be added below
+Threshold: 0.8
