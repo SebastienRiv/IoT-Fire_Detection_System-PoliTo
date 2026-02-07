@@ -20,7 +20,7 @@
             ],
             "MQTT": {
                 "topicSub": [
-                    "/firealarm/commands"
+                    "/fireAlarm/#"
                 ],
                 "topicPub": [
                     "/firedetector/001/measurements"

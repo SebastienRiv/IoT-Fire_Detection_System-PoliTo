@@ -64,6 +64,12 @@ services:
       context: "."
       dockerfile: "./MicroServices/FireDetectorAlarmDevice/DockerFile"
     container_name: fire_detector_alarm_device
+    devices:
+      - "/dev/snd:/dev/snd"
+    environment:
+      - ALSA_CARD=0
+    group_add:
+      - audio
 
   node_red:
     build:
