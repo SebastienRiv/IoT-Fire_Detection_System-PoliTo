@@ -1,6 +1,6 @@
 [
     {
-        "id": "7107e4ce632f78ed",
+        "id": "c7a5a60fd97a99fb",
         "type": "tab",
         "label": "Flux 1",
         "disabled": false,
@@ -266,35 +266,22 @@
         "className": ""
     },
     {
-        "id": "532bff25e6b4d1ee",
-        "type": "ui_text",
-        "z": "7107e4ce632f78ed",
-        "group": "89da30c4c884521c",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Fire Detection Center",
-        "format": "{{msg.payload[\"status\"]}}",
-        "layout": "col-center",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 900,
-        "y": 220,
-        "wires": []
+        "id": "2eec2bf06eab76ab",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
     },
     {
-        "id": "d865776f74d0f47c",
+        "id": "aa8212c1f1a21f6a",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Device List",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:8081/devices",
+        "url": "http://json_catalog_provider_service:8084/getDevicesList",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -306,14 +293,14 @@
         "y": 260,
         "wires": [
             [
-                "0ba89dfe82f1dc4c"
+                "ff14c60decb91b6f"
             ]
         ]
     },
     {
-        "id": "0ba89dfe82f1dc4c",
+        "id": "ff14c60decb91b6f",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -322,20 +309,20 @@
         "y": 260,
         "wires": [
             [
-                "c9e3f8054ab74f2b"
+                "a18e8e01c4daa0b7"
             ]
         ]
     },
     {
-        "id": "c9e3f8054ab74f2b",
+        "id": "a18e8e01c4daa0b7",
         "type": "ui_template",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "group": "8d08d80fb7dace21",
         "name": "Home Device List",
         "order": 1,
         "width": 0,
         "height": 0,
-        "format": "<div ng-repeat=\"device in msg.payload\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n        <h3 style=\"color: #2c3e50; margin: 0;\">{{device.deviceName || 'No name'}}</h3>\n        <span ng-if=\"device.status.fireStatus === true\" style=\"background-color: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">🔥 Fire</span>\n        <span ng-if=\"device.status.fireStatus !== true\" style=\"background-color: #27ae60; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">✓ OK</span>\n    </div>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 8px 0;\">ID: {{device.clientID || 'N/A'}}</p>\n\n    <p style=\"color: #95a5a6; font-size: 0.8em; margin: 0; text-align: right;\">{{device.lastUpdate}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; margin: 0;\">No devices registered</p>\n</div>",
+        "format": "<div ng-repeat=\"device in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n        <h3 style=\"color: #2c3e50; margin: 0;\">{{device.deviceName || 'No name'}}</h3>\n        <span ng-if=\"device.status.fireStatus === true\" style=\"background-color: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">Fire</span>\n        <span ng-if=\"device.status.fireStatus !== true\" style=\"background-color: #27ae60; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">✓ OK</span>\n    </div>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 8px 0;\">ID: {{device.clientID || 'N/A'}}</p>\n\n    <p style=\"color: #95a5a6; font-size: 0.8em; margin: 0; text-align: right;\">{{device.lastUpdate}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; margin: 0;\">No devices registered</p>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -348,9 +335,9 @@
         ]
     },
     {
-        "id": "c0905552b6444762",
+        "id": "889383079ddc0ef2",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "add User",
         "group": "42b9996267da6a46",
@@ -368,7 +355,7 @@
             {
                 "label": "User ID",
                 "value": "UserID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             },
@@ -396,14 +383,14 @@
         "y": 400,
         "wires": [
             [
-                "69124593e5117281"
+                "45d29fa0873b9cc3"
             ]
         ]
     },
     {
-        "id": "64ce3703500f18bd",
+        "id": "ee18ce3232d43d6e",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Add Device",
         "group": "9e8e3c29fbee82ba",
@@ -421,7 +408,7 @@
             {
                 "label": "Device ID",
                 "value": "ClientID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             },
@@ -508,6 +495,27 @@
                 "type": "multiline",
                 "required": false,
                 "rows": 2
+            },
+            {
+                "label": "BuildingID",
+                "value": "BuildingID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Floor",
+                "value": "Floor",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Room",
+                "value": "Room",
+                "type": "text",
+                "required": true,
+                "rows": null
             }
         ],
         "formValue": {
@@ -524,7 +532,10 @@
             "serverHost": "",
             "serverPort": "",
             "serverConfig": "",
-            "extra": ""
+            "extra": "",
+            "BuildingID": "",
+            "Floor": "",
+            "Room": ""
         },
         "payload": "",
         "submit": "submit",
@@ -537,14 +548,14 @@
         "y": 620,
         "wires": [
             [
-                "34e653be46e16385"
+                "42501e3b1ddaaa99"
             ]
         ]
     },
     {
-        "id": "edb0aa6c00688c50",
+        "id": "4599f3f0fcaa7f31",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Delete User",
         "group": "42b9996267da6a46",
@@ -555,7 +566,7 @@
             {
                 "label": "User ID",
                 "value": "UserID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             }
@@ -574,14 +585,14 @@
         "y": 440,
         "wires": [
             [
-                "718c42cb2d5bf939"
+                "ca597a89aa5338ff"
             ]
         ]
     },
     {
-        "id": "9c6b1e0cdb7c2370",
+        "id": "d0bcad1c1f0b714f",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Delete Device",
         "group": "9e8e3c29fbee82ba",
@@ -592,7 +603,7 @@
             {
                 "label": "Device ID",
                 "value": "DeviceID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             }
@@ -611,14 +622,14 @@
         "y": 660,
         "wires": [
             [
-                "f2b62b7c6780544e"
+                "51d86fd243656169"
             ]
         ]
     },
     {
-        "id": "48d15f866f194f72",
+        "id": "1ae97e6af996ab52",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -635,16 +646,16 @@
         "wires": []
     },
     {
-        "id": "1a2352668cd90d7d",
+        "id": "6d0f137188a7a7a9",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -657,14 +668,14 @@
         "y": 620,
         "wires": [
             [
-                "48d15f866f194f72"
+                "1ae97e6af996ab52"
             ]
         ]
     },
     {
-        "id": "c3660a8ca10f2a83",
+        "id": "018383f705955e98",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -681,16 +692,16 @@
         "wires": []
     },
     {
-        "id": "bdf7ec7c24d9d29b",
+        "id": "b6f5ae690f369eb4",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -703,14 +714,14 @@
         "y": 660,
         "wires": [
             [
-                "c3660a8ca10f2a83"
+                "018383f705955e98"
             ]
         ]
     },
     {
-        "id": "426613df5f7fdf5f",
+        "id": "ad61f279999a386a",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -727,16 +738,16 @@
         "wires": []
     },
     {
-        "id": "ec114f05ec1a8901",
+        "id": "6c3f8d14357ea79d",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -749,14 +760,14 @@
         "y": 400,
         "wires": [
             [
-                "426613df5f7fdf5f"
+                "ad61f279999a386a"
             ]
         ]
     },
     {
-        "id": "79fbf1edd0f3be36",
+        "id": "99439c4915d02107",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -773,16 +784,16 @@
         "wires": []
     },
     {
-        "id": "1d77e5f28a41f597",
+        "id": "d96f2c927ec1dd0f",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -795,14 +806,14 @@
         "y": 440,
         "wires": [
             [
-                "79fbf1edd0f3be36"
+                "99439c4915d02107"
             ]
         ]
     },
     {
-        "id": "92d0235c172ceef4",
+        "id": "f48e3409e43a74b6",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Delete User",
         "method": "DELETE",
         "ret": "txt",
@@ -819,19 +830,19 @@
         "y": 440,
         "wires": [
             [
-                "7356b6edb47912e6"
+                "4f53a4f990abfe8d"
             ]
         ]
     },
     {
-        "id": "577e5486d9da3d4f",
+        "id": "04101bcc029b032a",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Add User",
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:8081/users",
+        "url": "http://json_catalog_provider_service:8084/addUser",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -843,14 +854,14 @@
         "y": 400,
         "wires": [
             [
-                "0642c94cdcf8a543"
+                "2fa0691c6ab12d68"
             ]
         ]
     },
     {
-        "id": "dcfeddc39838f690",
+        "id": "17f374061a6622fd",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Delete Device",
         "method": "DELETE",
         "ret": "txt",
@@ -867,19 +878,19 @@
         "y": 660,
         "wires": [
             [
-                "850a422c96bf3e9c"
+                "6f80c4ed1b6edf21"
             ]
         ]
     },
     {
-        "id": "a958eeb4bfaae7dd",
+        "id": "efb0ff13c15cb25f",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Add Device",
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:8081/devices",
+        "url": "",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -891,20 +902,20 @@
         "y": 620,
         "wires": [
             [
-                "4ae4348b88094518"
+                "10c582d8b5f17627"
             ]
         ]
     },
     {
-        "id": "17b57fb1fc3c389e",
+        "id": "fcdd92acbe5772ba",
         "type": "ui_template",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "group": "527c05dea6399193",
         "name": "User List",
         "order": 1,
         "width": 0,
         "height": 0,
-        "format": "<div ng-repeat=\"user in msg.payload\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n    <h3 style=\"color: #2c3e50; margin: 0 0 5px 0;\">{{user.userName}}</h3>\n    <p style=\"color: #7f8c8d; font-size: 0.85em; margin: 0 0 12px 0;\">ID: {{user.userID}}</p>\n    <p style=\"color: #34495e; margin: 0;\">Chat ID: {{user.chatID}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; font-size: 1.1em; margin: 0;\">No users registered</p>\n</div>",
+        "format": "<div ng-repeat=\"user in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n    <h3 style=\"color: #2c3e50; margin: 0 0 5px 0;\">{{user.userName || 'Unknown User'}}</h3>\n    <p style=\"color: #7f8c8d; font-size: 0.85em; margin: 0 0 12px 0;\">ID: {{user.userID || 'N/A'}}</p>\n    <p style=\"color: #34495e; margin: 0;\">Chat ID: {{user.chatID || 'N/A'}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; font-size: 1.1em; margin: 0;\">No users registered</p>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -917,14 +928,14 @@
         ]
     },
     {
-        "id": "cafeb71524c3e013",
+        "id": "8bb3522e8a686876",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "User List",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:8081/users",
+        "url": "http://json_catalog_provider_service:8084/getUsersList",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -936,14 +947,14 @@
         "y": 520,
         "wires": [
             [
-                "8c3941333c63ab78"
+                "a092aa6b6d0fa00b"
             ]
         ]
     },
     {
-        "id": "8c3941333c63ab78",
+        "id": "a092aa6b6d0fa00b",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -952,54 +963,14 @@
         "y": 520,
         "wires": [
             [
-                "17b57fb1fc3c389e"
+                "fcdd92acbe5772ba"
             ]
         ]
     },
     {
-        "id": "99132f5991a4b06c",
-        "type": "http request",
-        "z": "7107e4ce632f78ed",
-        "name": "Health Status",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://127.0.0.1:8081/health",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 500,
-        "y": 220,
-        "wires": [
-            [
-                "78f5198d8b2621fa"
-            ]
-        ]
-    },
-    {
-        "id": "78f5198d8b2621fa",
-        "type": "json",
-        "z": "7107e4ce632f78ed",
-        "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 690,
-        "y": 220,
-        "wires": [
-            [
-                "532bff25e6b4d1ee"
-            ]
-        ]
-    },
-    {
-        "id": "1e524d2d56323a04",
+        "id": "c70ec814a17c7b98",
         "type": "ui_template",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "group": "cc5e9f99edf54822",
         "name": "Smoke",
         "order": 0,
@@ -1018,9 +989,9 @@
         ]
     },
     {
-        "id": "99290a163897a22c",
+        "id": "4c211088fb8d75c6",
         "type": "ui_template",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "group": "cc5e9f99edf54822",
         "name": "TVOC",
         "order": 0,
@@ -1039,9 +1010,9 @@
         ]
     },
     {
-        "id": "d4789b90fc191fef",
+        "id": "1b2f1d8a41422726",
         "type": "ui_template",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "group": "cc5e9f99edf54822",
         "name": "Temperature",
         "order": 0,
@@ -1060,9 +1031,9 @@
         ]
     },
     {
-        "id": "c254d63d52364d47",
+        "id": "bdfbad9bd5e81148",
         "type": "ui_template",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "group": "cc5e9f99edf54822",
         "name": "CO",
         "order": 0,
@@ -1081,9 +1052,9 @@
         ]
     },
     {
-        "id": "01308755596dde53",
+        "id": "87ce14a9075a1984",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Add Building",
         "group": "51c72af8f3b3ab02",
@@ -1101,7 +1072,7 @@
             {
                 "label": "Building ID",
                 "value": "BuildingID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             },
@@ -1125,13 +1096,6 @@
                 "type": "text",
                 "required": true,
                 "rows": null
-            },
-            {
-                "label": "Floor and Room",
-                "value": "FloorRoom",
-                "type": "multiline",
-                "required": true,
-                "rows": 2
             }
         ],
         "formValue": {
@@ -1139,8 +1103,7 @@
             "BuildingID": "",
             "UserID": "",
             "address": "",
-            "GPS": "",
-            "FloorRoom": ""
+            "GPS": ""
         },
         "payload": "",
         "submit": "submit",
@@ -1153,14 +1116,14 @@
         "y": 840,
         "wires": [
             [
-                "48bf2de84408fdb8"
+                "bbddd46be792ade6"
             ]
         ]
     },
     {
-        "id": "7e1da2ae1709456c",
+        "id": "fb1511235427d2c8",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Delete Building",
         "group": "51c72af8f3b3ab02",
@@ -1171,7 +1134,7 @@
             {
                 "label": "Building ID",
                 "value": "BuildingID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             }
@@ -1190,14 +1153,14 @@
         "y": 880,
         "wires": [
             [
-                "f178b588ab3bea89"
+                "a01b89bb53dbdd55"
             ]
         ]
     },
     {
-        "id": "252eb31aa2c355ce",
+        "id": "b438ad4ebc0ca29c",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -1214,16 +1177,16 @@
         "wires": []
     },
     {
-        "id": "d056eed84c65d09b",
+        "id": "85d9f741537a6e7e",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -1236,14 +1199,14 @@
         "y": 840,
         "wires": [
             [
-                "252eb31aa2c355ce"
+                "b438ad4ebc0ca29c"
             ]
         ]
     },
     {
-        "id": "e72817d371165466",
+        "id": "53a07cf3f0c02783",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -1260,16 +1223,16 @@
         "wires": []
     },
     {
-        "id": "faf77264d2feea5a",
+        "id": "b8238f8e2dee97ba",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -1282,14 +1245,14 @@
         "y": 880,
         "wires": [
             [
-                "e72817d371165466"
+                "53a07cf3f0c02783"
             ]
         ]
     },
     {
-        "id": "3558750fbfd0499a",
+        "id": "614c8ce755f46cb9",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Delete Building",
         "method": "DELETE",
         "ret": "txt",
@@ -1306,19 +1269,19 @@
         "y": 880,
         "wires": [
             [
-                "bf332c763e1ed7fe"
+                "5ca1ed633f6233ad"
             ]
         ]
     },
     {
-        "id": "af78cdddcb6ffc9f",
+        "id": "c6758a8fae3544bf",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Add Building",
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:8081/buildings",
+        "url": "",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1330,20 +1293,20 @@
         "y": 840,
         "wires": [
             [
-                "d056eed84c65d09b"
+                "85d9f741537a6e7e"
             ]
         ]
     },
     {
-        "id": "d8c1878e0abd955a",
+        "id": "ad6dd7408ed4025a",
         "type": "ui_template",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "group": "f301650746e90742",
         "name": "Building List",
         "order": 1,
         "width": 0,
         "height": 0,
-        "format": "<div ng-repeat=\"building in msg.payload\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n        <h3 style=\"color: #2c3e50; margin: 0;\">{{building.buildingName || 'No name'}}</h3>\n        <span style=\"background-color: #3498db; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.8em;\">{{building.floor.length || 0}} floors</span>\n    </div>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 5px 0;\">ID: {{building.buildingID || 'N/A'}}</p>\n    \n    <p style=\"color: #34495e; font-size: 0.9em; margin: 0 0 5px 0;\">{{building.address || 'No address'}}</p>\n    \n    <p style=\"color: #8e44ad; font-size: 0.85em; margin: 0;\">Owners: {{building.userID.join(', ') || 'None'}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; margin: 0;\">No buildings registered</p>\n</div>",
+        "format": "<div ng-repeat=\"building in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n        <h3 style=\"color: #2c3e50; margin: 0;\">{{building.buildingName || 'No name'}}</h3>\n        <span style=\"background-color: #3498db; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.8em;\">{{building.floor.length || 0}} floors</span>\n    </div>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 5px 0;\">ID: {{building.buildingID || 'N/A'}}</p>\n    \n    <p style=\"color: #34495e; font-size: 0.9em; margin: 0 0 5px 0;\">{{building.address || 'No address'}}</p>\n    \n    <p style=\"color: #8e44ad; font-size: 0.85em; margin: 0;\">Owners: {{building.userID.join(', ') || 'None'}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; margin: 0;\">No buildings registered</p>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -1356,9 +1319,9 @@
         ]
     },
     {
-        "id": "28d6f6e815eb184d",
+        "id": "0ce50e5f4bda1211",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Add FireFighter",
         "group": "d3bf7e3d5afc6e7e",
@@ -1376,7 +1339,7 @@
             {
                 "label": "FireFighter ID",
                 "value": "FireFighterID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             },
@@ -1420,14 +1383,14 @@
         "y": 1060,
         "wires": [
             [
-                "fdca4f73d6f65620"
+                "6f931d3a3bbf353d"
             ]
         ]
     },
     {
-        "id": "24328779cc2359ed",
+        "id": "25b0018a366950f1",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Delete FireFighter",
         "group": "d3bf7e3d5afc6e7e",
@@ -1438,7 +1401,7 @@
             {
                 "label": "FireFighter ID",
                 "value": "FireFighterID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             }
@@ -1457,14 +1420,14 @@
         "y": 1100,
         "wires": [
             [
-                "cd22a423da5e0a60"
+                "5c1d60b78364ce11"
             ]
         ]
     },
     {
-        "id": "b83958c9fa139ce9",
+        "id": "67ec60d3c9818819",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -1481,16 +1444,16 @@
         "wires": []
     },
     {
-        "id": "46b929bfe35a54ed",
+        "id": "832cf3e9a4f841e6",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -1503,14 +1466,14 @@
         "y": 1060,
         "wires": [
             [
-                "b83958c9fa139ce9"
+                "67ec60d3c9818819"
             ]
         ]
     },
     {
-        "id": "0da1d99a5eb6229c",
+        "id": "4b6590cb9fd92e88",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -1527,16 +1490,16 @@
         "wires": []
     },
     {
-        "id": "c26027cc270e7bfe",
+        "id": "e64374ba42c4b5ae",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -1549,14 +1512,14 @@
         "y": 1100,
         "wires": [
             [
-                "0da1d99a5eb6229c"
+                "4b6590cb9fd92e88"
             ]
         ]
     },
     {
-        "id": "862596a631b00b13",
+        "id": "6209e3ce4d65d7b9",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Delete FireFighter",
         "method": "DELETE",
         "ret": "txt",
@@ -1573,19 +1536,19 @@
         "y": 1100,
         "wires": [
             [
-                "c4c5d11db559be65"
+                "f0f63fa449ebd9d5"
             ]
         ]
     },
     {
-        "id": "a622f56a599f3c81",
+        "id": "e81832eeef25af44",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Add FireFighter",
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:8081/firefighters",
+        "url": "",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1597,20 +1560,20 @@
         "y": 1060,
         "wires": [
             [
-                "b88fe58c1556c5ae"
+                "ce102265f3991659"
             ]
         ]
     },
     {
-        "id": "09b6412e4c5049cb",
+        "id": "95a4b71a596ecb76",
         "type": "ui_template",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "group": "112bd0d768dd0ec9",
         "name": "FireFighter List",
         "order": 1,
         "width": 0,
         "height": 0,
-        "format": "<div ng-repeat=\"ff in msg.payload\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <h3 style=\"color: #2c3e50; margin: 0 0 8px 0;\">{{ff.fireFighterServiceName || 'No name'}}</h3>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 5px 0;\">ID: {{ff.fireFighterID || 'N/A'}}</p>\n\n    <p style=\"color: #34495e; font-size: 0.9em; margin: 0;\">{{ff.address || 'No address'}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; font-size: 1.1em; margin: 0;\">No firefighters registered</p>\n</div>",
+        "format": "<div ng-repeat=\"ff in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <h3 style=\"color: #2c3e50; margin: 0 0 8px 0;\">{{ff.fireFighterServiceName || 'No name'}}</h3>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 5px 0;\">ID: {{ff.fireFighterID || 'N/A'}}</p>\n\n    <p style=\"color: #34495e; font-size: 0.9em; margin: 0;\">{{ff.address || 'No address'}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; font-size: 1.1em; margin: 0;\">No firefighters registered</p>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -1623,14 +1586,14 @@
         ]
     },
     {
-        "id": "c3d030e5819ab6e0",
+        "id": "dcf31a8ffa4fba88",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "FireFighter List",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:8081/firefighters",
+        "url": "http://json_catalog_provider_service:8084/getFireFightersList",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1642,14 +1605,14 @@
         "y": 1180,
         "wires": [
             [
-                "c3b89b8e8aea36d1"
+                "cf08a3fda52c36c2"
             ]
         ]
     },
     {
-        "id": "c3b89b8e8aea36d1",
+        "id": "cf08a3fda52c36c2",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -1658,39 +1621,14 @@
         "y": 1180,
         "wires": [
             [
-                "09b6412e4c5049cb"
+                "95a4b71a596ecb76"
             ]
         ]
     },
     {
-        "id": "a66bead2ce18d69f",
+        "id": "d51895b5201e96c4",
         "type": "inject",
-        "z": "7107e4ce632f78ed",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "10",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 290,
-        "y": 220,
-        "wires": [
-            [
-                "99132f5991a4b06c"
-            ]
-        ]
-    },
-    {
-        "id": "c1a486c5bae9feec",
-        "type": "inject",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "props": [
             {
@@ -1708,14 +1646,14 @@
         "y": 260,
         "wires": [
             [
-                "d865776f74d0f47c"
+                "aa8212c1f1a21f6a"
             ]
         ]
     },
     {
-        "id": "fd714ab832602e73",
+        "id": "4711550f73513287",
         "type": "inject",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "props": [
             {
@@ -1733,16 +1671,16 @@
         "y": 520,
         "wires": [
             [
-                "cafeb71524c3e013"
+                "8bb3522e8a686876"
             ]
         ]
     },
     {
-        "id": "69124593e5117281",
+        "id": "45d29fa0873b9cc3",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "msg.payload = {\n    \"userName\": msg.payload.UserName,\n    \"userID\": msg.payload.UserID,\n    \"chatID\": msg.payload.TChatID\n};\nmsg.headers = {\n    \"Content-Type\": \"application/json\"\n};\nreturn msg;",
+        "func": "msg.payload = {\n    \"userID\": msg.payload.UserID,\n    \"userName\": msg.payload.UserName,\n    \"chatID\": msg.payload.TChatID\n};\nmsg.headers = {\n    \"Content-Type\": \"application/json\"\n};\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1753,14 +1691,14 @@
         "y": 400,
         "wires": [
             [
-                "577e5486d9da3d4f"
+                "04101bcc029b032a"
             ]
         ]
     },
     {
-        "id": "0642c94cdcf8a543",
+        "id": "2fa0691c6ab12d68",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -1769,16 +1707,16 @@
         "y": 400,
         "wires": [
             [
-                "ec114f05ec1a8901"
+                "6c3f8d14357ea79d"
             ]
         ]
     },
     {
-        "id": "718c42cb2d5bf939",
+        "id": "ca597a89aa5338ff",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "msg.url = \"http://localhost:8081/users?userID=\" + msg.payload.UserID;\nreturn msg;",
+        "func": "var baseUrl = \"http://json_catalog_provider_service:8084\"; \nmsg.url = baseUrl + \"/deleteUser/\" + msg.payload.UserID;\nmsg.payload = {};\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1789,14 +1727,14 @@
         "y": 440,
         "wires": [
             [
-                "92d0235c172ceef4"
+                "f48e3409e43a74b6"
             ]
         ]
     },
     {
-        "id": "7356b6edb47912e6",
+        "id": "4f53a4f990abfe8d",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -1805,16 +1743,16 @@
         "y": 440,
         "wires": [
             [
-                "1d77e5f28a41f597"
+                "d96f2c927ec1dd0f"
             ]
         ]
     },
     {
-        "id": "34e653be46e16385",
+        "id": "42501e3b1ddaaa99",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "var formData = msg.payload;\n\nvar measureTypes = [];\nif (formData.MeasureType && String(formData.MeasureType).trim() !== '') {\n    measureTypes = String(formData.MeasureType).split(',').map(function(s) { return s.trim(); });\n}\n\nvar availableServices = [];\nif (formData.AvailableServices && String(formData.AvailableServices).trim() !== '') {\n    availableServices = String(formData.AvailableServices).split(',').map(function(s) { return s.trim(); });\n}\n\nvar topicSubs = [];\nif (formData.topicSub && String(formData.topicSub).trim() !== '') {\n    topicSubs = String(formData.topicSub).split(',').map(function(s) { return s.trim(); });\n}\n\nvar serverConfig = {};\nvar extra = {};\ntry {\n    if (formData.serverConfig && String(formData.serverConfig).trim() !== '') {\n        serverConfig = JSON.parse(formData.serverConfig);\n    }\n} catch (e) { }\n\ntry {\n    if (formData.extra && String(formData.extra).trim() !== '') {\n        extra = JSON.parse(formData.extra);\n    }\n} catch (e) { }\n\nmsg.payload = {\n    \"clientID\": String(formData.ClientID || \"\"),\n    \"deviceName\": String(formData.DeviceName || \"\"),\n    \"lifeTimeInterval\": parseInt(formData.LifeTimeInterval) || 20,\n    \"catalogUpdateIntervalCycles\": parseInt(formData.CatalogUpdateIntervalCycles) || 20,\n    \"measureType\": measureTypes,\n    \"availableServices\": availableServices,\n    \"MQTT\": {\n        \"topicSub\": topicSubs,\n        \"topicPub\": String(formData.topicPub || \"\"),\n        \"broker\": String(formData.broker || \"\"),\n        \"port\": parseInt(formData.port) || 1883\n    },\n    \"REST\": {\n        \"serverHost\": String(formData.serverHost || \"\"),\n        \"serverPort\": parseInt(formData.serverPort) || 8080,\n        \"serverConfig\": serverConfig\n    },\n    \"extra\": extra,\n    \"status\": {\n        \"fireStatus\": false\n    }\n};\n\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\n\nvar measureTypes = [];\nif (formData.MeasureType && String(formData.MeasureType).trim() !== '') {\n    measureTypes = String(formData.MeasureType).split(',').map(function(s) { return s.trim(); });\n}\n\nvar availableServices = [];\nif (formData.AvailableServices && String(formData.AvailableServices).trim() !== '') {\n    availableServices = String(formData.AvailableServices).split(',').map(function(s) { return s.trim(); });\n}\n\nvar topicSubs = [];\nif (formData.topicSub && String(formData.topicSub).trim() !== '') {\n    topicSubs = String(formData.topicSub).split(',').map(function(s) { return s.trim(); });\n}\n\nvar topicPubs = [];\nif (formData.topicPub && String(formData.topicPub).trim() !== '') {\n    topicPubs = [String(formData.topicPub).trim()];\n}\n\nvar serverConfig = {};\ntry {\n    if (formData.serverConfig && String(formData.serverConfig).trim() !== '') {\n        serverConfig = JSON.parse(formData.serverConfig);\n    }\n} catch (e) { }\n\nvar extra = {};\ntry {\n    if (formData.extra && String(formData.extra).trim() !== '') {\n        extra = JSON.parse(formData.extra);\n    }\n} catch (e) { }\n\nvar msg1 = RED.util.cloneMessage(msg); \n\nmsg1.payload = {\n    \"clientID\": String(formData.ClientID || \"\").trim(),\n    \"deviceName\": String(formData.DeviceName || \"\"),\n    \"lifeTimeInterval\": parseInt(formData.LifeTimeInterval) || 20,\n    \"catalogUpdateIntervalCycles\": parseInt(formData.CatalogUpdateIntervalCycles) || 20,\n    \"measureType\": measureTypes,\n    \"availableServices\": availableServices,\n    \"MQTT\": {\n        \"topicSub\": topicSubs,\n        \"topicPub\": topicPubs,\n        \"broker\": String(formData.broker || \"\"),\n        \"port\": parseInt(formData.port) || 1883\n    },\n    \"REST\": {\n        \"serverHost\": String(formData.serverHost || \"\"),\n        \"serverPort\": parseInt(formData.serverPort) || 8080,\n        \"serverConfig\": serverConfig\n    },\n    \"extra\": extra,\n    \"status\": {\n        \"fireStatus\": false\n    },\n    \"lastUpdate\": Date.now() / 1000 \n};\n\nmsg1.url = baseUrl + \"/addDevice\";\nmsg1.method = \"POST\";\nmsg1.headers = { \"Content-Type\": \"application/json\" };\nvar msg2 = null;\n\nif (formData.BuildingID && String(formData.BuildingID).trim() !== '') {\n    msg2 = RED.util.cloneMessage(msg);\n    \n    msg2.payload = {\n        \"clientID\": String(formData.ClientID || \"\").trim(),\n        \"buildingID\": String(formData.BuildingID).trim(),\n        \"floorID\": String(formData.Floor).trim(),\n        \"roomID\": String(formData.Room).trim()\n    };\n    \n    msg2.url = baseUrl + \"/addDeviceToBuilding\";\n    msg2.method = \"POST\";\n    msg2.headers = { \"Content-Type\": \"application/json\" };\n}\n\nif (msg2) {\n    return [[msg1, msg2]]; \n} else {\n    return [[msg1]];\n}",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1825,14 +1763,14 @@
         "y": 620,
         "wires": [
             [
-                "a958eeb4bfaae7dd"
+                "efb0ff13c15cb25f"
             ]
         ]
     },
     {
-        "id": "4ae4348b88094518",
+        "id": "10c582d8b5f17627",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -1841,19 +1779,19 @@
         "y": 620,
         "wires": [
             [
-                "1a2352668cd90d7d"
+                "6d0f137188a7a7a9"
             ]
         ]
     },
     {
-        "id": "134ccb4b5e13433c",
+        "id": "2535ee245f2107b6",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Device List",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:8081/devices",
+        "url": "http://json_catalog_provider_service:8084/getDevicesList",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1865,14 +1803,14 @@
         "y": 740,
         "wires": [
             [
-                "dec6ac9d83aca3cc"
+                "b8c19f0fca0c78b9"
             ]
         ]
     },
     {
-        "id": "dec6ac9d83aca3cc",
+        "id": "b8c19f0fca0c78b9",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -1881,20 +1819,20 @@
         "y": 740,
         "wires": [
             [
-                "a0effe011e23ad95"
+                "ba03aff9c9898f08"
             ]
         ]
     },
     {
-        "id": "a0effe011e23ad95",
+        "id": "ba03aff9c9898f08",
         "type": "ui_template",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "group": "dce2fef914090fb0",
         "name": "Home Device List",
         "order": 1,
         "width": 0,
         "height": 0,
-        "format": "<div ng-repeat=\"device in msg.payload\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n        <h3 style=\"color: #2c3e50; margin: 0;\">{{device.deviceName || 'No name'}}</h3>\n        <span ng-if=\"device.status.fireStatus === true\" style=\"background-color: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">🔥 Fire</span>\n        <span ng-if=\"device.status.fireStatus !== true\" style=\"background-color: #27ae60; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">✓ OK</span>\n    </div>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 8px 0;\">ID: {{device.clientID || 'N/A'}}</p>\n\n    <p style=\"color: #95a5a6; font-size: 0.8em; margin: 0; text-align: right;\">{{device.lastUpdate}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; margin: 0;\">No devices registered</p>\n</div>",
+        "format": "<div ng-repeat=\"device in msg.payload.data\"\n    style=\"background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n        <h3 style=\"color: #2c3e50; margin: 0;\">{{device.deviceName || 'No name'}}</h3>\n        <span ng-if=\"device.status.fireStatus === true\" style=\"background-color: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">Fire</span>\n        <span ng-if=\"device.status.fireStatus !== true\" style=\"background-color: #27ae60; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold;\">✓ OK</span>\n    </div>\n\n    <p style=\"color: #7f8c8d; font-size: 0.9em; margin: 0 0 8px 0;\">ID: {{device.clientID || 'N/A'}}</p>\n\n    <p style=\"color: #95a5a6; font-size: 0.8em; margin: 0; text-align: right;\">{{device.lastUpdate}}</p>\n</div>\n\n<div ng-if=\"!msg.payload.data || !msg.payload.data.length\"\n    style=\"background-color: white; padding: 20px; border-radius: 8px; text-align: center;\">\n    <p style=\"color: #95a5a6; margin: 0;\">No devices registered</p>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -1907,9 +1845,9 @@
         ]
     },
     {
-        "id": "878a89b419ae9c93",
+        "id": "f92aa02d7c290785",
         "type": "inject",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "props": [
             {
@@ -1927,16 +1865,16 @@
         "y": 740,
         "wires": [
             [
-                "134ccb4b5e13433c"
+                "2535ee245f2107b6"
             ]
         ]
     },
     {
-        "id": "f2b62b7c6780544e",
+        "id": "51d86fd243656169",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "msg.url = \"http://localhost:8081/devices?clientID=\" + msg.payload.DeviceID;\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
+        "func": "var baseUrl = \"http://json_catalog_provider_service:8084\";\nmsg.url = baseUrl + \"/deleteDevice/\" + String(msg.payload.DeviceID).trim();\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1947,14 +1885,14 @@
         "y": 660,
         "wires": [
             [
-                "dcfeddc39838f690"
+                "17f374061a6622fd"
             ]
         ]
     },
     {
-        "id": "850a422c96bf3e9c",
+        "id": "6f80c4ed1b6edf21",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -1963,19 +1901,19 @@
         "y": 660,
         "wires": [
             [
-                "bdf7ec7c24d9d29b"
+                "b6f5ae690f369eb4"
             ]
         ]
     },
     {
-        "id": "f92f61d51c268e2e",
+        "id": "ff3d1f7f75ee6c89",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Building List",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:8081/buildings",
+        "url": "http://json_catalog_provider_service:8084/getBuildingList",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1987,14 +1925,14 @@
         "y": 960,
         "wires": [
             [
-                "54267b412737f711"
+                "33e14db94bc87487"
             ]
         ]
     },
     {
-        "id": "54267b412737f711",
+        "id": "33e14db94bc87487",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -2003,14 +1941,14 @@
         "y": 960,
         "wires": [
             [
-                "d8c1878e0abd955a"
+                "ad6dd7408ed4025a"
             ]
         ]
     },
     {
-        "id": "d99f89c9534455db",
+        "id": "d66dd1d574c5af71",
         "type": "inject",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "props": [
             {
@@ -2028,16 +1966,16 @@
         "y": 960,
         "wires": [
             [
-                "f92f61d51c268e2e"
+                "ff3d1f7f75ee6c89"
             ]
         ]
     },
     {
-        "id": "48bf2de84408fdb8",
+        "id": "bbddd46be792ade6",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "var formData = msg.payload;\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nvar floors = [];\ntry {\n    if (formData.FloorRoom && String(formData.FloorRoom).trim() !== '') {\n        floors = JSON.parse(formData.FloorRoom);\n    }\n} catch (e) {\n    node.warn(\"FloorRoom parsing error: \" + e.message);\n}\n\nmsg.payload = {\n    \"buildingID\": String(formData.BuildingID || \"\"),\n    \"buildingName\": String(formData.BuildingName || \"\"),\n    \"userID\": [String(formData.UserID || \"\")],\n    \"address\": String(formData.address || \"\"),\n    \"GPS\": gps,\n    \"floor\": floors\n};\n\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nmsg.payload = {\n    \"buildingID\": String(formData.BuildingID || \"\").trim(),\n    \"buildingName\": String(formData.BuildingName || \"\"),\n    \"userID\": [String(formData.UserID || \"\").trim()].filter(id => id !== \"\"), // Enlever les IDs vides\n    \"address\": String(formData.address || \"\"),\n    \"GPS\": gps\n};\n\nmsg.url = baseUrl + \"/addBuilding\";\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2048,14 +1986,14 @@
         "y": 840,
         "wires": [
             [
-                "af78cdddcb6ffc9f"
+                "c6758a8fae3544bf"
             ]
         ]
     },
     {
-        "id": "7436d4a40a1a5ae4",
+        "id": "3bc21ab8b501c43f",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -2067,9 +2005,9 @@
         ]
     },
     {
-        "id": "bf332c763e1ed7fe",
+        "id": "5ca1ed633f6233ad",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -2078,16 +2016,16 @@
         "y": 880,
         "wires": [
             [
-                "faf77264d2feea5a"
+                "b8238f8e2dee97ba"
             ]
         ]
     },
     {
-        "id": "f178b588ab3bea89",
+        "id": "a01b89bb53dbdd55",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "msg.url = \"http://localhost:8081/buildings?buildingID=\" + msg.payload.BuildingID;\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
+        "func": "var baseUrl = \"http://json_catalog_provider_service:8084\";\nmsg.url = baseUrl + \"/deleteBuilding/\" + String(msg.payload.BuildingID).trim();\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2098,16 +2036,16 @@
         "y": 880,
         "wires": [
             [
-                "3558750fbfd0499a"
+                "614c8ce755f46cb9"
             ]
         ]
     },
     {
-        "id": "fdca4f73d6f65620",
+        "id": "6f931d3a3bbf353d",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "var formData = msg.payload;\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nmsg.payload = {\n    \"fireFighterServiceName\": String(formData.FireFighterName || \"\"),\n    \"fireFighterID\": String(formData.FireFighterID || \"\"),\n    \"chatID\": String(formData.ChatID || \"\"),\n    \"address\": String(formData.Address || \"\"),\n    \"GPS\": gps\n};\n\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nmsg.payload = {\n    \"fireFighterID\": String(formData.FireFighterID || \"\").trim(),\n    \"fireFighterServiceName\": String(formData.FireFighterName || \"\"),\n    \"chatID\": String(formData.ChatID || \"\"),\n    \"address\": String(formData.Address || \"\"),\n    \"GPS\": gps,\n    \"lastUpdate\": Date.now() / 1000\n};\n\nmsg.url = baseUrl + \"/addFireFighter\";\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2118,14 +2056,14 @@
         "y": 1060,
         "wires": [
             [
-                "a622f56a599f3c81"
+                "e81832eeef25af44"
             ]
         ]
     },
     {
-        "id": "f4cc710c1a8c13b4",
+        "id": "c84a24decacbd352",
         "type": "inject",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "props": [
             {
@@ -2143,14 +2081,14 @@
         "y": 1180,
         "wires": [
             [
-                "c3d030e5819ab6e0"
+                "dcf31a8ffa4fba88"
             ]
         ]
     },
     {
-        "id": "b88fe58c1556c5ae",
+        "id": "ce102265f3991659",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -2159,14 +2097,14 @@
         "y": 1060,
         "wires": [
             [
-                "46b929bfe35a54ed"
+                "832cf3e9a4f841e6"
             ]
         ]
     },
     {
-        "id": "c4c5d11db559be65",
+        "id": "f0f63fa449ebd9d5",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -2175,16 +2113,16 @@
         "y": 1100,
         "wires": [
             [
-                "c26027cc270e7bfe"
+                "e64374ba42c4b5ae"
             ]
         ]
     },
     {
-        "id": "cd22a423da5e0a60",
+        "id": "5c1d60b78364ce11",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "msg.url = \"http://localhost:8081/firefighters?fireFighterID=\" + msg.payload.FireFighterID;\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
+        "func": "var baseUrl = \"http://json_catalog_provider_service:8084\";\nmsg.url = baseUrl + \"/deleteFireFighter/\" + String(msg.payload.FireFighterID).trim();\nmsg.headers = { \"Content-Type\": \"application/json\" };\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2195,14 +2133,14 @@
         "y": 1100,
         "wires": [
             [
-                "862596a631b00b13"
+                "6209e3ce4d65d7b9"
             ]
         ]
     },
     {
-        "id": "f1c7db22dc403bf0",
+        "id": "075158b380ce227e",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -2219,16 +2157,16 @@
         "wires": []
     },
     {
-        "id": "2a3db767ba7ef657",
+        "id": "aa8f054844a7ec54",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -2241,14 +2179,14 @@
         "y": 480,
         "wires": [
             [
-                "f1c7db22dc403bf0"
+                "075158b380ce227e"
             ]
         ]
     },
     {
-        "id": "b79b287a3826ba0e",
+        "id": "118a4002bdf172cc",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Edit User",
         "method": "PUT",
         "ret": "txt",
@@ -2265,16 +2203,16 @@
         "y": 480,
         "wires": [
             [
-                "de9bb05308625997"
+                "97dcaf47243148ba"
             ]
         ]
     },
     {
-        "id": "0edf6fcf84eb6453",
+        "id": "46da38a1699bf94f",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "msg.url = \"http://127.0.0.1:8081/users?userID=\" + msg.payload.UserID;\nmsg.payload = {\n    \"userName\": msg.payload.UserName,\n    \"chatID\": msg.payload.TChatID\n};\nmsg.headers = {\n    \"Content-Type\": \"application/json\"\n};\nreturn msg;",
+        "func": "msg.url = \"http://json_catalog_provider_service:8084/updateUser/\" + msg.payload.UserID;\nmsg.payload = {\n    \"userID\": msg.payload.UserID,\n    \"userName\": msg.payload.UserName,\n    \"chatID\": msg.payload.TChatID\n};\nmsg.headers = {\n    \"Content-Type\": \"application/json\"\n};\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2285,14 +2223,14 @@
         "y": 480,
         "wires": [
             [
-                "b79b287a3826ba0e"
+                "118a4002bdf172cc"
             ]
         ]
     },
     {
-        "id": "de9bb05308625997",
+        "id": "97dcaf47243148ba",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -2301,14 +2239,14 @@
         "y": 480,
         "wires": [
             [
-                "2a3db767ba7ef657"
+                "aa8f054844a7ec54"
             ]
         ]
     },
     {
-        "id": "3560099ed29be343",
+        "id": "974dc9315bb43294",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Edit User",
         "group": "42b9996267da6a46",
@@ -2326,7 +2264,7 @@
             {
                 "label": "User ID",
                 "value": "UserID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             },
@@ -2354,14 +2292,14 @@
         "y": 480,
         "wires": [
             [
-                "0edf6fcf84eb6453"
+                "46da38a1699bf94f"
             ]
         ]
     },
     {
-        "id": "4416ec063c723794",
+        "id": "de5b2811e19a70aa",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Edit Device",
         "group": "9e8e3c29fbee82ba",
@@ -2379,7 +2317,7 @@
             {
                 "label": "Device ID",
                 "value": "ClientID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             },
@@ -2466,6 +2404,27 @@
                 "type": "multiline",
                 "required": false,
                 "rows": 2
+            },
+            {
+                "label": "BuildingID",
+                "value": "BuildingID",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Floor",
+                "value": "Floor",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Room",
+                "value": "Room",
+                "type": "text",
+                "required": true,
+                "rows": null
             }
         ],
         "formValue": {
@@ -2482,7 +2441,10 @@
             "serverHost": "",
             "serverPort": "",
             "serverConfig": "",
-            "extra": ""
+            "extra": "",
+            "BuildingID": "",
+            "Floor": "",
+            "Room": ""
         },
         "payload": "",
         "submit": "submit",
@@ -2495,14 +2457,14 @@
         "y": 700,
         "wires": [
             [
-                "f5550824e28c7c64"
+                "f43688f02efbbb50"
             ]
         ]
     },
     {
-        "id": "156ff230ac747859",
+        "id": "605c57679de9ac01",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -2519,16 +2481,16 @@
         "wires": []
     },
     {
-        "id": "efe00c818a9a507c",
+        "id": "f682a3ee8e6f02a1",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -2541,14 +2503,14 @@
         "y": 700,
         "wires": [
             [
-                "156ff230ac747859"
+                "605c57679de9ac01"
             ]
         ]
     },
     {
-        "id": "b71d9942dca11b60",
+        "id": "6bf4d16bfa19d98a",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Edit Device",
         "method": "PUT",
         "ret": "txt",
@@ -2565,16 +2527,16 @@
         "y": 700,
         "wires": [
             [
-                "a0f30961e88ed3a9"
+                "ecba33419fd8a64f"
             ]
         ]
     },
     {
-        "id": "f5550824e28c7c64",
+        "id": "f43688f02efbbb50",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "var formData = msg.payload;\n\nvar measureTypes = [];\nif (formData.MeasureType && String(formData.MeasureType).trim() !== '') {\n    measureTypes = String(formData.MeasureType).split(',').map(function (s) { return s.trim(); });\n}\n\nvar availableServices = [];\nif (formData.AvailableServices && String(formData.AvailableServices).trim() !== '') {\n    availableServices = String(formData.AvailableServices).split(',').map(function (s) { return s.trim(); });\n}\n\nvar topicSubs = [];\nif (formData.topicSub && String(formData.topicSub).trim() !== '') {\n    topicSubs = String(formData.topicSub).split(',').map(function (s) { return s.trim(); });\n}\n\nvar serverConfig = {};\nvar extra = {};\ntry {\n    if (formData.serverConfig && String(formData.serverConfig).trim() !== '') {\n        serverConfig = JSON.parse(formData.serverConfig);\n    }\n} catch (e) { }\n\ntry {\n    if (formData.extra && String(formData.extra).trim() !== '') {\n        extra = JSON.parse(formData.extra);\n    }\n} catch (e) { }\n\nmsg.payload = {\n    \"deviceName\": String(formData.DeviceName || \"\"),\n    \"lifeTimeInterval\": parseInt(formData.LifeTimeInterval) || 20,\n    \"catalogUpdateIntervalCycles\": parseInt(formData.CatalogUpdateIntervalCycles) || 20,\n    \"measureType\": measureTypes,\n    \"availableServices\": availableServices,\n    \"MQTT\": {\n        \"topicSub\": topicSubs,\n        \"topicPub\": String(formData.topicPub || \"\"),\n        \"broker\": String(formData.broker || \"\"),\n        \"port\": parseInt(formData.port) || 1883\n    },\n    \"REST\": {\n        \"serverHost\": String(formData.serverHost || \"\"),\n        \"serverPort\": parseInt(formData.serverPort) || 8080,\n        \"serverConfig\": serverConfig\n    },\n    \"extra\": extra,\n    \"status\": {\n        \"fireStatus\": false\n    }\n};\n\nmsg.url = \"http://127.0.0.1:8081/devices?clientID=\" + String(formData.ClientID).trim();\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\nvar targetID = String(formData.ClientID).trim();\n\nvar measureTypes = [];\nif (formData.MeasureType && String(formData.MeasureType).trim() !== '') {\n    measureTypes = String(formData.MeasureType).split(',').map(function (s) { return s.trim(); });\n}\n\nvar availableServices = [];\nif (formData.AvailableServices && String(formData.AvailableServices).trim() !== '') {\n    availableServices = String(formData.AvailableServices).split(',').map(function (s) { return s.trim(); });\n}\n\nvar topicSubs = [];\nif (formData.topicSub && String(formData.topicSub).trim() !== '') {\n    topicSubs = String(formData.topicSub).split(',').map(function (s) { return s.trim(); });\n}\n\nvar topicPubs = [];\nif (formData.topicPub && String(formData.topicPub).trim() !== '') {\n    topicPubs = [String(formData.topicPub).trim()];\n}\n\nvar serverConfig = {};\ntry {\n    if (formData.serverConfig && String(formData.serverConfig).trim() !== '') {\n        serverConfig = JSON.parse(formData.serverConfig);\n    }\n} catch (e) { }\n\nvar extra = {};\ntry {\n    if (formData.extra && String(formData.extra).trim() !== '') {\n        extra = JSON.parse(formData.extra);\n    }\n} catch (e) { }\n\nvar msg1 = RED.util.cloneMessage(msg);\n\nmsg1.payload = {\n    \"clientID\": targetID, \n    \"deviceName\": String(formData.DeviceName || \"\"),\n    \"lifeTimeInterval\": parseInt(formData.LifeTimeInterval) || 20,\n    \"catalogUpdateIntervalCycles\": parseInt(formData.CatalogUpdateIntervalCycles) || 20,\n    \"measureType\": measureTypes,\n    \"availableServices\": availableServices,\n    \"MQTT\": {\n        \"topicSub\": topicSubs,\n        \"topicPub\": topicPubs,\n        \"broker\": String(formData.broker || \"\"),\n        \"port\": parseInt(formData.port) || 1883\n    },\n    \"REST\": {\n        \"serverHost\": String(formData.serverHost || \"\"),\n        \"serverPort\": parseInt(formData.serverPort) || 8080,\n        \"serverConfig\": serverConfig\n    },\n    \"extra\": extra,\n    \"status\": {\n        \"fireStatus\": false\n    },\n    \"lastUpdate\": Date.now() / 1000 \n};\n\nmsg1.url = baseUrl + \"/updateDevice/\" + targetID;\nmsg1.method = \"PUT\"; \nmsg1.headers = { \"Content-Type\": \"application/json\" };\n\nvar msg2 = null;\n\nif (formData.BuildingID && String(formData.BuildingID).trim() !== '') {\n    msg2 = RED.util.cloneMessage(msg);\n    \n    msg2.payload = {\n        \"clientID\": targetID,\n        \"buildingID\": String(formData.BuildingID).trim(),\n        \"floorID\": String(formData.Floor).trim(),\n        \"roomID\": String(formData.Room).trim()\n    };\n    \n    msg2.url = baseUrl + \"/addDeviceToBuilding\";\n    msg2.method = \"POST\";\n    msg2.headers = { \"Content-Type\": \"application/json\" };\n}\n\nif (msg2) {\n    return [[msg1, msg2]];\n} else {\n    return [[msg1]];\n}",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2585,14 +2547,14 @@
         "y": 700,
         "wires": [
             [
-                "b71d9942dca11b60"
+                "6bf4d16bfa19d98a"
             ]
         ]
     },
     {
-        "id": "a0f30961e88ed3a9",
+        "id": "ecba33419fd8a64f",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -2601,14 +2563,14 @@
         "y": 700,
         "wires": [
             [
-                "efe00c818a9a507c"
+                "f682a3ee8e6f02a1"
             ]
         ]
     },
     {
-        "id": "b5410b1e3ecd2bb8",
+        "id": "7c4843391e1fdeb2",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Edit Building",
         "group": "51c72af8f3b3ab02",
@@ -2626,7 +2588,7 @@
             {
                 "label": "Building ID",
                 "value": "BuildingID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             },
@@ -2650,13 +2612,6 @@
                 "type": "text",
                 "required": true,
                 "rows": null
-            },
-            {
-                "label": "Floor and Room",
-                "value": "FloorRoom",
-                "type": "multiline",
-                "required": true,
-                "rows": 2
             }
         ],
         "formValue": {
@@ -2664,8 +2619,7 @@
             "BuildingID": "",
             "UserID": "",
             "address": "",
-            "GPS": "",
-            "FloorRoom": ""
+            "GPS": ""
         },
         "payload": "",
         "submit": "submit",
@@ -2678,14 +2632,14 @@
         "y": 920,
         "wires": [
             [
-                "348f43060ac5fac5"
+                "b0466eedddf24100"
             ]
         ]
     },
     {
-        "id": "5ad71c1cd7020e70",
+        "id": "4ac13b9ede94c1c5",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -2702,16 +2656,16 @@
         "wires": []
     },
     {
-        "id": "46e75d7b6e97d694",
+        "id": "6d9d4472e966972e",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -2724,15 +2678,15 @@
         "y": 920,
         "wires": [
             [
-                "5ad71c1cd7020e70"
+                "4ac13b9ede94c1c5"
             ]
         ]
     },
     {
-        "id": "44080d8b1e1adcd6",
+        "id": "dda44b261037b4f4",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
-        "name": "Add Building",
+        "z": "c7a5a60fd97a99fb",
+        "name": "Edit Building",
         "method": "PUT",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -2748,16 +2702,16 @@
         "y": 920,
         "wires": [
             [
-                "46e75d7b6e97d694"
+                "6d9d4472e966972e"
             ]
         ]
     },
     {
-        "id": "348f43060ac5fac5",
+        "id": "b0466eedddf24100",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "var formData = msg.payload;\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nvar floors = [];\ntry {\n    if (formData.FloorRoom && String(formData.FloorRoom).trim() !== '') {\n        floors = JSON.parse(formData.FloorRoom);\n    }\n} catch (e) {\n    node.warn(\"FloorRoom parsing error: \" + e.message);\n}\n\nmsg.payload = {\n    \"buildingName\": String(formData.BuildingName || \"\"),\n    \"userID\": [String(formData.UserID || \"\")],\n    \"address\": String(formData.address || \"\"),\n    \"GPS\": gps,\n    \"floor\": floors\n};\n\nmsg.url = \"http://127.0.0.1:8081/buildings?buildingID=\" + String(formData.BuildingID).trim();\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\nvar targetID = formData.BuildingID;\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nmsg.payload = {\n    \"buildingID\": targetID,\n    \"buildingName\": String(formData.BuildingName || \"\"),\n    \"userID\": [String(formData.UserID || \"\").trim()].filter(id => id !== \"\"),\n    \"address\": String(formData.address || \"\"),\n    \"GPS\": gps\n};\n\nmsg.url = baseUrl + \"/updateBuilding/\" + targetID;\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2768,14 +2722,14 @@
         "y": 920,
         "wires": [
             [
-                "44080d8b1e1adcd6"
+                "dda44b261037b4f4"
             ]
         ]
     },
     {
-        "id": "38a9ddba6d237322",
+        "id": "3254e7132b1dee73",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -2787,9 +2741,9 @@
         ]
     },
     {
-        "id": "b3ca6ef0965ed0f6",
+        "id": "622794701d864450",
         "type": "ui_form",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "label": "Edit FireFighter",
         "group": "d3bf7e3d5afc6e7e",
@@ -2807,7 +2761,7 @@
             {
                 "label": "FireFighter ID",
                 "value": "FireFighterID",
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "rows": null
             },
@@ -2851,14 +2805,14 @@
         "y": 1140,
         "wires": [
             [
-                "5f1238a9637a24a8"
+                "e4ae59691e199d3e"
             ]
         ]
     },
     {
-        "id": "fff31af493571192",
+        "id": "9431ea9f76f7afda",
         "type": "ui_toast",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "position": "bottom right",
         "displayTime": "3",
         "highlight": "",
@@ -2875,16 +2829,16 @@
         "wires": []
     },
     {
-        "id": "6de43ea7097cce15",
+        "id": "4df12e6c194b0174",
         "type": "change",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Notification Toast",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "payload[\"message\"]",
+                "to": "payload[\"status\"]",
                 "tot": "msg"
             }
         ],
@@ -2897,15 +2851,15 @@
         "y": 1140,
         "wires": [
             [
-                "fff31af493571192"
+                "9431ea9f76f7afda"
             ]
         ]
     },
     {
-        "id": "5a7d81588f05d2b9",
+        "id": "149fb04e1fba0bdb",
         "type": "http request",
-        "z": "7107e4ce632f78ed",
-        "name": "Add FireFighter",
+        "z": "c7a5a60fd97a99fb",
+        "name": "Edit FireFighter",
         "method": "PUT",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -2921,16 +2875,16 @@
         "y": 1140,
         "wires": [
             [
-                "19528181f625c8c3"
+                "e4dfc7f294dcbc2e"
             ]
         ]
     },
     {
-        "id": "5f1238a9637a24a8",
+        "id": "e4ae59691e199d3e",
         "type": "function",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "Format for HTTP request",
-        "func": "var formData = msg.payload;\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nmsg.payload = {\n    \"fireFighterServiceName\": String(formData.FireFighterName || \"\"),\n    \"chatID\": String(formData.ChatID || \"\"),\n    \"address\": String(formData.Address || \"\"),\n    \"GPS\": gps\n};\n\nif (!formData.FireFighterID || String(formData.FireFighterID).trim() === '') {\n    node.error(\"FireFighterID is required for PUT request\");\n    return null;\n}\nmsg.url = \"http://127.0.0.1:8081/firefighters?fireFighterID=\" + String(formData.FireFighterID).trim();\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
+        "func": "var formData = msg.payload;\nvar baseUrl = \"http://json_catalog_provider_service:8084\";\n\nif (!formData.FireFighterID || String(formData.FireFighterID).trim() === '') {\n    node.error(\"FireFighterID is required\");\n    return null;\n}\n\nvar targetID = formData.FireFighterID;\n\nvar gps = { lat: \"\", long: \"\" };\nif (formData.GPS && String(formData.GPS).trim() !== '') {\n    var parts = String(formData.GPS).split(',');\n    if (parts.length === 2) {\n        gps.lat = parts[0].trim();\n        gps.long = parts[1].trim();\n    }\n}\n\nmsg.payload = {\n    \"fireFighterID\": targetID,\n    \"fireFighterServiceName\": String(formData.FireFighterName || \"\"),\n    \"chatID\": String(formData.ChatID || \"\"),\n    \"address\": String(formData.Address || \"\"),\n    \"GPS\": gps\n};\n\nmsg.url = baseUrl + \"/updateFireFighter/\" + targetID;\nmsg.headers = { \"Content-Type\": \"application/json\" };\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2941,14 +2895,14 @@
         "y": 1140,
         "wires": [
             [
-                "5a7d81588f05d2b9"
+                "149fb04e1fba0bdb"
             ]
         ]
     },
     {
-        "id": "19528181f625c8c3",
+        "id": "e4dfc7f294dcbc2e",
         "type": "json",
-        "z": "7107e4ce632f78ed",
+        "z": "c7a5a60fd97a99fb",
         "name": "",
         "property": "payload",
         "action": "",
@@ -2957,16 +2911,8 @@
         "y": 1140,
         "wires": [
             [
-                "6de43ea7097cce15"
+                "4df12e6c194b0174"
             ]
         ]
-    },
-    {
-        "id": "2eec2bf06eab76ab",
-        "type": "global-config",
-        "env": [],
-        "modules": {
-            "node-red-dashboard": "3.6.6"
-        }
     }
 ]

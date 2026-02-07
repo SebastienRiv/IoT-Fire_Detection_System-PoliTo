@@ -1,8 +1,13 @@
 FROM nodered/node-red:latest
 
-WORKDIR /data
+USER root
+RUN npm install --no-audit --no-update-notifier --no-fund --only=production \
+    node-red-dashboard \
+    node-red-contrib-python3-function
+USER node-red
 
-COPY ./project/NodeRed_ProjectV3.json /data/flows.json
+WORKDIR /data
+COPY --chown=node-red:node-red ./project/NodeRed_ProjectV4.json /data/flows.json
 
 EXPOSE 1880
 
