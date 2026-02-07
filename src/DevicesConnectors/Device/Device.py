@@ -63,7 +63,14 @@ class Device(ABC):
             
             self.mqttStartClient()
             if self.configCatalog.get.mqttTopicSub[0] != "" and self.configCatalog.get.mqttTopicSub is not None:
-                self.mqttSubscribe(self.configCatalog.get.mqttTopicSub)
+                baseTopic = self.configCatalog.get.mqttTopicSub[0]
+                
+                buildingID = self.configLocal.get("BuildingID", "")
+                buildingFloor = self.configLocal.get("BuildingFloor", "")
+                alarmTopic = f"{baseTopic}/{buildingID}/{buildingFloor}/#"
+                
+                print(f"Subscribing to alarm topic: {alarmTopic}")
+                self.mqttSubscribe([alarmTopic])
         else :
             print("Warning: MQTT configuration not found in device catalog. MQTT functionalities will be disabled.")
             self.clientMQTT = None

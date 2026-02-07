@@ -76,9 +76,6 @@ class Service(ABC):
     def getConfigCatalog(self) -> dict :
         return self.configCatalog.getCatalog()
     
-    def setServiceRunTimeStatus(self, status:bool) -> None :
-        self.serviceRunTimeStatus = status
-    
     @abstractmethod
     def serviceRunTime(self) -> None :
         pass

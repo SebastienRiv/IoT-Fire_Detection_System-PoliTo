@@ -1,5 +1,0 @@
-ClientID: 3
-ConfigFile: configAlarmTriggerManager.yaml
-CatalogURL: http://localhost:8080/config
-InferenceServiceURL: http://localhost:8080/inferenceService
-threshold: 0.8
