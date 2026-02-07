@@ -14,7 +14,7 @@ class FireDetectionInferenceService(InferenceService):
     def __init__(self, configFilePath: str, modelPath: str) -> None:
         super().__init__(configFilePath, modelPath) 
 
-        self.timeSeriesURL = self.configCatalog.get.extra.get("TimeSeriesURL", self.configLocal.get("TimeSeriesURL", "None"))
+        self.timeSeriesURL = self.configCatalog.get.extra.get("TimeSeriesURL", self.configLocal.getKey.Extra.get("TimeSeriesURL", "None"))
 
         self.requestRESTTimeSeries = RequestREST(self.timeSeriesURL)
         
@@ -48,7 +48,7 @@ class FireDetectionInferenceService(InferenceService):
     
     def getNormData(self) -> dict:
         resource = "readData"
-        normSize = self.configLocal.get("NormSize", 100)
+        normSize = self.configLocal.getKey.Extra.get("NormSize", 100)
         params = {"size": normSize}
         
         rep = self.requestRESTTimeSeries.GET(resource, params)
@@ -91,7 +91,7 @@ class FireDetectionInferenceService(InferenceService):
             tvocHist = self.normData['tvoc'] + [tvoc]
             tempHist = self.normData['temperature'] + [temp]
         
-        normSize = self.configLocal.get("NormSize", 100)
+        normSize = self.configLocal.getKey.Extra.get("NormSize", 100)
         smokeSmooth = np.mean(smokeHist[-normSize:])
         coSmooth = np.mean(coHist[-normSize:])
         tvocSmooth = np.mean(tvocHist[-normSize:])
@@ -164,7 +164,7 @@ class FireDetectionInferenceService(InferenceService):
         self.serviceRunTimeStatus = True
         self.updateLoopStart()
         
-        updateInterval = self.configLocal.get("NormTimeUpdate", 5)
+        updateInterval = self.configLocal.getKey.Extra.get("NormTimeUpdate", 5)
         while True:
             time.sleep(updateInterval)
             self.updateNormData()

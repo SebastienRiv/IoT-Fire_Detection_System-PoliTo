@@ -14,7 +14,7 @@ class FireDetectorDevice(Device) :
         self.alarmThread = None
         
         if "AlarmSoundFilePath" in self.configLocal.getConfig() :
-            self.alarmSoundFilePath = self.configLocal.get("AlarmSoundFilePath", None)
+            self.alarmSoundFilePath = self.configLocal.getKey.Extra.get("AlarmSoundFilePath", None)
         else :
             self.alarmSoundFilePath = None
             print("Warning: AlarmSoundFilePath not found in local configuration. Alarm sound will be disabled.")
@@ -36,7 +36,7 @@ class FireDetectorDevice(Device) :
     def playAlarmLoop(self) -> None :
         while self.alarmStatus :
             playsound(self.alarmSoundFilePath)
-            sleep(self.configCatalog.get.extra.get("SoundLoopDelay", self.configLocal.get("SoundLoopDelay", 0.1)))
+            sleep(self.configCatalog.get.extra.get("SoundLoopDelay", self.configLocal.getKey.Extra.get("SoundLoopDelay", 0.1)))
     
     def updateMQTTClients(self) -> None :
         print("Updating MQTT clients with new configuration...")

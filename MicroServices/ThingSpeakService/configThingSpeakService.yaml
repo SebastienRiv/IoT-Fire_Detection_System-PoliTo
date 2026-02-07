@@ -1,17 +1,35 @@
-ClientID: 2001
-ClientName: ThingSpeakService
-ConfigFile: configThingSpeakService.yaml
-CatalogURL: http://json_catalog_provider_service:8084
-CatalogUpdateIntervalCycles : 20
-LifeTimeInterval : 5
-# extra 
-RESTServerHost: 0.0.0.0
-RESTServerPort: 8083
-RESTServerConfig: /
-BaseURL: https://api.thingspeak.com
-ChannelConfig :
-  Smoke : 1
-  TVOC : 2
-  Temperature : 3
-  CO : 4
-ChannelId : 3249207
+# Identification & Lifecycle
+serviceID: "2001"
+serviceName: "ThingSpeakService"
+ConfigFile: "configThingSpeakService.yaml"
+lifeTimeInterval: 5
+catalogUpdateIntervalCycles: 20
+
+# Service Discovery
+CatalogURL: "http://json_catalog_provider_service:8084"
+availableServices:
+  - ""
+
+# Communication Protocols
+MQTT:
+  broker: ""
+  port: 1883
+  topicSub:
+    - ""
+  topicPub:
+    - ""
+
+REST:
+  serverHost: "0.0.0.0"
+  serverPort: 8083
+  serverConfig: "/"
+
+# Application Specific Parameters
+Extra:
+  BaseURL: "https://api.thingspeak.com"
+  ChannelId: 3249207
+  ChannelConfig:
+    Smoke: 1
+    TVOC: 2
+    Temperature: 3
+    CO: 4

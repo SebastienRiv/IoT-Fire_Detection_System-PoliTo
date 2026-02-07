@@ -1,17 +1,29 @@
-ClientID: 1
-ClientName: JSONCatalogProviderService
-ConfigFile: configJSONCatalogProviderService.yaml
-CatalogURL: http://localhost:8084/config
-CatalogUpdateIntervalCycles : 20
-LifeTimeInterval : 5
-# Extra
-CatalogPath : ./MicroServices/JSONCatalogProviderService/Catalogs/Catalog.json
-ServiceConfig :
-  serviceID : 1
-  serviceName : JSON Catalog Provider Service
-  AivailableServices :
-    - HTTP REST API
-  REST :
-    serverHost : 0.0.0.0
-    serverPort : 8084
-    serverConfig : /
+# Identification & Lifecycle
+serviceID: "1"
+serviceName: "JSONCatalogProviderService"
+ConfigFile: "configJSONCatalogProviderService.yaml"
+lifeTimeInterval: 5
+catalogUpdateIntervalCycles: 20
+
+# Service Discovery
+CatalogURL: "http://localhost:8084/config"
+availableServices:
+  - "REST"
+
+# Communication Protocols
+MQTT:
+  broker: ""
+  port: 1883
+  topicSub:
+    - ""
+  topicPub:
+    - ""
+
+REST:
+  serverHost: "0.0.0.0"
+  serverPort: 8084
+  serverConfig: "/"
+
+# Application Specific Parameters
+Extra:
+  CatalogPath: "./MicroServices/JSONCatalogProviderService/Catalogs/Catalog.json"

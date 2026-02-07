@@ -18,14 +18,16 @@ class RequestREST:
             print(f"GET request error: {e}")
             return {}
         
-    def POST(self, resource:str, data:dict):
+    def POST(self, resource:str, data:dict) -> dict:
         try:
             url=f"{self.serverURL}/{resource}"
             response=requests.post(url,json=data)
             if response.status_code!=200:
                 print(f"POST request failed with status code {response.status_code}")
+                return response.json()
         except Exception as e :
             print(f"GET request error: {e}")
+            return {}
 
     def PUT(self, resource:str, data:dict, params=None) -> dict: 
         try :

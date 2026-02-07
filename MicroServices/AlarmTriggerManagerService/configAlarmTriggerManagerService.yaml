@@ -1,0 +1,8 @@
+ClientID: 3
+ClientName: FireAlarmTriggerManager
+ConfigFile: configAlarmTriggerManager.yaml
+CatalogURL: http://localhost:8080/config
+CatalogUpdateIntervalCycles: 12
+# extra
+threshold: 0.8
+InferenceServiceURL: http://localhost:8080/inferenceService

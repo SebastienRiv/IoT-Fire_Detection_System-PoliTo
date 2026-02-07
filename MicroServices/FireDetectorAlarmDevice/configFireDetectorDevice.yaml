@@ -1,13 +1,30 @@
-ClientID: 1001
-ClientName: FireDetector001
-ConfigFile: configFireDetectorDevice.yaml
-CatalogURL: http://json_catalog_provider_service:8084
-CatalogUpdateIntervalCycles : 20
-LifeTimeInterval : 20
-# Extra Device Specific Configurations
-BuildingID: Building_123
-BuildingFloors : 5
-BuildingRooms : 10
-# Extra
-SoundLoopDelay : 0.1
-AlarmSoundFilePath : ./MicroServices/FireDetectorAlarmDevice/alarm_dev_cut.mp3
+# Identification & Lifecycle
+serviceID: "1001"
+serviceName: "FireDetector001"
+ConfigFile: "configFireDetectorDevice.yaml"
+lifeTimeInterval: 20
+catalogUpdateIntervalCycles: 20
+
+# Service Discovery
+CatalogURL: "http://json_catalog_provider_service:8084"
+availableServices:
+  - ""
+
+# Communication Protocols
+MQTT:
+  broker: ""
+  port: 1883
+  topicSub:
+    - ""
+  topicPub:
+    - ""
+
+REST:
+  serverHost: ""
+  serverPort: 80
+  serverConfig: ""
+
+# Application Specific Parameters
+Extra:
+  SoundLoopDelay: 0.1
+  AlarmSoundFilePath: "./MicroServices/FireDetectorAlarmDevice/alarm_dev_cut.mp3"
