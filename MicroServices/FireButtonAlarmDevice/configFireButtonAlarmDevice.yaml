@@ -1,6 +1,28 @@
-ClientID: 2
-ClientName: FireButtonAlarm
-ConfigFile: configFireButtonAlarmDevice.yaml
-CatalogURL: http://localhost:8081/config
-CatalogUpdateIntervalCycles: 12
-LifeTimeInterval: 5
+# Identification & Lifecycle
+serviceID: "2"
+serviceName: "FireButtonAlarm"
+ConfigFile: "configFireButtonAlarmDevice.yaml"
+lifeTimeInterval: 5
+catalogUpdateIntervalCycles: 12
+
+# Service Discovery
+CatalogURL: "http://localhost:8081/config"
+availableServices:
+  - ""
+
+# Communication Protocols
+MQTT:
+  broker: ""
+  port: 1883
+  topicSub:
+    - ""
+  topicPub:
+    - ""
+
+REST:
+  serverHost: ""
+  serverPort: 80
+  serverConfig: ""
+
+# Application Specific Parameters
+Extra: {}

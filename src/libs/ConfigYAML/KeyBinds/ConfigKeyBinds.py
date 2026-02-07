@@ -30,3 +30,19 @@ class ConfigKeyBinds:
     def Threshold(self)->float:
         return self.config.get("Threshold",0.8)
     
+    @property
+    def REST(self) -> dict:
+        return self.config.get("REST", {})
+    
+    @property
+    def MQTT(self) -> dict:
+        return self.config.get("MQTT", {})
+    
+    @property
+    def AvailableServices(self) -> list:
+        return self.config.get("AvailableServices", [])
+    
+    @property
+    def Extra(self) -> dict:
+        return self.config.get("Extra", {})
+    

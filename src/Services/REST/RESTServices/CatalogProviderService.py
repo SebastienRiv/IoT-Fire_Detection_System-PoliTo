@@ -11,15 +11,32 @@ class CatalogProviderService(RESTService, ABC):
 
         # init parent RESTService
         super().__init__(configFilePath)
-        self.configCatalog.updateCatalog(self.configLocal.get("ServiceConfig", {}))
+        self.configCatalog.updateCatalog(self.genCatalogueFormat())
         super().restSetupServer()
         
-        self.catalogPath = self.configLocal.get("CatalogPath", "catalog.json")
+        self.catalogPath = self.configLocal.getKey.Extra.get("CatalogPath", "catalog.json")
         self.catalog = {}
 
         # if we want to use a DB
-        # self.dbPath = self.configLocal.get("DatabasePath", "catalog.db")
+        # self.dbPath = self.configLocal.getKey.Extra.get("DatabasePath", "catalog.db")
         # self.repository = SQLCatalogRepository(self.dbPath)
+        
+    def genCatalogueFormat(self) -> dict : # self registration for running purpose only
+        catalog_data = {
+            "serviceID": str(self.configLocal.getKey.ClientID),
+            "serviceName": self.configLocal.getKey.ClientName,
+            "lifeTimeInterval": self.configLocal.getKey.LifeTimeInterval,
+            "catalogUpdateIntervalCycles": self.configLocal.getKey.CatalogUpdateIntervalCycles,
+            "availableServices": self.configLocal.getKey.AvailableServices,
+            "MQTT": self.configLocal.getKey.MQTT,
+            "REST": self.configLocal.getKey.REST,
+            "extra": self.configLocal.getKey.Extra,
+            "lastUpdate": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+        }
+        return catalog_data
+
+    def registerServiceToCatalog(self) -> bool:
+        return True # we don't need to register, this service provides static catalog
 
     @abstractmethod
     def GET(self, *uri, **params) -> Any :

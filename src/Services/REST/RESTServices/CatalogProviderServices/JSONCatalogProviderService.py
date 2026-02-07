@@ -66,6 +66,75 @@ class JSONCatalogProviderService(CatalogProviderService):
             if item.get(str(id_key)) == str(target_id):
                 return item, index
         return None, None
+    
+    def _add_device_to_hierarchy(self, clientID, buildingID, floorID, roomID):
+
+        building, _ = self._find_item("buildingList", "buildingID", buildingID)
+        if not building:
+            building = {
+                "userID": [""],
+                "buildingID": str(buildingID),
+                "buildingName": "",
+                "address": "",
+                "GPS": {"lat": "", "long": ""},
+                "floor": [] 
+            }
+            if "buildingList" not in self.catalogData:
+                self.catalogData["buildingList"] = []
+            self.catalogData["buildingList"].append(building)
+        
+        target_floor = None
+        for f in building.get("floor", []):
+            if str(f.get("floorID")) == str(floorID):
+                target_floor = f
+                break
+        
+        if not target_floor:
+            target_floor = {
+                "floorID": str(floorID),
+                "rooms": []
+            }
+            building["floor"].append(target_floor)
+
+        target_room = None
+        for r in target_floor.get("rooms", []):
+            if str(r.get("roomID")) == str(roomID):
+                target_room = r
+                break
+        
+        if not target_room:
+            target_room = {
+                "roomID": str(roomID),
+                "devicesList": []
+            }
+            target_floor["rooms"].append(target_room)
+
+        exists = False
+        for dev in target_room["devicesList"]:
+            if str(dev.get("clientID")) == str(clientID):
+                exists = True
+                break
+        
+        if not exists:
+            target_room["devicesList"].append({
+                "clientID": str(clientID),
+                "position": ""
+            })
+            return True
+        return False
+
+    def _find_device_in_buildings(self, clientID): # not optimized in json format, but if the database is in an sql format we can do a simple query to find the device and its location
+        for b in self.catalogData.get("buildingList", []):
+            for f in b.get("floor", []):
+                for r in f.get("rooms", []):
+                    for d in r.get("devicesList", []):
+                        if str(d.get("clientID")) == str(clientID):
+                            return {
+                                "buildingID": b.get("buildingID"),
+                                "floorID": f.get("floorID"),
+                                "roomID": r.get("roomID")
+                            }
+        return None 
 
     # NOTE: I wanted to make the code a little bit more readable by implementing functions to remove repetitions
     def _get_json_body(self):
@@ -88,6 +157,7 @@ class JSONCatalogProviderService(CatalogProviderService):
         """
         GET /getCatalog
         GET /getResourceByID?clientID=<resource_id>
+        GET /getResourceLocation?clientID=<resource_id>
         GET /getUserByID?userID=<user_id>
         GET /getBuildingByID?buildingID=<building_id>
         GET /getBuildingDevices?buildingID=<building_id>
@@ -123,6 +193,16 @@ class JSONCatalogProviderService(CatalogProviderService):
                     # if it doesnt find any ID matching
                     raise cherrypy.HTTPError(404, "Resource not found.")
                 
+                elif len(uri) == 1 and uri[0] == "getResourceLocation":
+                    if "clientID" not in params:
+                        raise cherrypy.HTTPError(400, "Bad Request: clientID required")
+                    
+                    location = self._find_device_in_buildings(params["clientID"])
+                    if location:
+                        return json.dumps({"status": "success", "data": location})
+                    else:
+                        raise cherrypy.HTTPError(404, "Device location not found (not assigned to a room).")
+                        
                 elif endpointName == "getUserByID":
 
                     if "userID" not in params:
@@ -419,6 +499,7 @@ class JSONCatalogProviderService(CatalogProviderService):
         """
                 uri[0]
         POST /addDevice
+        POST /addDeviceToBuilding
         POST /addUser
         POST /addBuilding
         POST /addService
@@ -444,6 +525,26 @@ class JSONCatalogProviderService(CatalogProviderService):
                     self.catalogData["devicesList"].append(bodyNewDevice)
                     self._save()
                     return json.dumps({"status": "created", "data": self.catalogData})
+                
+                elif len(uri) == 1 and uri[0] == "addDeviceToBuilding":
+                    body = self._get_json_body()
+                    
+                    required = ["clientID", "buildingID", "floorID", "roomID"]
+                    if not all(k in body for k in required):
+                        raise cherrypy.HTTPError(400, f"Missing fields. Required: {required}")
+
+                    changed = self._add_device_to_hierarchy(
+                        body["clientID"], 
+                        body["buildingID"], 
+                        body["floorID"], 
+                        body["roomID"]
+                    )
+                    
+                    if changed:
+                        self._save()
+                        return json.dumps({"status": "success", "message": "Device added to building structure"})
+                    else:
+                        return json.dumps({"status": "no_change", "message": "Device already in that room"})
             
                 elif endpointName == "addUser":
 

@@ -23,7 +23,7 @@ class AlarmTriggerManager(MQTTService):
         self.sensML = SensML()
         self.queue = Queue()
         
-        self.inferenceURL = self.configLocal.get("InferenceServiceURL", "")
+        self.inferenceURL = self.configLocal.getKey.Extra.get("InferenceServiceURL", "")
         self.requestRESTInference = RequestREST(self.inferenceURL)
         
         if not self.inferenceURL:
@@ -77,7 +77,7 @@ class AlarmTriggerManager(MQTTService):
         isFire = inferenceData.get("is_fire", False)
         alertLevel = inferenceData.get("alert_level", "NORMAL")
         
-        threshold = self.configLocal.get("threshold", 0.5)
+        threshold = self.configLocal.getKey.Extra.get("threshold", 0.5)
         
         print(f"Fire Probability: {fireProb:.2f}, Alert Level: {alertLevel}")
         
@@ -152,7 +152,7 @@ class AlarmTriggerManager(MQTTService):
                     else:
                         print(f"Invalid data format in queue: {data}")
             
-            sleep(self.configCatalog.get.lifeTimeInterval if self.configCatalog.get.lifeTimeInterval else int(self.configLocal.get("LifeTimeInterval", 5)))
+            sleep(self.configCatalog.get.lifeTimeInterval if self.configCatalog.get.lifeTimeInterval else int(self.configLocal.getKey.LifeTimeInterval))
             
     def killServiceRunTime(self) -> None :
         return super().killServiceRunTime()

@@ -1,13 +1,30 @@
-ClientID: 2002
-ClientName: FireDetectionInference
-ConfigFile: configFireDetectionInferenceService.yaml
-CatalogURL: http://json_catalog_provider_service:8084
-CatalogUpdateIntervalCycles: 12
-# REST Server config (local fallback)
-RESTServerHost: 0.0.0.0
-RESTServerPort: 8084
-RESTServerConfig: /
-# Extra information 
-TimeSeriesURL: http://thingspeak_service:8083
+# Identification & Lifecycle
+serviceID: "2002"
+serviceName: "FireDetectionInference"
+ConfigFile: "configFireDetectionInferenceService.yaml"
+lifeTimeInterval: 20
+catalogUpdateIntervalCycles: 20
+
+# Service Discovery
+CatalogURL: "http://json_catalog_provider_service:8084"
+availableServices:
+  - "REST"
+
+# Communication Protocols
+MQTT:
+  broker: ""
+  port: 1883
+  topicSub:
+    - ""
+  topicPub:
+    - ""
+
+REST:
+  serverHost: "0.0.0.0"
+  serverPort: 8084
+  serverConfig: "/"
+
+# Application Specific Parameters
+TimeSeriesURL: "http://thingspeak_service:8083"
 NormSize: 100
 NormTimeUpdate: 120

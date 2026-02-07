@@ -1,8 +1,29 @@
-ClientID: ""
-ClientName: ""
+# Identification & Lifecycle
+serviceID: ""
+serviceName: ""
 ConfigFile: ""
+lifeTimeInterval: 20
+catalogUpdateIntervalCycles: 20
+
+# Service Discovery
 CatalogURL: ""
-LifeTimeInterval : 5
-CatalogUpdateIntervalCycles : 20
-#Extra parameters can be added below
-Threshold: 0.8
+availableServices:
+  - ""
+
+# Communication Protocols
+MQTT:
+  broker: ""
+  port: 1883
+  topicSub:
+    - ""
+  topicPub:
+    - ""
+
+REST:
+  serverHost: ""
+  serverPort: 80
+  serverConfig: ""
+
+# Application Specific Parameters
+Extra:
+  #...

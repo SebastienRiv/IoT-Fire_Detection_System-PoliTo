@@ -24,7 +24,11 @@ class Device(ABC):
         
         self.requestREST = RequestREST(self.configLocal.getKey.CatalogURL)
         
-        self.registeredStatus = self.registerDeviceToCatalog()
+        self.currentLocation = {
+            "BuildingID": "",
+            "BuildingFloor": "",
+            "RoomID": ""
+        }
         
         # Fetch device catalog from URL if provided
         self.configCatalog = CatalogJSON(self.configLocal, 'devices')
@@ -32,22 +36,6 @@ class Device(ABC):
         
         self.clientMQTT = None
         self.mqttSetupClient()
-        
-    def registerDeviceToCatalog(self) -> bool :
-        if self.configLocal.getKey.CatalogURL != "" :
-            data = {
-                "deviceID": self.getDeviceID(),
-                "deviceName": self.configLocal.getKey.ClientName,
-                "building" : {
-                    "id": self.configLocal.get("BuildingID"),
-                    "floor": self.configLocal.get("BuildingFloor"),
-                    "room": self.configLocal.get("BuildingRoom")
-                }
-            }
-            # response = self.requestREST.PUT("devicesCatalog/register", data=data, params={"device_id": self.getDeviceID()})
-            # if response != {} :
-            #     return True
-        return False
             
     def mqttSetupClient(self) -> None :
         if self.configCatalog.get.mqttBroker != "" :
@@ -65,8 +53,8 @@ class Device(ABC):
             if self.configCatalog.get.mqttTopicSub[0] != "" and self.configCatalog.get.mqttTopicSub is not None:
                 baseTopic = self.configCatalog.get.mqttTopicSub[0]
                 
-                buildingID = self.configLocal.get("BuildingID", "")
-                buildingFloor = self.configLocal.get("BuildingFloor", "")
+                buildingID = self.currentLocation.get("BuildingID", "")
+                buildingFloor = self.currentLocation.get("BuildingFloor", "")
                 alarmTopic = f"{baseTopic}/{buildingID}/{buildingFloor}/#"
                 
                 print(f"Subscribing to alarm topic: {alarmTopic}")
@@ -141,16 +129,40 @@ class Device(ABC):
     def setDeviceRunTimeStatus(self, status:bool) -> None :
         self.deviceRunTimeStatus = status
             
-    def updateCatalogConfig(self) -> bool :
-        if self.configLocal.getKey.CatalogURL != "" :
-            if not self.registeredStatus :
-                self.registeredStatus = self.registerDeviceToCatalog()
+    def updateCatalogConfig(self) -> bool:
+        if self.configLocal.getKey.CatalogURL != "":
+            clientID = self.configLocal.getKey.ClientID
+            try:
+                response = self.requestREST.GET("getResourceByID", params={"clientID": clientID})
+            except Exception:
+                return False
             
-            update = self.requestREST.GET("getResourceByID", params={"clientID": self.configLocal.getKey.ClientID})
-            if "data" in update and update["data"] is not None :
-                update = update["data"]
-            modified = self.configCatalog.updateCatalog(update)
-            return modified
+            if "data" not in response or response["data"] is None:
+                return False
+
+            modified_conf = self.configCatalog.updateCatalog(response["data"])
+
+            try:
+                loc_response = self.requestREST.GET("getDeviceLocation", params={"clientID": clientID})
+
+                if "data" in loc_response and loc_response["data"] is not None:
+                    server_data = loc_response["data"]
+                    
+                    new_loc = {
+                        "BuildingID": server_data.get("buildingID", ""),
+                        "BuildingFloor": server_data.get("floorID", ""), 
+                        "RoomID": server_data.get("roomID", "")
+                    }
+
+                    if self.currentLocation != new_loc:
+                        self.currentLocation = new_loc
+                        print(f"Device moved to: {self.currentLocation}")
+
+            except Exception:
+                pass
+
+            return modified_conf
+
         return False
     
     def updateSensorsValues(self) -> None :

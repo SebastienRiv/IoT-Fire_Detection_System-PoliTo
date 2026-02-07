@@ -46,7 +46,7 @@ class ThingspeakService(TimeSerieService):
         return r
         
     def readThingspeak(self, results=100):
-        channelId = self.configCatalog.get.extra.get("channelId", self.configLocal.get("ChannelId", None))
+        channelId = self.configCatalog.get.extra.get("channelId", self.configLocal.getKey.Extra.get("ChannelId", None))
         ressource = f"channels/{channelId}/feeds.json"
         params = {
             "api_key": self.channelReadAPIkey,
@@ -56,7 +56,7 @@ class ThingspeakService(TimeSerieService):
         return r
     
     def formatThingspeakData(self, rawData, results=100):
-        channelConfig = self.configCatalog.get.extra.get("channelConfig", self.configLocal.get("ChannelConfig", {}))
+        channelConfig = self.configCatalog.get.extra.get("channelConfig", self.configLocal.getKey.Extra.get("ChannelConfig", {}))
         
         feeds = rawData.get("feeds", [])
         lastUpdate = feeds[-1].get("created_at", None) if feeds else None
@@ -89,7 +89,7 @@ class ThingspeakService(TimeSerieService):
         messageRead = self.sensML.getIn(message)
         
         deviceID = messageRead.device_bn
-        channelConfig = self.configCatalog.get.extra.get("channelConfig", self.configLocal.get("ChannelConfig", {}))
+        channelConfig = self.configCatalog.get.extra.get("channelConfig", self.configLocal.getKey.Extra.get("ChannelConfig", {}))
         
         fieldsData = {}
         for sensor in messageRead.device_e:

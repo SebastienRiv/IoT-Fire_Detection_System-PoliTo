@@ -12,7 +12,7 @@ class TimeSerieService(RESTandMQTTService, ABC):
         self.userApiKey = None
         self.envLoadConfig()
         
-        self.baseURL = self.configCatalog.get.extra.get("baseURL", self.configLocal.get("BaseURL", "None"))
+        self.baseURL = self.configCatalog.get.extra.get("baseURL", self.configLocal.getKey.Extra.get("BaseURL", "None"))
         self.requestRESTTimeSeries = RequestREST(self.baseURL)
         
     def envLoadConfig(self) -> None :

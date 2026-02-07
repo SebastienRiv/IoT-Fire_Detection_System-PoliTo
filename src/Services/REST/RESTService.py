@@ -28,7 +28,6 @@ class RESTService(Service, ABC):
         
     def restSetupServer(self) -> None :
         
-        # Try catalog config first, then fallback to local config
         host = ""
         port = ""
         config = ""
@@ -37,10 +36,10 @@ class RESTService(Service, ABC):
             host = self.configCatalog.get.restServerHost
             port = self.configCatalog.get.restServerPort
             config = self.configCatalog.get.restServerConfig
-        elif self.configLocal.get("RESTServerHost", "") != "" :
-            host = self.configLocal.get("RESTServerHost", "")
-            port = self.configLocal.get("RESTServerPort", "")
-            config = self.configLocal.get("RESTServerConfig", "/")
+        elif self.configLocal.getKey.REST.get("RESTServerHost", "") != "" :
+            host = self.configLocal.getKey.REST.get("RESTServerHost", "")
+            port = self.configLocal.getKey.REST.get("RESTServerPort", "")
+            config = self.configLocal.getKey.REST.get("RESTServerConfig", "/")
         
         if host != "" and port != "" :
             if self.serverREST is not None:
@@ -49,7 +48,6 @@ class RESTService(Service, ABC):
             self.host = host
             self.port = int(port)
             
-            # Config doit être un dict pour CherryPy
             if isinstance(config, dict):
                 self.restServiceConfig = config
             else:
