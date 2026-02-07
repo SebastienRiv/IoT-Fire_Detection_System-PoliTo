@@ -28,7 +28,15 @@ services:
       dockerfile: "./MicroServices/FireDetectionInferenceService/Dockerfile"
     container_name: fire_detection_inference_service
     ports:
-      - "8070:8084"
+      - "8070:8085"
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  alarm_trigger_manager_service:
+    build: 
+      context: "."
+      dockerfile: "./MicroServices/AlarmTriggerManagerService/Dockerfile"
+    container_name: alarm_trigger_manager_service
     environment:
       - PYTHONUNBUFFERED=1
 

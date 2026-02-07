@@ -21,10 +21,11 @@ MQTT:
 
 REST:
   serverHost: "0.0.0.0"
-  serverPort: 8084
+  serverPort: 8085
   serverConfig: "/"
 
 # Application Specific Parameters
-TimeSeriesURL: "http://thingspeak_service:8083"
-NormSize: 100
-NormTimeUpdate: 120
+Extra:
+  TimeSeriesURL: "http://thingspeak_service:8083"
+  NormSize: 100
+  NormTimeUpdate: 120
