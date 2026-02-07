@@ -1,8 +1,10 @@
 FROM python:3.10-slim-bookworm
 
 # Install system dependencies
-RUN sed -i 's/deb.debian.org/ftp.fr.debian.org/g' /etc/apt/sources.list.d/debian.sources && \
-    apt-get update && apt-get install -y --no-install-recommends --fix-missing \
+RUN echo 'Acquire::Retries "10";' > /etc/apt/apt.conf.d/80retries && \
+    echo 'Acquire::http::Timeout "300";' > /etc/apt/apt.conf.d/80timeout && \
+    sed -i 's/deb.debian.org/ftp.fr.debian.org/g' /etc/apt/sources.list.d/debian.sources && \
+    apt-get update && apt-get install -y --no-install-recommends \
     gfortran \
     liblapack-dev \
     libopenblas-dev \

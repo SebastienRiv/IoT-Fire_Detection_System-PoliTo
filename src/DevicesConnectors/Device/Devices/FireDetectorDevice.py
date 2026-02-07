@@ -18,11 +18,16 @@ class FireDetectorDevice(Device) :
         else :
             self.alarmSoundFilePath = None
             print("Warning: AlarmSoundFilePath not found in local configuration. Alarm sound will be disabled.")
-        
+
     def mqttCallback(self, topic, message) -> None :
-        if topic in self.configCatalog.get.mqttTopicSub :
+        buildingID = self.currentLocation.get("BuildingID", "")
+        buildingFloor = self.currentLocation.get("BuildingFloor", "")
+        inTopic = str(topic).split('/')
+
+        if inTopic[2] == buildingID and inTopic[3] == buildingFloor :
             if "alarmStatus" in message:
                 self.setAlarmStatus(message["alarmStatus"])
+                print(f"Alarm toggled to: {message['alarmStatus']}")
         
     def getAlarmStatus(self) -> bool :
         return self.alarmStatus
