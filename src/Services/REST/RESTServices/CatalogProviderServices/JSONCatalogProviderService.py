@@ -426,19 +426,29 @@ class JSONCatalogProviderService(CatalogProviderService):
                 elif endpointName == "updateBuilding":
                     bodyUpdatedBuilding = self._get_json_body()
 
-                    if bodyUpdatedBuilding["buildingID"] != targetID:
+                    if str(bodyUpdatedBuilding.get("buildingID")) != str(targetID):
                         raise cherrypy.HTTPError(400, "BuildingID in the URI does not match the one in the body")
 
                     building, _ = self._find_item("buildingList", "buildingID", targetID)
                     
                     if building:
-                        # update the building info
+                        excluded_fields = ["buildingID", "floor"] 
+                        
                         for key, value in bodyUpdatedBuilding.items():
-                            if key in building:
-                                building[key] = value
+                            if key not in excluded_fields:
+                                # Gérer userID comme liste
+                                if key == "userID" and not isinstance(value, list):
+                                    building[key] = [value] if value else []
+                                # Gérer GPS comme dict
+                                elif key == "GPS" and isinstance(value, dict):
+                                    if "GPS" not in building:
+                                        building["GPS"] = {}
+                                    building["GPS"].update(value)
+                                else:
+                                    building[key] = value
                         
                         self._save()
-                        return json.dumps({"status": "updated", "data": self.catalogData})
+                        return json.dumps({"status": "updated", "data": building})
                     else:
                         raise cherrypy.HTTPError(404, "BuildingID not found in the catalog.")
                 
@@ -562,19 +572,25 @@ class JSONCatalogProviderService(CatalogProviderService):
                     return json.dumps({"status": "created", "data": self.catalogData})
 
                 elif endpointName == "addBuilding":
-
                     bodyNewBuilding = self._get_json_body()
-                
-                    # check if the building already exists
+
                     newID = bodyNewBuilding["buildingID"]
                     existing_building, _ = self._find_item("buildingList", "buildingID", newID)
                     if existing_building:
                         raise cherrypy.HTTPError(409, "BuildingID given already exists.")
-                        
-                    # if here, building is new
-                    self.catalogData["buildingList"].append(bodyNewBuilding)
+                    
+                    building_template = {
+                        "buildingID": str(newID),
+                        "buildingName": bodyNewBuilding.get("buildingName", ""),
+                        "userID": bodyNewBuilding.get("userID", []),
+                        "address": bodyNewBuilding.get("address", ""),
+                        "GPS": bodyNewBuilding.get("GPS", {"lat": "", "long": ""}),
+                        "floor": bodyNewBuilding.get("floor", [])
+                    }
+                    
+                    self.catalogData["buildingList"].append(building_template)
                     self._save()
-                    return json.dumps({"status": "created", "data": self.catalogData})
+                    return json.dumps({"status": "created", "data": building_template})
                 
                 elif endpointName == "addService":
 
@@ -674,7 +690,6 @@ class JSONCatalogProviderService(CatalogProviderService):
 
     def serviceRunTime(self) -> None:
         self.serviceRunTimeStatus = True
-        self.updateLoopStart()
         
         while self.serviceRunTimeStatus:
             time.sleep(1)

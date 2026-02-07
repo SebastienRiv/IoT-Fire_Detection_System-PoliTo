@@ -31,7 +31,7 @@ class AlarmTriggerManager(MQTTService):
   
     def mqttCallback(self, topic, message) -> None :
         try:
-            data = json.loads(message.decode())
+            data = dict(message)
             self.queue.put(data)
             print(f"Received from {topic}: {data}")
         except json.JSONDecodeError:
@@ -94,7 +94,8 @@ class AlarmTriggerManager(MQTTService):
                     buildingFloor = device.get("building", {}).get("floor", "")
                     buildingRoom = device.get("building", {}).get("room", "")
                     
-                    topic = f"/fireAlarm/{buildingID}/{buildingFloor}/{buildingRoom}/{clientID}/alarm"
+                    baseTopic = self.configCatalog.get.MQTT.topicPub[0].rstrip("/fireAlarm")
+                    topic = f"{baseTopic}/{buildingID}/{buildingFloor}/{buildingRoom}/{clientID}/alarm"
                     
                     alarmMessage = {
                         "alarmStatus": True,

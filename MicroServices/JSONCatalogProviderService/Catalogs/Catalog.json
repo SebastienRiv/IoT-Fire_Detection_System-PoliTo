@@ -1,9 +1,9 @@
 {
     "projectOwner": "Polito IoT Team",
     "projectName": "Fire Detection System",
-    "lastUpdate": 1770411260.0277627,
+    "lastUpdate": 1770477785.3932798,
     "broker": {
-        "broker_name": "localhost",
+        "broker_name": "mosquitto_broker",
         "port": 1883
     },
     "devicesList": [
@@ -98,7 +98,7 @@
             },
             "REST": {
                 "serverHost": "0.0.0.0",
-                "serverPort": 8084,
+                "serverPort": 8085,
                 "serverConfig": "/"
             },
             "extra": {
@@ -107,78 +107,93 @@
                 "NormTimeUpdate": 120
             },
             "lastUpdate": ""
+        },
+        {
+            "serviceID": "2003",
+            "serviceName": "FireAlarmTriggerManager",
+            "lifeTimeInterval": 5,
+            "catalogUpdateIntervalCycles": 12,
+            "availableServices": [
+                ""
+            ],
+            "MQTT": {
+                "topicSub": [
+                    "/firedetector/+/measurements"
+                ],
+                "topicPub": [
+                    "/fireAlarm"
+                ],
+                "broker": "mosquitto_broker",
+                "port": 1883
+            },
+            "REST": {
+                "serverHost": "0.0.0.0",
+                "serverPort": 80,
+                "serverConfig": "/"
+            },
+            "extra": {
+                "threshold": 0.8,
+                "InferenceServiceURL": "http://fire_detection_inference_service:8085"
+            },
+            "lastUpdate": 1770477785.393259
         }
     ],
     "fireFightersList": [
         {
-            "fireFighterServiceName": "",
-            "fireFighterID": "",
-            "chatID": "",
-            "address": "",
+            "fireFighterServiceName": "Turin_Central_Station",
+            "fireFighterID": "FF_001",
+            "chatID": "123456789",
+            "address": "Corso Regina Margherita, Torino, IT",
             "GPS": {
-                "lat": "",
-                "long": ""
+                "lat": "45.0703",
+                "long": "7.6869"
             }
         }
     ],
     "usersList": [
         {
-            "userName": "",
-            "userID": "",
-            "chatID": ""
+            "userName": "Admin_Mario",
+            "userID": "U_001",
+            "chatID": "987654321"
         }
     ],
     "buildingList": [
         {
             "userID": [
-                ""
+                "U_001"
             ],
-            "buildingID": "",
-            "buildingName": "",
-            "address": "",
+            "buildingID": "Building_A",
+            "buildingName": "Polito_Main_Engineering",
+            "address": "Corso Duca degli Abruzzi, 24, Torino",
             "GPS": {
-                "lat": "",
-                "long": ""
+                "lat": "45.0632",
+                "long": "7.6616"
             },
             "floor": [
                 {
-                    "floorID": "",
+                    "floorID": "1",
                     "rooms": [
                         {
-                            "roomID": "",
+                            "roomID": "101",
                             "devicesList": [
                                 {
-                                    "clientID": "",
-                                    "position": ""
+                                    "clientID": "1001",
+                                    "position": "Ceiling_Center"
                                 }
                             ]
                         },
                         {
-                            "roomID": "",
-                            "devicesList": [
-                                {
-                                    "clientID": "",
-                                    "position": ""
-                                },
-                                {
-                                    "clientID": "",
-                                    "position": ""
-                                }
-                            ]
+                            "roomID": "102",
+                            "devicesList": []
                         }
                     ]
                 },
                 {
-                    "floorID": "",
+                    "floorID": "2",
                     "rooms": [
                         {
-                            "roomID": "",
-                            "devicesList": [
-                                {
-                                    "clientID": "",
-                                    "position": ""
-                                }
-                            ]
+                            "roomID": "201",
+                            "devicesList": []
                         }
                     ]
                 }

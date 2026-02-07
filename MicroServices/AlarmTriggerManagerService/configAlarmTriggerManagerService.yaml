@@ -1,28 +1,28 @@
 # Identification & Lifecycle
-serviceID: "3"
-serviceName: "FireAlarmTriggerManager"
+ClientID: "2003"
+ClientName: "FireAlarmTriggerManager"
 ConfigFile: "configAlarmTriggerManager.yaml"
-lifeTimeInterval: 20
-catalogUpdateIntervalCycles: 12
+LifeTimeInterval: 20
+CatalogUpdateIntervalCycles: 12
 
 # Service Discovery
 CatalogURL: "http://json_catalog_provider_service:8084"
-availableServices:
+AvailableServices:
   - ""
 
 # Communication Protocols
 MQTT:
-  broker: ""
+  broker: "mosquitto_broker"
   port: 1883
   topicSub:
-    - ""
+    - "/firedetector/+/measurements"
   topicPub:
-    - ""
+    - "/fireAlarm"
 
 REST:
-  serverHost: "0.0.0.0"
-  serverPort: 80
-  serverConfig: "/"
+  RESTServerHost: "0.0.0.0"
+  RESTServerPort: 80
+  RESTServerConfig: "/"
 
 # Application Specific Parameters
 Extra:

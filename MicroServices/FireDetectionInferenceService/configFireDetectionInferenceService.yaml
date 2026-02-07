@@ -1,13 +1,13 @@
 # Identification & Lifecycle
-serviceID: "2002"
-serviceName: "FireDetectionInference"
+ClientID: "2002"
+ClientName: "FireDetectionInference"
 ConfigFile: "configFireDetectionInferenceService.yaml"
-lifeTimeInterval: 20
-catalogUpdateIntervalCycles: 20
+LifeTimeInterval: 20
+CatalogUpdateIntervalCycles: 20
 
 # Service Discovery
 CatalogURL: "http://json_catalog_provider_service:8084"
-availableServices:
+AvailableServices:
   - "REST"
 
 # Communication Protocols
@@ -20,9 +20,9 @@ MQTT:
     - ""
 
 REST:
-  serverHost: "0.0.0.0"
-  serverPort: 8085
-  serverConfig: "/"
+  RESTServerHost: "0.0.0.0"
+  RESTServerPort: 8085
+  RESTServerConfig: "/"
 
 # Application Specific Parameters
 Extra:

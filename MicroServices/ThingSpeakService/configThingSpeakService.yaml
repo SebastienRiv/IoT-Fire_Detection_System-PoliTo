@@ -1,13 +1,13 @@
 # Identification & Lifecycle
-serviceID: "2001"
-serviceName: "ThingSpeakService"
+ClientID: "2001"
+ClientName: "ThingSpeakService"
 ConfigFile: "configThingSpeakService.yaml"
-lifeTimeInterval: 5
-catalogUpdateIntervalCycles: 20
+LifeTimeInterval: 5
+CatalogUpdateIntervalCycles: 20
 
 # Service Discovery
 CatalogURL: "http://json_catalog_provider_service:8084"
-availableServices:
+AvailableServices:
   - ""
 
 # Communication Protocols
@@ -20,9 +20,9 @@ MQTT:
     - ""
 
 REST:
-  serverHost: "0.0.0.0"
-  serverPort: 8083
-  serverConfig: "/"
+  RESTServerHost: "0.0.0.0"
+  RESTServerPort: 8083
+  RESTServerConfig: "/"
 
 # Application Specific Parameters
 Extra:

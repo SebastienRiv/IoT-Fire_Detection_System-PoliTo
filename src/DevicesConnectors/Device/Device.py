@@ -143,7 +143,7 @@ class Device(ABC):
             modified_conf = self.configCatalog.updateCatalog(response["data"])
 
             try:
-                loc_response = self.requestREST.GET("getDeviceLocation", params={"clientID": clientID})
+                loc_response = self.requestREST.GET("getResourceLocation", params={"clientID": clientID})
 
                 if "data" in loc_response and loc_response["data"] is not None:
                     server_data = loc_response["data"]

@@ -12,7 +12,6 @@ class CatalogProviderService(RESTService, ABC):
         # init parent RESTService
         super().__init__(configFilePath)
         self.configCatalog.updateCatalog(self.genCatalogueFormat())
-        super().restSetupServer()
         
         self.catalogPath = self.configLocal.getKey.Extra.get("CatalogPath", "catalog.json")
         self.catalog = {}

@@ -1,13 +1,13 @@
 # Identification & Lifecycle
-serviceID: "1"
-serviceName: "JSONCatalogProviderService"
+ClientID: "1"
+ClientName: "JSONCatalogProviderService"
 ConfigFile: "configJSONCatalogProviderService.yaml"
-lifeTimeInterval: 5
-catalogUpdateIntervalCycles: 20
+LifeTimeInterval: 5
+CatalogUpdateIntervalCycles: 20
 
 # Service Discovery
 CatalogURL: "http://localhost:8084/config"
-availableServices:
+AvailableServices:
   - "REST"
 
 # Communication Protocols
@@ -20,9 +20,9 @@ MQTT:
     - ""
 
 REST:
-  serverHost: "0.0.0.0"
-  serverPort: 8084
-  serverConfig: "/"
+  RESTServerHost: "0.0.0.0"
+  RESTServerPort: 8084
+  RESTServerConfig: "/"
 
 # Application Specific Parameters
 Extra:

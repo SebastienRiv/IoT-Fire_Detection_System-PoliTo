@@ -1,13 +1,13 @@
 # Identification & Lifecycle
-serviceID: "1001"
-serviceName: "FireDetector001"
+ClientID: "1001"
+ClientName: "FireDetector001"
 ConfigFile: "configFireDetectorDevice.yaml"
-lifeTimeInterval: 20
-catalogUpdateIntervalCycles: 20
+LifeTimeInterval: 20
+CatalogUpdateIntervalCycles: 20
 
 # Service Discovery
 CatalogURL: "http://json_catalog_provider_service:8084"
-availableServices:
+AvailableServices:
   - ""
 
 # Communication Protocols
@@ -20,9 +20,9 @@ MQTT:
     - ""
 
 REST:
-  serverHost: ""
-  serverPort: 80
-  serverConfig: ""
+  RESTServerHost: ""
+  RESTServerPort: 80
+  RESTServerConfig: ""
 
 # Application Specific Parameters
 Extra:

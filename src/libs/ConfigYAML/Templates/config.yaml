@@ -1,13 +1,13 @@
 # Identification & Lifecycle
-serviceID: ""
-serviceName: ""
+ClientID: ""
+ClientName: ""
 ConfigFile: ""
-lifeTimeInterval: 20
-catalogUpdateIntervalCycles: 20
+LifeTimeInterval: 20
+CatalogUpdateIntervalCycles: 20
 
 # Service Discovery
 CatalogURL: ""
-availableServices:
+AvailableServices:
   - ""
 
 # Communication Protocols
@@ -20,9 +20,9 @@ MQTT:
     - ""
 
 REST:
-  serverHost: ""
-  serverPort: 80
-  serverConfig: ""
+  RESTServerHost: ""
+  RESTServerPort: 80
+  RESTServerConfig: ""
 
 # Application Specific Parameters
 Extra:
