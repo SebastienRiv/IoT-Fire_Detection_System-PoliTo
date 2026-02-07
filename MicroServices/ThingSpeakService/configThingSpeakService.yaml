@@ -1,0 +1,17 @@
+ClientID: 2001
+ClientName: ThingSpeakService
+ConfigFile: configThingSpeakService.yaml
+CatalogURL: http://json_catalog_provider_service:8084
+CatalogUpdateIntervalCycles : 20
+LifeTimeInterval : 5
+# extra 
+RESTServerHost: 0.0.0.0
+RESTServerPort: 8083
+RESTServerConfig: /
+BaseURL: https://api.thingspeak.com
+ChannelConfig :
+  Smoke : 1
+  TVOC : 2
+  Temperature : 3
+  CO : 4
+ChannelId : 3249207

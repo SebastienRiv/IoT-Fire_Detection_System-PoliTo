@@ -1,16 +1,17 @@
 import paho.mqtt.client as PahoMQTT
 import json
+import uuid
 
 class MyMQTT:
     def __init__(self, clientID, broker, port, notifier=None):
         self.broker = broker
         self.port = port
         self.notifier = notifier
-        self.clientID = clientID
+        self.clientID = f"{clientID}_{uuid.uuid4().hex[:8]}"
         self._topic = []
         self._isSubscriber = False
         # create an instance of paho.mqtt.client
-        self._paho_mqtt = PahoMQTT.Client(clientID, False)
+        self._paho_mqtt = PahoMQTT.Client(self.clientID, False)
         # register the callback
         self._paho_mqtt.on_connect = self.myOnConnect
         self._paho_mqtt.on_message = self.myOnMessageReceived
@@ -72,5 +73,6 @@ class MyMQTT:
             # remember to unsuscribe if it is working also as subscriber
             for t in self._topic:
                 self._paho_mqtt.unsubscribe(t)
-            self._paho_mqtt.loop_stop()
-            self._paho_mqtt.disconnect()
+        self._paho_mqtt.loop_stop()
+        self._paho_mqtt.disconnect()
+        print("MQTT client stopped")

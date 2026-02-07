@@ -3,14 +3,16 @@ from src.libs.CatalogJSON.KeyBinds.CatalogKeyBinds import CatalogKeyBinds
 
 class CatalogJSON:
     
-    def __init__(self, configLocal) -> None: 
+    def __init__(self, configLocal, type) -> None: 
         self.configLocal = configLocal
+        
+        self.type = type
         
         self.catalog = {}
         self.templates = {}
         
         self.loadTemplates('./src/libs/CatalogJSON/Templates/CatalogTemplate.json')
-        self.catalog = self.getTemplate()
+        self.catalog = self.getTemplate(type)
         
         self.get = CatalogKeyBinds(self.catalog, self.configLocal)
         
@@ -25,26 +27,42 @@ class CatalogJSON:
         modified = False
         
         for key, value in updates.items():
-            if key in target and target[key] != value:
-                target[key] = value
-                modified = True
+            if key in target:
+                if isinstance(target[key], dict) and isinstance(value, dict):
+                    if self.updateWithStatus(target[key], value):
+                        modified = True
+                elif target[key] != value:
+                    target[key] = value
+                    modified = True
+
         return modified
             
     def updateCatalog(self, newCatalog) -> bool:
         modified = self.updateWithStatus(self.catalog, newCatalog)
         return modified
     
-    def getTemplate(self) -> dict :
-        return self.templates.copy()
+    def getTemplate(self, type) -> dict :
+        match type :
+            case 'devices' :
+                return self.templates['devicesList'][0].copy()
+            case 'services' :
+                return self.templates['servicesList'][0].copy()
+            case 'all' :
+                return self.templates.copy()
+            case _ :
+                return {}
     
     def getCatalog(self) -> dict :
         return self.catalog.copy()
     
+    def getType(self) -> str :
+        return self.type
+      
     def setFireStatus(self,clientID):
         for device in self.Catalog.get.devicesList:
                     if device.clientID==clientID:
                         device["status"]["fireStatus"]=True
 
-    def subscribeTopics(self,topic,clientID):
-         self.
+    # def subscribeTopics(self,topic,clientID):
+    #      self.
          

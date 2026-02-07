@@ -24,19 +24,37 @@ class Device(ABC):
         
         self.requestREST = RequestREST(self.configLocal.getKey.CatalogURL)
         
+        self.registeredStatus = self.registerDeviceToCatalog()
+        
         # Fetch device catalog from URL if provided
-        self.configCatalog = CatalogJSON(self.configLocal)
+        self.configCatalog = CatalogJSON(self.configLocal, 'devices')
         self.updateCatalogConfig()
         
         self.clientMQTT = None
         self.mqttSetupClient()
+        
+    def registerDeviceToCatalog(self) -> bool :
+        if self.configLocal.getKey.CatalogURL != "" :
+            data = {
+                "deviceID": self.getDeviceID(),
+                "deviceName": self.configLocal.getKey.ClientName,
+                "building" : {
+                    "id": self.configLocal.get("BuildingID"),
+                    "floor": self.configLocal.get("BuildingFloor"),
+                    "room": self.configLocal.get("BuildingRoom")
+                }
+            }
+            # response = self.requestREST.PUT("devicesCatalog/register", data=data, params={"device_id": self.getDeviceID()})
+            # if response != {} :
+            #     return True
+        return False
             
     def mqttSetupClient(self) -> None :
         if self.configCatalog.get.mqttBroker != "" :
             
             if self.clientMQTT is not None :
                 self.clientMQTT.stop()
-                self.clientMQTT.myOnConnect(self.clientMQTT._paho_mqtt, None, None, 0)
+                sleep(3)
             
             self.clientMQTT = MyMQTT(self.configCatalog.get.clientID,
                                      self.configCatalog.get.mqttBroker,
@@ -118,7 +136,12 @@ class Device(ABC):
             
     def updateCatalogConfig(self) -> bool :
         if self.configLocal.getKey.CatalogURL != "" :
-            update = self.requestREST.GET("", params={"device_id": self.configLocal.getKey.ClientID})
+            if not self.registeredStatus :
+                self.registeredStatus = self.registerDeviceToCatalog()
+            
+            update = self.requestREST.GET("getResourceByID", params={"clientID": self.configLocal.getKey.ClientID})
+            if "data" in update and update["data"] is not None :
+                update = update["data"]
             modified = self.configCatalog.updateCatalog(update)
             return modified
         return False
@@ -137,7 +160,6 @@ class Device(ABC):
             modified = self.updateCatalogConfig()
 
             if modified :
-                print(modified)
                 print("MQTT configuration has changed. Updating MQTT client...")
                 self.mqttSetupClient()
             

@@ -1,0 +1,17 @@
+ClientID: 1
+ClientName: JSONCatalogProviderService
+ConfigFile: configJSONCatalogProviderService.yaml
+CatalogURL: http://localhost:8084/config
+CatalogUpdateIntervalCycles : 20
+LifeTimeInterval : 5
+# Extra
+CatalogPath : ./MicroServices/JSONCatalogProviderService/Catalogs/Catalog.json
+ServiceConfig :
+  serviceID : 1
+  serviceName : JSON Catalog Provider Service
+  AivailableServices :
+    - HTTP REST API
+  REST :
+    serverHost : 0.0.0.0
+    serverPort : 8084
+    serverConfig : /

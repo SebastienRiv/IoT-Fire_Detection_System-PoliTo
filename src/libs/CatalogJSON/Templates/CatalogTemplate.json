@@ -22,6 +22,150 @@
                 "topicSub": [
                     ""
                 ],
+                "topicPub": [
+                    ""
+                ],
+                "broker": "",
+                "port": 1883
+            },
+            "REST": {
+                "serverHost": "",
+                "serverPort": 8080,
+                "serverConfig": {}
+            },
+            "status": {
+                "fireStatus": false
+            },
+            "extra": {},
+            "lastUpdate": ""
+        }
+    ],
+    "servicesList": [
+        {
+            "serviceID": "",
+            "serviceName": "",
+            "lifeTimeInterval": 20,
+            "catalogUpdateIntervalCycles": 20,
+            "availableServices": [
+                ""
+            ],
+            "MQTT": {
+                "topicSub": [
+                    ""
+                ],
+                "topicPub": [
+                    ""
+                ],
+                "broker": "",
+                "port": 1883
+            },
+            "REST": {
+                "serverHost": "",
+                "serverPort": 8080,
+                "serverConfig": {}
+            },
+            "extra": {},
+            "lastUpdate": ""
+        }
+    ],
+    "fireFightersList": [
+        {
+            "fireFighterServiceName": "",
+            "fireFighterID": "",
+            "chatID": "",
+            "address": "",
+            "GPS": {
+                "lat": "",
+                "long": ""
+            }
+        }
+    ],
+    "usersList": [
+        {
+            "userName": "",
+            "userID": "",
+            "chatID": ""
+        }
+    ],
+    "buildingList": [
+        {
+            "userID": [""],
+            "buildingID": "",
+            "buildingName": "",
+            "address": "",
+            "GPS":{
+                "lat": "",
+                "long": ""
+            },
+            "floor": [
+                {
+                    "floorID": "",
+                    "rooms": [
+                        {
+                            "roomID": "",
+                            "devicesList": [
+                                {
+                                    "clientID": "",
+                                    "position": ""
+                                }
+                            ]
+                        },
+                        {
+                            "roomID": "",
+                            "devicesList": [
+                                {
+                                    "clientID": "",
+                                    "position": ""
+                                },
+                                {
+                                    "clientID": "",
+                                    "position": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "floorID": "",
+                    "rooms": [
+                        {
+                            "roomID": "",
+                            "devicesList": [
+                                {
+                                    "clientID": "",
+                                    "position": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+{
+    "projectOwner": "",
+    "projectName": "",
+    "lastUpdate": "",
+    "broker": {
+        "broker_name": "",
+        "port": 1883
+    },
+    "devicesList": [
+        {
+            "clientID": "",
+            "deviceName": "",
+            "lifeTimeInterval": 20,
+            "catalogUpdateIntervalCycles": 20,
+            "measureType": [
+                ""
+            ],
+            "availableServices": [
+                ""
+            ],
+            "MQTT": {
+                "topicSub": [
+                    ""
+                ],
                 "topicPub": "",
                 "broker": "",
                 "port": 1883

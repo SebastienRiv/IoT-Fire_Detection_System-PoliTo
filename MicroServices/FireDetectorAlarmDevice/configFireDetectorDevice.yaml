@@ -1,12 +1,13 @@
-ClientID: 1
-DeviceName: FireDetector
+ClientID: 1001
+ClientName: FireDetector001
 ConfigFile: configFireDetectorDevice.yaml
-CatalogURL: http://localhost:8081/config
+CatalogURL: http://json_catalog_provider_service:8084
 CatalogUpdateIntervalCycles : 20
-LifeTimeInterval : 5
+LifeTimeInterval : 20
+# Extra Device Specific Configurations
+BuildingID: Building_123
+BuildingFloors : 5
+BuildingRooms : 10
 # Extra
 SoundLoopDelay : 0.1
 AlarmSoundFilePath : ./MicroServices/FireDetectorAlarmDevice/alarm_dev_cut.mp3
-#Threshold :
-#  SmokeLevel: 1.2
-#  Temperature: 100

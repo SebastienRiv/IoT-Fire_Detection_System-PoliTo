@@ -1,8 +1,9 @@
+from abc import ABC, abstractmethod
 from src.Services.Service import Service
 from src.libs.MQTT.MyMQTT import MyMQTT
 from time import sleep
 
-class MQTTService(Service):
+class MQTTService(Service, ABC):
     
     def __init__(self, configFilePath: str) -> None:
         super().__init__(configFilePath)
@@ -30,6 +31,7 @@ class MQTTService(Service):
             print("Warning: MQTT configuration not found in device catalog. MQTT functionalities will be disabled.")
             self.clientMQTT = None
         
+    @abstractmethod
     def mqttCallback(self, topic, message) -> None :
         pass
     
@@ -66,10 +68,12 @@ class MQTTService(Service):
                 self.mqttSetupClient()
                         
             sleep(self.configCatalog.get.catalogUpdateIntervalCycles)
-            
+    
+    @abstractmethod
     def serviceRunTime(self) -> None :
         pass
-              
+         
+    @abstractmethod     
     def killServiceRunTime(self) -> None :
         self.serviceRunTimeStatus = False
         if self.clientMQTT is not None :

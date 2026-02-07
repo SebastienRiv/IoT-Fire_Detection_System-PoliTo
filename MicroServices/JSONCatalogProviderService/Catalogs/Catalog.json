@@ -1,0 +1,188 @@
+{
+    "projectOwner": "Polito IoT Team",
+    "projectName": "Fire Detection System",
+    "lastUpdate": 1770411260.0277627,
+    "broker": {
+        "broker_name": "localhost",
+        "port": 1883
+    },
+    "devicesList": [
+        {
+            "clientID": "1001",
+            "deviceName": "FireDetector001",
+            "lifeTimeInterval": 5,
+            "catalogUpdateIntervalCycles": 20,
+            "measureType": [
+                "Smoke, Temperature, TVOC, CO"
+            ],
+            "availableServices": [
+                "MQTT"
+            ],
+            "MQTT": {
+                "topicSub": [
+                    "/firealarm/commands"
+                ],
+                "topicPub": [
+                    "/firedetector/001/measurements"
+                ],
+                "broker": "mosquitto_broker",
+                "port": 1883
+            },
+            "REST": {
+                "serverHost": "",
+                "serverPort": 8080,
+                "serverConfig": {}
+            },
+            "status": {
+                "fireStatus": false
+            },
+            "extra": {
+                "SoundLoopDelay": 0.1
+            },
+            "lastUpdate": ""
+        }
+    ],
+    "servicesList": [
+        {
+            "serviceID": "2001",
+            "serviceName": "ThingSpeakService",
+            "lifeTimeInterval": 5,
+            "catalogUpdateIntervalCycles": 20,
+            "availableServices": [
+                "MQTT",
+                "REST"
+            ],
+            "MQTT": {
+                "topicSub": [
+                    "/firedetector/+/measurements"
+                ],
+                "topicPub": [
+                    ""
+                ],
+                "broker": "mosquitto_broker",
+                "port": 1883
+            },
+            "REST": {
+                "serverHost": "0.0.0.0",
+                "serverPort": 8083,
+                "serverConfig": "/"
+            },
+            "extra": {
+                "ChannelConfig": {
+                    "Smoke": 1,
+                    "TVOC": 2,
+                    "Temperature": 3,
+                    "CO": 4
+                },
+                "ChannelId": 3249207
+            },
+            "lastUpdate": ""
+        },
+        {
+            "serviceID": "2002",
+            "serviceName": "FireDetectionInference",
+            "lifeTimeInterval": 5,
+            "catalogUpdateIntervalCycles": 20,
+            "availableServices": [
+                "REST"
+            ],
+            "MQTT": {
+                "topicSub": [
+                    ""
+                ],
+                "topicPub": [
+                    ""
+                ],
+                "broker": "",
+                "port": 1883
+            },
+            "REST": {
+                "serverHost": "0.0.0.0",
+                "serverPort": 8084,
+                "serverConfig": "/"
+            },
+            "extra": {
+                "TimeSeriesURL": "http://thingspeak_service:8083",
+                "NormSize": 100,
+                "NormTimeUpdate": 120
+            },
+            "lastUpdate": ""
+        }
+    ],
+    "fireFightersList": [
+        {
+            "fireFighterServiceName": "",
+            "fireFighterID": "",
+            "chatID": "",
+            "address": "",
+            "GPS": {
+                "lat": "",
+                "long": ""
+            }
+        }
+    ],
+    "usersList": [
+        {
+            "userName": "",
+            "userID": "",
+            "chatID": ""
+        }
+    ],
+    "buildingList": [
+        {
+            "userID": [
+                ""
+            ],
+            "buildingID": "",
+            "buildingName": "",
+            "address": "",
+            "GPS": {
+                "lat": "",
+                "long": ""
+            },
+            "floor": [
+                {
+                    "floorID": "",
+                    "rooms": [
+                        {
+                            "roomID": "",
+                            "devicesList": [
+                                {
+                                    "clientID": "",
+                                    "position": ""
+                                }
+                            ]
+                        },
+                        {
+                            "roomID": "",
+                            "devicesList": [
+                                {
+                                    "clientID": "",
+                                    "position": ""
+                                },
+                                {
+                                    "clientID": "",
+                                    "position": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "floorID": "",
+                    "rooms": [
+                        {
+                            "roomID": "",
+                            "devicesList": [
+                                {
+                                    "clientID": "",
+                                    "position": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
